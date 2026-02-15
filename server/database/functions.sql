@@ -1,0 +1,15 @@
+-- CREATE OR REPLACE FUNCTION get_chat_messages(target_chat_id INT)
+-- RETURNS TABLE (
+--     sender_name TEXT,
+--     message_content TEXT,
+--     sent_at TIMESTAMPTZ
+-- ) AS $$
+-- BEGIN
+--     RETURN QUERY
+--     SELECT u.username, m.content, m.time_sent
+--     FROM Messages m
+--     JOIN Users u ON m.sender_id = u.id
+--     WHERE m.chat_id = target_chat_id
+--     ORDER BY m.message_index ASC;
+-- END;
+-- $$ LANGUAGE plpgsql;
