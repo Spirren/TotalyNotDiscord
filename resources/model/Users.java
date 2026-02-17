@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 
-public class Users{
+public class Users implements IUser {
     private String userName;
     private String email;
     private LocalDate birthYear;
@@ -15,27 +15,27 @@ public class Users{
         this.password = password;
     }
 
-    @override
+    @Override
     public String getName(){
         return userName;
     }
 
-    @override
+    @Override
     public String getEmail(){
         return email;
     }
 
-    @override
+    @Override
     public LocalDate getBirthYear(){
         return birthYear;
     }
 
-    @override
+    @Override
     public int getID(){
         return id;
     }
 
-    @override
+    @Override
     public int getPassword(){
         return password;
     }
