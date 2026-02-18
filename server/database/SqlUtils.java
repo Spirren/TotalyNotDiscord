@@ -7,8 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import server.database.interfaces.IDatabaseListener;
 
-public class SqlUtils {
+public class SqlUtils implements IDatabaseListener {
     public static void viewTable(Connection conn, int chatId) throws SQLException {
         String query = "select * FROM fullchat WHERE chatId = ?;";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -42,7 +43,7 @@ public class SqlUtils {
         return usersList;
     }
 
-    public static void addListener(Connection conn, String channel) throws SQLException {
+    public void addListener(Connection conn, String channel) throws SQLException {
         try (Statement stmt = conn.createStatement()) {
             stmt.execute("LISTEN " + channel);
         } catch (SQLException e) {
