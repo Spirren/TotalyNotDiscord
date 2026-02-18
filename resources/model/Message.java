@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-public class Message{
+public class Message implements IMessage {
     private LocalDateTime timeSent;
     private LocalDateTime lastEdited;
     private String content;
@@ -22,27 +22,27 @@ public class Message{
         this.index = index;
     }
 
-    @override
+    @Override
     public LocalDateTime getTime(){
         return timeSent;
     }
 
-    @override
+    @Override
     public LocalDateTime getLastEdited(){
         return lastEdited;
     }
 
-    @override
+    @Override
     public IUser getSender(){
         return sender;
     }
 
-    @override
+    @Override
     public String getContent(){
         return content;
     }
 
-    @override
+    @Override
     public int getIndex(){
         return index;
     } 

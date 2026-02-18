@@ -13,6 +13,7 @@ interface IMessage {
     public LocalDateTime getLastEdited();
     public IUser getSender();
     public String getContent();
+    public int getIndex();
 }
 
 interface IUser{
@@ -20,6 +21,7 @@ interface IUser{
     public String getEmail();
     public LocalDate getBirthYear();
     public int getID();
+    public int getPassword();
 }
 
 interface Subscriber {
