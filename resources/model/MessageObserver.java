@@ -1,25 +1,30 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 public class MessageObserver {
-    private LinkedList<Subscriber> subscribers;
+        HashMap<Integer, Subscriber> subscribers = new HashMap<>();
 
     public MessageObserver(){}
     
-    public MessageObserver(LinkedList<Subscriber> s){
-        subscribers = new LinkedList<Subscriber>(s);
+    public MessageObserver(Subscriber subs[]){
+        for(Subscriber s : subs){
+            subscribers.put(s.getSubKey(), s);
+        }
     }
 
     public void subscribe(Subscriber s){
-        subscribers.add(s);
+        subscribers.put(s.getSubKey(), s);
     }
 
     public void unsubscribe(Subscriber s){
-        subscribers.remove(s);
+        subscribers.remove(s.getSubKey());
     }
 
-    public void notifySubscribers(Message m){
-        for(Subscriber s : subscribers){
-            s.update(m);
+    public void notifySubscribers(int key[], IMessage m){
+        for(int k : key){
+            subscribers.get(k).update(m);
         }
     }
 }

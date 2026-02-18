@@ -3,9 +3,10 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 
 interface IChat extends Iterable{
-    public void addMessage(Message msg);
-    public void removeMessage(Message msg);
-    public void editMessage(Message msg);
+    public void addMessage(IMessage msg);
+    public void removeMessage(IMessage msg);
+    public void editMessage(IMessage msg);
+    public int getChatId();
 }
 
 interface IMessage {
@@ -25,5 +26,6 @@ interface IUser{
 }
 
 interface Subscriber {
-    public void update(Message m);
+    public void update(IMessage m);
+    public <T> T getSubKey();
 }

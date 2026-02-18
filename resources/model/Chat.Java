@@ -33,4 +33,9 @@ public Class Chat{
     public Iterator(int index){
         return messages.listIterator(index);
     }
+
+    @Override
+    public int getChatId(){
+        return this.id;
+    }
 }
