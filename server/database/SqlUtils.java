@@ -2,12 +2,12 @@ package server.database;
 
 import java.sql.Timestamp;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SqlConnection {
+public class SqlUtils {
     public static void viewTable(Connection conn, int chatId) throws SQLException {
         String query = "select * FROM fullchat WHERE chatId = ?;";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -21,6 +21,14 @@ public class SqlConnection {
                 System.out.println(content + ", " + timeSent + ", " + lastEdited +
                         ", " + username);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addListener(Connection conn, String channel) throws SQLException {
+        try (Statement stmt = conn.createStatement()) {
+            stmt.execute("LISTEN " + channel);
         } catch (SQLException e) {
             e.printStackTrace();
         }
