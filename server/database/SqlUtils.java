@@ -1,6 +1,7 @@
 package server.database;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -24,6 +25,21 @@ public class SqlUtils {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<Integer> getUsers(Connection conn, int chatId) throws SQLException {
+        String query = "select * FROM ChatMembers WHERE chatId = ?;";
+        ArrayList<Integer> usersList = new ArrayList<>();
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, chatId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                usersList.add(rs.getInt("userId"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return usersList;
     }
 
     public static void addListener(Connection conn, String channel) throws SQLException {
