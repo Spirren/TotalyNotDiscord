@@ -21,3 +21,7 @@ interface IUser{
     public LocalDate getBirthYear();
     public int getID();
 }
+
+interface Subscriber {
+    public void update(Message m);
+}
