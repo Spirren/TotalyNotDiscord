@@ -1,13 +1,16 @@
+package resources.model;
 import java.time.LocalDate;
+import resources.model.interfaces.IUser;
 
-public class Users implements IUser {
+public class User implements IUser {
     private String userName;
     private String email;
     private LocalDate birthYear;
     private int id; //map user to chats
     private int password;
 
-    public Users(String userName, String email, LocalDate birthYear, int id, int password){
+
+    public User(String userName, String email, LocalDate birthYear, int id, int password){
         this.userName = userName;
         this.email = email;
         this.birthYear = birthYear;

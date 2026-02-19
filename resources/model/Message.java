@@ -1,4 +1,8 @@
+package resources.model;
+
 import java.time.LocalDateTime;
+import resources.model.interfaces.IUser;
+import resources.model.interfaces.IMessage;
 
 public class Message implements IMessage {
     private LocalDateTime timeSent;
@@ -7,7 +11,7 @@ public class Message implements IMessage {
     private IUser sender;
     private int index;
 
-    public Message(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index){
+    public Message(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index) {
         this.timeSent = timeSent;
         this.lastEdited = lastEdited;
         this.content = content;
@@ -15,7 +19,7 @@ public class Message implements IMessage {
         this.index = index;
     }
 
-    public Message(LocalDateTime timeSent, String content, IUser sender, int index){
+    public Message(LocalDateTime timeSent, String content, IUser sender, int index) {
         this.timeSent = timeSent;
         this.content = content;
         this.sender = sender;
@@ -23,27 +27,27 @@ public class Message implements IMessage {
     }
 
     @Override
-    public LocalDateTime getTime(){
+    public LocalDateTime getTime() {
         return timeSent;
     }
 
     @Override
-    public LocalDateTime getLastEdited(){
+    public LocalDateTime getLastEdited() {
         return lastEdited;
     }
 
     @Override
-    public IUser getSender(){
+    public IUser getSender() {
         return sender;
     }
 
     @Override
-    public String getContent(){
+    public String getContent() {
         return content;
     }
 
     @Override
-    public int getIndex(){
+    public int getIndex() {
         return index;
-    } 
+    }
 }
