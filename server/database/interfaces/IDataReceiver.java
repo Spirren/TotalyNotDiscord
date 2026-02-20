@@ -1,5 +1,5 @@
-package server.database;
+package server.database.interfaces;
 
-interface IDataReciver {
+public interface IDataReceiver {
     public void reciveData(int processId, String channelName, String payload);
 }
