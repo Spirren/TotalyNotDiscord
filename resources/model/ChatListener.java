@@ -1,3 +1,5 @@
+package model.interfaces;
+
 public class ChatListener implements Subscriber{
     private IChat chat;
 

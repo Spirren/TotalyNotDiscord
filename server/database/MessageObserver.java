@@ -1,22 +1,29 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import interfaces.*;
 
 public class MessageObserver {
-    HashMap<Integer, ArrayList<Subscriber>> subscribers = new HashMap<>();
+    private HashMap<Integer, ArrayList<Subscriber>> subscribers = new HashMap<>();
+    private static MessageObserver instance;
 
-    public MessageObserver(){
+    private MessageObserver(){
 
     }
     
-    public MessageObserver(ArrayList<Subscriber> subs){
+    private MessageObserver(ArrayList<Subscriber> subs){
         for(Subscriber s : subs){
             if(!subscribers.containsKey(s.getSubKey())){
             subscribers.put(s.getSubKey(), new ArrayList<Subscriber>());
             }
             subscribers.get(s.getSubKey()).add(s);
         }
+    }
+
+    public static MessageObserver getInstance(){
+        if(instance == null){
+            instance = new MessageObserver();
+        }
+        return instance;
     }
 
     public void subscribe(Subscriber s){
