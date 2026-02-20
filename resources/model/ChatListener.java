@@ -1,13 +1,18 @@
-public class ChatListener {
-    Chat chat;
+public class ChatListener implements Subscriber{
+    private IChat chat;
 
-    public ChatListener(Chat c){
+    public ChatListener(IChat c){
         chat = c;
     }
 
     @Override
-    public update(Message m){
-        chat.addMessage(m);
+    public void update(IMessage m){
+        this.chat.addMessage(m);
+    }
+
+    @Override
+    public Integer getSubKey(){
+        return this.chat.getChatId();
     }
 
 }

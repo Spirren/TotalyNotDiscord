@@ -4,27 +4,41 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class MessageObserver {
-        HashMap<Integer, Subscriber> subscribers = new HashMap<>();
+    HashMap<Integer, ArrayList<Subscriber>> subscribers = new HashMap<>();
 
-    public MessageObserver(){}
+    public MessageObserver(){
+
+    }
     
-    public MessageObserver(Subscriber subs[]){
+    public MessageObserver(ArrayList<Subscriber> subs){
         for(Subscriber s : subs){
-            subscribers.put(s.getSubKey(), s);
+            if(!subscribers.containsKey(s.getSubKey())){
+            subscribers.put(s.getSubKey(), new ArrayList<Subscriber>());
+            }
+            subscribers.get(s.getSubKey()).add(s);
         }
     }
 
     public void subscribe(Subscriber s){
-        subscribers.put(s.getSubKey(), s);
+        if(!subscribers.containsKey(s.getSubKey())){
+            subscribers.put(s.getSubKey(), new ArrayList<Subscriber>());
+        }
+        subscribers.get(s.getSubKey()).add(s);
     }
 
     public void unsubscribe(Subscriber s){
-        subscribers.remove(s.getSubKey());
+        subscribers.get(s.getSubKey()).remove(s);
+        if(subscribers.get(s.getSubKey()).isEmpty()){
+            subscribers.remove(s.getSubKey());
+        }
     }
 
-    public void notifySubscribers(int key[], IMessage m){
+    public void notifySubscribers(ArrayList<Integer> key, IMessage m){
         for(int k : key){
-            subscribers.get(k).update(m);
+            ArrayList<Subscriber> subs = subscribers.get(k);
+            for(Subscriber s : subs){
+                s.update(m);
+            }
         }
     }
 }

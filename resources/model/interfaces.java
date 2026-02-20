@@ -24,8 +24,3 @@ interface IUser{
     public int getID();
     public int getPassword();
 }
-
-interface Subscriber {
-    public void update(IMessage m);
-    public <T> T getSubKey();
-}
