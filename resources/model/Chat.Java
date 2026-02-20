@@ -1,3 +1,5 @@
+package resources.model;
+
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 

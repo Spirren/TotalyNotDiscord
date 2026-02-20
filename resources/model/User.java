@@ -1,7 +1,12 @@
 package resources.model;
+<<<<<<< HEAD
 
 import java.time.LocalDate;
 import resources.model.interfaces.*;
+=======
+import java.time.LocalDate;
+import resources.model.interfaces.IUser;
+>>>>>>> refs/remotes/origin/main
 
 public class User implements IUser {
     private String userName;
@@ -10,6 +15,10 @@ public class User implements IUser {
     private int id; //map user to chats
     private int password;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/main
     public User(String userName, String email, LocalDate birthYear, int id, int password){
         this.userName = userName;
         this.email = email;
