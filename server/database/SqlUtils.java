@@ -80,7 +80,7 @@ public class SqlUtils implements IDatabaseListener {
 
     public static ArrayList<Message> getMessages(Connection conn, int chatId, int messageStartIndex,
             int messageStopIndex) throws SQLException {
-        String query = "select * FROM Messages  WHERE chatId = ? AND (messageIndex >= ? AND messageIndex < ?);";
+        String query = "select * FROM messageswithnames  WHERE chatId = ? AND (messageIndex >= ? AND messageIndex < ?);";
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, chatId);
@@ -91,7 +91,7 @@ public class SqlUtils implements IDatabaseListener {
                 String content = rs.getString("content");
                 LocalDateTime timeSent = rs.getObject("timeSent", LocalDateTime.class);
                 LocalDateTime lastEdited = rs.getObject("lastEdited", LocalDateTime.class);
-                User sender = getUser(conn, rs.getInt("userId"));
+                User sender = getUser(conn, rs.getString("username"));
                 int messageIndex = rs.getInt("messageIndex");
                 messageList.add(new Message(timeSent, lastEdited, content, sender, messageIndex));
             }
@@ -101,16 +101,17 @@ public class SqlUtils implements IDatabaseListener {
         return messageList;
     }
 
-    public static User getUser(Connection conn, int userId) throws SQLException {
-        String query = "select * FROM Users WHERE userId = ?;";
+    public static User getUser(Connection conn, String userName) throws SQLException {
+        String query = "select * FROM Users WHERE username = ?;";
         User user = null;
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, userId);
+            pstmt.setString(1, userName);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 String username = rs.getString("username");
                 String email = rs.getString("email");
                 LocalDate birthYear = rs.getObject("birthYear", LocalDate.class);
+                int userId = rs.getInt("userId");
                 int password = rs.getInt("password");
 
                 user = new User(username, email, birthYear, userId, password);
