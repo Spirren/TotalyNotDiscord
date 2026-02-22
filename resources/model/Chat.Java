@@ -1,9 +1,10 @@
 package resources.model;
 
+import resources.model.interfaces.IChat;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public Class Chat{
+public class Chat{
     private LinkedList<IMessage> messages; 
     private LocalDateTime timeCreated;
     private int id;
@@ -14,25 +15,25 @@ public Class Chat{
         this.id = id;
     }
 
-    @override
+    @Override
     public void addMessage(IMessage msg){
         messages.add(msg);
     }
 
-    @override
+    @Override
     public void removeMessage(IMessage msg){
         messages.remove(msg);
     }
 
-    @override
+    @Override
     public void editMessage(IMessage oldMsg, IMessage newMsg){ //Should msg be immutable? Should only be able to edit the content
         int index = messages.indexOf(oldMsg);
         messages.remove(index);
         messages.add(index,newMsg);
     }
 
-    @override
-    public Iterator(int index){
+    @Override
+    public Iterator<IMessage> iterator(int index){
         return messages.listIterator(index);
     }
 }
