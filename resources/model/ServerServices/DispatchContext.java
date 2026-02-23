@@ -1,42 +1,52 @@
 package resources.model.ServerServices;
 
-import resources.model.Chat;
 import resources.model.LoginRequest;
-import resources.model.Message;
-import resources.model.User;
 import resources.model.dispatcher.Dispatcher;
+import resources.model.interfaces.IChat;
+import resources.model.interfaces.IMessage;
+import resources.model.interfaces.IUser;
 import resources.model.types.OperationType;
+import resources.sockets.ClientHandler;
 
 public class DispatchContext {
 
-    public final Dispatcher dispatcher;
+    private final Dispatcher dispatcher;
+    private final ClientHandler handler;
 
-    public DispatchContext() {
+    public DispatchContext(ClientHandler handler) {
         dispatcher = new Dispatcher();
+        this.handler = handler;
         registerHandlers();
+    }
+
+    public Dispatcher getDispatcher() {
+        return dispatcher;
     }
 
     private void registerHandlers() {
         UserService userService = new UserService();
 
-        dispatcher.register(User.class, OperationType.ADD, userService::add);
-        dispatcher.register(User.class, OperationType.DELETE, userService::delete);
-        dispatcher.register(User.class, OperationType.MODIFY, userService::modify);
+        dispatcher.register(IUser.class, OperationType.ADD, userService::add);
+        dispatcher.register(IUser.class, OperationType.DELETE, userService::delete);
+        dispatcher.register(IUser.class, OperationType.MODIFY, userService::modify);
         
         MessageService messageService = new MessageService();
 
-        dispatcher.register(Message.class, OperationType.ADD, messageService::add);
-        dispatcher.register(Message.class, OperationType.DELETE, messageService::delete);
-        dispatcher.register(Message.class, OperationType.MODIFY, messageService::modify);
+        dispatcher.register(IMessage.class, OperationType.ADD, messageService::add);
+        dispatcher.register(IMessage.class, OperationType.DELETE, messageService::delete);
+        dispatcher.register(IMessage.class, OperationType.MODIFY, messageService::modify);
     
         ChatService chatService = new ChatService();
 
-        dispatcher.register(Chat.class, OperationType.ADD, chatService::add);
-        dispatcher.register(Chat.class, OperationType.DELETE, chatService::delete);
-        dispatcher.register(Chat.class, OperationType.MODIFY, chatService::modify);
+        dispatcher.register(IChat.class, OperationType.ADD, chatService::add);
+        dispatcher.register(IChat.class, OperationType.DELETE, chatService::delete);
+        dispatcher.register(IChat.class, OperationType.MODIFY, chatService::modify);
 
         LoginService loginService = new LoginService();
 
-        dispatcher.register(LoginRequest.class, OperationType.LOGIN, loginService::login);
+        dispatcher.register(LoginRequest.class, OperationType.LOGIN, payload -> {
+            LoginRequest lr = (LoginRequest) payload;
+            loginService.login(lr, handler);
+        });
     }
 }

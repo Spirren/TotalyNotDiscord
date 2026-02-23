@@ -11,5 +11,5 @@ public interface IUser {
 
     public int getID();
 
-    public int getPassword();
+    public String getPassword();
 }

@@ -27,14 +27,15 @@ public class ChatClient extends Thread {
     private ObjectReceiver receiver;
     private IUser user;
 
-    public ChatClient(String host, int port, IUser user, Dispatcher dispatcher) throws IOException {
+    public ChatClient(String host, int port, IUser user) throws IOException {
         try {
             socket = new Socket(host, port);
         } catch (IOException e) {
             System.out.println("Connection to server could not be made.");
         }
 
-        ObjectHandler handler = new DispatchObjectHandler(dispatcher);
+        CDispatchContext context = new CDispatchContext(this);
+        ObjectHandler handler = new DispatchObjectHandler(context.getDispatcher());
 
         this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
         this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
@@ -43,8 +44,8 @@ public class ChatClient extends Thread {
         System.out.println("Connected to server");
     }
     // FOR TESTING
-     public ChatClient(String host, int port, Dispatcher dispatcher) throws IOException {
-        this(host, port, null, dispatcher);
+     public ChatClient(String host, int port) throws IOException {
+        this(host, port, null);
     }
 
     @Override
@@ -58,14 +59,13 @@ public class ChatClient extends Thread {
 
     // For testing purposes
     public static void main(String[] args) throws IOException{
-        CDispatchContext context = new CDispatchContext();
-        ChatClient client = new ChatClient("localhost", 5000, new User("Nils", "nils", null, 1, 12345), context.dispatcher);
+        ChatClient client = new ChatClient("localhost", 5000, new User("Nils", "nils", null, 1, "12345"));
         client.start();
 
         
         Scanner scanner = new Scanner(System.in);
 
-        User test = new User("John", "mail@mail.com", null, 1, 1234);
+        User test = new User("John", "mail@mail.com", null, 1, "1234");
         int messageIndex = 0;
 
         while (true) {

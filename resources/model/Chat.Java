@@ -1,10 +1,11 @@
 package resources.model;
 
+import resources.model.interfaces.IChat;
+import resources.model.interfaces.IMessage;
+
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import resources.model.interfaces.*;
 
 public class Chat implements IChat {
     private LinkedList<IMessage> messages; 
@@ -18,7 +19,7 @@ public class Chat implements IChat {
     }
 
     @Override
-    public void addMessage(IMessage msg) {
+    public void addMessage(IMessage msg){
         messages.add(msg);
     }
 
@@ -35,7 +36,7 @@ public class Chat implements IChat {
     }
 
     @Override
-    public Iterator iterator(int index){
+    public Iterator<IMessage> iterator(int index){
         return messages.listIterator(index);
     }
 

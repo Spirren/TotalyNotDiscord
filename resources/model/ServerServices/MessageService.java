@@ -1,9 +1,9 @@
 package resources.model.ServerServices;
 
-import resources.model.Message;
+import resources.model.interfaces.IMessage;
 
 public class MessageService {
-    public void add(Message m) { System.out.println("Add Message " + m.getIndex()); }
-    public void delete(Message m) { System.out.println("Delete Message " + m.getIndex()); }
-    public void modify(Message m) { System.out.println("Modify Message " + m.getIndex()); }
+    public void add(IMessage m) { System.out.println("Add Message " + m.getIndex()); }
+    public void delete(IMessage m) { System.out.println("Delete Message " + m.getIndex()); }
+    public void modify(IMessage m) { System.out.println("Modify Message " + m.getIndex()); }
 }

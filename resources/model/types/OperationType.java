@@ -6,4 +6,5 @@ public enum OperationType {
     MODIFY,
     GET,
     LOGIN,
+    ERROR,
 }

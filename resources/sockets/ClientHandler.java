@@ -6,9 +6,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import resources.model.interfaces.*;
-import resources.model.*;
+import resources.model.ObjectReceiver;
+import resources.model.ObjectSender;
+import resources.model.ServerServices.DispatchContext;
 import resources.model.dispatcher.DispatchObjectHandler;
-import resources.model.dispatcher.Dispatcher;
 
 public class ClientHandler extends Thread {
     private final Socket socket;
@@ -16,10 +17,11 @@ public class ClientHandler extends Thread {
     private final ObjectReceiver receiver;
     private IUser user;
 
-    public ClientHandler(Socket socket, Dispatcher dispatcher) throws IOException {
+    public ClientHandler(Socket socket) throws IOException {
         this.socket = socket;
 
-        ObjectHandler handler = new DispatchObjectHandler(dispatcher);
+        DispatchContext context = new DispatchContext(this);
+        ObjectHandler handler = new DispatchObjectHandler(context.getDispatcher());
 
         this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
         this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
