@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import resources.model.Message;
 import resources.model.User;
 import resources.model.interfaces.IUser;
+import resources.model.interfaces.IMessage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -112,7 +113,11 @@ public class SqlUtils implements IDatabaseListener {
                 String email = rs.getString("email");
                 LocalDate birthYear = rs.getObject("birthYear", LocalDate.class);
                 int userId = rs.getInt("userId");
+<<<<<<< HEAD
                 String password = rs.getString("password");
+=======
+                int password = rs.getInt("password");
+>>>>>>> 182fe71692be1eb695b0887188d78341ce16d635
 
                 user = new User(username, email, birthYear, userId, password);
             }
@@ -122,7 +127,7 @@ public class SqlUtils implements IDatabaseListener {
         return user;
     }
 
-    public static void addMessage(Connection conn, Message message, int chatId) throws SQLException {
+    public static void addMessage(Connection conn, IMessage message, int chatId) throws SQLException {
         String query = "INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?);";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, chatId);

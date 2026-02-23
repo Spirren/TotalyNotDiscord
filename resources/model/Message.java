@@ -1,8 +1,8 @@
 package resources.model;
 
 import java.time.LocalDateTime;
-import resources.model.interfaces.IUser;
 import resources.model.interfaces.IMessage;
+import resources.model.interfaces.IUser;
 
 public class Message implements IMessage {
     private LocalDateTime timeSent;
