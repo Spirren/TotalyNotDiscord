@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import resources.model.Message;
 import resources.model.User;
 import resources.model.interfaces.IUser;
+import resources.model.interfaces.IMessage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -122,7 +123,7 @@ public class SqlUtils implements IDatabaseListener {
         return user;
     }
 
-    public static void addMessage(Connection conn, Message message, int chatId) throws SQLException {
+    public static void addMessage(Connection conn, IMessage message, int chatId) throws SQLException {
         String query = "INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?);";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, chatId);
