@@ -4,7 +4,7 @@ import resources.model.interfaces.IChat;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class Chat{
+public class Chat implements IChat{
     private LinkedList<IMessage> messages; 
     private LocalDateTime timeCreated;
     private int id;
