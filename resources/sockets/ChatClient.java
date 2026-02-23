@@ -4,13 +4,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
+import resources.model.LoginRequest;
 import resources.model.Message;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.User;
+import resources.model.ClientServices.CDispatchContext;
 import resources.model.dispatcher.DispatchObjectHandler;
 import resources.model.dispatcher.DispatchRequest;
 import resources.model.dispatcher.Dispatcher;
@@ -25,7 +28,11 @@ public class ChatClient extends Thread {
     private IUser user;
 
     public ChatClient(String host, int port, IUser user, Dispatcher dispatcher) throws IOException {
-        socket = new Socket(host, port);
+        try {
+            socket = new Socket(host, port);
+        } catch (IOException e) {
+            System.out.println("Connection to server could not be made.");
+        }
 
         ObjectHandler handler = new DispatchObjectHandler(dispatcher);
 
@@ -51,8 +58,8 @@ public class ChatClient extends Thread {
 
     // For testing purposes
     public static void main(String[] args) throws IOException{
-        Dispatcher dispatcher = new Dispatcher();
-        ChatClient client = new ChatClient("localhost", 5000, dispatcher);
+        CDispatchContext context = new CDispatchContext();
+        ChatClient client = new ChatClient("localhost", 5000, new User("Nils", "nils", null, 1, 12345), context.dispatcher);
         client.start();
 
         
@@ -65,9 +72,12 @@ public class ChatClient extends Thread {
             System.out.print("Enter message: ");
             String input = scanner.nextLine();
 
-            Message msg = new Message(LocalDateTime.now(), input, test, messageIndex);
+            // Message msg = new Message(LocalDateTime.now(), input, test, messageIndex);
+
+            LoginRequest login = new LoginRequest(input, "12345");
+
             messageIndex++;
-            client.send(new DispatchRequest(msg, OperationType.ADD));
+            client.send(new DispatchRequest(login, OperationType.LOGIN));
         }
         // For testing purposes
     }

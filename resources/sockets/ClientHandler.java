@@ -14,6 +14,7 @@ public class ClientHandler extends Thread {
     private final Socket socket;
     private final ObjectSender sender;
     private final ObjectReceiver receiver;
+    private IUser user;
 
     public ClientHandler(Socket socket, Dispatcher dispatcher) throws IOException {
         this.socket = socket;
@@ -22,6 +23,14 @@ public class ClientHandler extends Thread {
 
         this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
         this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
+    }
+
+    public void setUser(IUser user) {
+        this.user = user;
+    }
+
+    public IUser getUser() {
+        return user;
     }
 
     @Override
