@@ -1,3 +1,5 @@
+package resources.model;
+
 import resources.model.interfaces.*;
 
 public class ChatListener implements Subscriber{
