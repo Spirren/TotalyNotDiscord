@@ -5,4 +5,6 @@ public enum OperationType {
     DELETE,
     MODIFY,
     GET,
+    LOGIN,
+    ERROR,
 }

@@ -6,22 +6,35 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import resources.model.interfaces.*;
-import resources.model.*;
+import resources.model.types.OperationType;
+import resources.model.ObjectReceiver;
+import resources.model.ObjectSender;
+import resources.model.ServerServices.DispatchContext;
 import resources.model.dispatcher.DispatchObjectHandler;
-import resources.model.dispatcher.Dispatcher;
+import resources.model.dispatcher.DispatchRequest;
 
-public class ClientHandler extends Thread {
+public class ClientHandler extends Thread implements Subscriber{
     private final Socket socket;
     private final ObjectSender sender;
     private final ObjectReceiver receiver;
+    private IUser user;
 
-    public ClientHandler(Socket socket, Dispatcher dispatcher) throws IOException {
+    public ClientHandler(Socket socket) throws IOException {
         this.socket = socket;
 
-        ObjectHandler handler = new DispatchObjectHandler(dispatcher);
+        DispatchContext context = new DispatchContext(this);
+        ObjectHandler handler = new DispatchObjectHandler(context.getDispatcher());
 
         this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
         this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
+    }
+
+    public void setUser(IUser user) {
+        this.user = user;
+    }
+
+    public IUser getUser() {
+        return user;
     }
 
     @Override
@@ -31,5 +44,15 @@ public class ClientHandler extends Thread {
 
     public void send(Object response) {
         sender.send(response);
+    }
+
+    @Override
+    public void update(IMessage m) {
+        this.send(new DispatchRequest(m, OperationType.ADD));
+    }
+
+    @Override
+    public Integer getSubKey() {
+        return getUser().getID();
     }
 }

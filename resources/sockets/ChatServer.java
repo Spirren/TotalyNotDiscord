@@ -3,8 +3,6 @@ package resources.sockets;
 import java.io.*;
 import java.net.*;
 
-import resources.model.DispatchContext;
-
 public class ChatServer {
     public ServerSocket serverSocket;
 
@@ -20,10 +18,18 @@ public class ChatServer {
             Socket clientSocket = serverSocket.accept();
             System.out.println("Client connected on: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
 
-            DispatchContext context = new DispatchContext();
-            ClientHandler handler = new ClientHandler(clientSocket, context.dispatcher);
+            ClientHandler handler = new ClientHandler(clientSocket);
             handler.start();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            ChatServer server = new ChatServer(5000);
+            server.start();
         } catch (IOException e) {
             e.printStackTrace();
         }

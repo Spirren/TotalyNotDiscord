@@ -4,13 +4,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
+import resources.model.LoginRequest;
 import resources.model.Message;
+import resources.model.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.User;
+import resources.model.ClientServices.CDispatchContext;
 import resources.model.dispatcher.DispatchObjectHandler;
 import resources.model.dispatcher.DispatchRequest;
 import resources.model.dispatcher.Dispatcher;
@@ -23,21 +27,28 @@ public class ChatClient extends Thread {
     private ObjectSender sender;
     private ObjectReceiver receiver;
     private IUser user;
+    private MessageHandler msgHandler;
 
-    public ChatClient(String host, int port, IUser user, Dispatcher dispatcher) throws IOException {
-        socket = new Socket(host, port);
+    public void setUser(IUser user) {
+        this.user = user;
+    }
 
-        ObjectHandler handler = new DispatchObjectHandler(dispatcher);
+    public ChatClient(String host, int port) throws IOException {
+        try {
+            socket = new Socket(host, port);
+        } catch (IOException e) {
+            System.out.println("Connection to server could not be made.");
+        }
+
+        MessageHandler msgHandler = new MessageHandler();
+        CDispatchContext context = new CDispatchContext(this, msgHandler);
+        ObjectHandler handler = new DispatchObjectHandler(context.getDispatcher());
 
         this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
         this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
         this.user = user;
         
         System.out.println("Connected to server");
-    }
-    // FOR TESTING
-     public ChatClient(String host, int port, Dispatcher dispatcher) throws IOException {
-        this(host, port, null, dispatcher);
     }
 
     @Override
@@ -51,23 +62,25 @@ public class ChatClient extends Thread {
 
     // For testing purposes
     public static void main(String[] args) throws IOException{
-        Dispatcher dispatcher = new Dispatcher();
-        ChatClient client = new ChatClient("localhost", 5000, dispatcher);
+        ChatClient client = new ChatClient("localhost", 5000, new User("Nils", "nils", null, 1));
         client.start();
 
         
         Scanner scanner = new Scanner(System.in);
 
-        User test = new User("John", "mail@mail.com", null, 1, 1234);
+        User test = new User("John", "mail@mail.com", null, 1);
         int messageIndex = 0;
 
         while (true) {
             System.out.print("Enter message: ");
             String input = scanner.nextLine();
 
-            Message msg = new Message(LocalDateTime.now(), input, test, messageIndex);
+            // Message msg = new Message(LocalDateTime.now(), input, test, messageIndex);
+
+            LoginRequest login = new LoginRequest(input, "12345");
+
             messageIndex++;
-            client.send(new DispatchRequest(msg, OperationType.ADD));
+            client.send(new DispatchRequest(login, OperationType.LOGIN));
         }
         // For testing purposes
     }

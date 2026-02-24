@@ -2,6 +2,7 @@ package resources.model;
 
 import resources.model.interfaces.IChat;
 import java.time.LocalDateTime;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Chat implements IChat{
@@ -21,6 +22,13 @@ public class Chat implements IChat{
     }
 
     @Override
+    public void addMessages(ArrayList<IMessage> msgs){
+        for(IMessage m : msgs){
+            this.addMessage(m);
+        }
+    }
+
+    @Override
     public void removeMessage(IMessage msg){
         messages.remove(msg);
     }
@@ -35,5 +43,10 @@ public class Chat implements IChat{
     @Override
     public Iterator<IMessage> iterator(int index){
         return messages.listIterator(index);
+    }
+
+    @Override
+    public int getChatId(){
+        return this.id;
     }
 }

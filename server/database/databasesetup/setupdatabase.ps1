@@ -1,8 +1,8 @@
 
 $PG_PATH = "c:\Program Files\PostgreSQL\18\bin\psql.exe"
 
-$SQL_FILE = "C:\Users\nils\OneDrive\Documents\OOA\TotalyNotDiscord\server\database\databasesetup\runsetup.sql"
-$PASSWORD = "postgres"
+$SQL_FILE = "C:\Users\alfre\Documents\Skola\OOA\new\TotalyNotDiscord\server\database\databasesetup\runsetup.sql"
+$PASSWORD = "7410"
 $USER = "postgres"
 $DATABASE = "postgres"
 

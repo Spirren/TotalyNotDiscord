@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import resources.model.Message;
 import resources.model.User;
+import resources.model.interfaces.IChat;
 import resources.model.interfaces.IUser;
 
 import java.sql.Connection;
@@ -65,6 +66,11 @@ public class SqlUtils implements IDatabaseListener {
         return chatIdList;
     }
 
+    public static ArrayList<IChat> getUserChats(Connection conn, int userId) throws SQLException{
+        System.out.println("Nils please add this :)");
+        return null;
+    }
+
     // public static ArrayList<String> getUserNamesInChat(Connection conn, int
     // chatId) throws SQLException {
     // // pass
@@ -112,9 +118,8 @@ public class SqlUtils implements IDatabaseListener {
                 String email = rs.getString("email");
                 LocalDate birthYear = rs.getObject("birthYear", LocalDate.class);
                 int userId = rs.getInt("userId");
-                int password = rs.getInt("password");
 
-                user = new User(username, email, birthYear, userId, password);
+                user = new User(username, email, birthYear, userId);
             }
         } catch (SQLException e) {
             throw e;
