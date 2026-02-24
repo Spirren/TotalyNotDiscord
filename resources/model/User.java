@@ -1,5 +1,8 @@
 package resources.model;
 import java.time.LocalDate;
+import java.util.LinkedList;
+
+import resources.model.interfaces.*;
 import resources.model.interfaces.IUser;
 
 public class User implements IUser {
@@ -7,6 +10,7 @@ public class User implements IUser {
     private String email;
     private LocalDate birthYear;
     private int id; //map user to chats
+    private LinkedList<IChat> chats = new LinkedList<>();
 
     public User(String userName, String email, LocalDate birthYear, int id){
         this.userName = userName;
@@ -33,5 +37,10 @@ public class User implements IUser {
     @Override
     public int getID(){
         return id;
+    }
+
+    @Override
+    public void addChat(IChat c){
+        chats.add(c);
     }
 }
