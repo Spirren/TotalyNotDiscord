@@ -9,4 +9,5 @@ public interface IMessage extends Serializable{
     public IUser getSender();
     public String getContent();
     public int getIndex();
+    public int getChatID();
 }

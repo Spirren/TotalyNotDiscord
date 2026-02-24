@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import resources.model.interfaces.*;
+=======
+package resources.model.interfaces;
+
+>>>>>>> refs/remotes/origin/main
 import java.io.Serializable;
 import java.util.Iterator;
 

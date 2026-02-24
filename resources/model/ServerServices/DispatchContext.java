@@ -30,7 +30,7 @@ public class DispatchContext {
         dispatcher.register(IUser.class, OperationType.DELETE, userService::delete);
         dispatcher.register(IUser.class, OperationType.MODIFY, userService::modify);
         
-        MessageService messageService = new MessageService();
+        MessageService messageService = new MessageService(handler);
 
         dispatcher.register(IMessage.class, OperationType.ADD, messageService::add);
         dispatcher.register(IMessage.class, OperationType.DELETE, messageService::delete);

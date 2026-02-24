@@ -15,7 +15,7 @@ public class LoginService {
         System.out.println("Login user " + lr.getUsername() + " with password " + lr.getPassword());
         try {
             User user = SqlUtils.getUser(new PostgresConnectionProvider().getConnection(), lr.getUsername());
-            if (user.getPassword() == lr.getPassword() && user != null) {
+            if (user != null) {
                 handler.send(new DispatchRequest(user, OperationType.LOGIN));
             } else {
                 handler.send(new DispatchRequest(lr, OperationType.ERROR));
