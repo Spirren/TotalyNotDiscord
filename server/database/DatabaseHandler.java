@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import interfaces.*;
 
-public class MessageObserver {
+public class DatabaseHandler {
     private HashMap<Integer, ArrayList<Subscriber>> subscribers = new HashMap<>();
     private static MessageObserver instance;
 
