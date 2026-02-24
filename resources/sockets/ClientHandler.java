@@ -6,12 +6,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import resources.model.interfaces.*;
+import resources.model.types.OperationType;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.ServerServices.DispatchContext;
 import resources.model.dispatcher.DispatchObjectHandler;
+import resources.model.dispatcher.DispatchRequest;
 
-public class ClientHandler extends Thread {
+public class ClientHandler extends Thread implements Subscriber{
     private final Socket socket;
     private final ObjectSender sender;
     private final ObjectReceiver receiver;
@@ -42,5 +44,15 @@ public class ClientHandler extends Thread {
 
     public void send(Object response) {
         sender.send(response);
+    }
+
+    @Override
+    public void update(IMessage m) {
+        this.send(new DispatchRequest(m, OperationType.ADD));
+    }
+
+    @Override
+    public Integer getSubKey() {
+        return getUser().getID();
     }
 }
