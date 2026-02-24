@@ -16,6 +16,7 @@ public class LoginService {
         try {
             User user = SqlUtils.getUser(new PostgresConnectionProvider().getConnection(), lr.getUsername());
             if (user != null) {
+                handler.setUser(user);
                 handler.send(new DispatchRequest(user, OperationType.LOGIN));
             } else {
                 handler.send(new DispatchRequest(lr, OperationType.ERROR));
