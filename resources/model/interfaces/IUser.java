@@ -10,6 +10,4 @@ public interface IUser {
     public LocalDate getBirthYear();
 
     public int getID();
-
-    public int getPassword();
 }

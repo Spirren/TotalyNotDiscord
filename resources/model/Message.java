@@ -1,8 +1,8 @@
 package resources.model;
 
 import java.time.LocalDateTime;
-import resources.model.interfaces.IUser;
 import resources.model.interfaces.IMessage;
+import resources.model.interfaces.IUser;
 
 public class Message implements IMessage {
     private LocalDateTime timeSent;
@@ -10,6 +10,7 @@ public class Message implements IMessage {
     private String content;
     private IUser sender;
     private int index;
+    private int chatID;
 
     public Message(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index) {
         this.timeSent = timeSent;
@@ -49,5 +50,10 @@ public class Message implements IMessage {
     @Override
     public int getIndex() {
         return index;
+    }
+
+    @Override
+    public int getChatID() {
+        return chatID;
     }
 }

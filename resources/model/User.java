@@ -7,10 +7,13 @@ public class User implements IUser {
     private String email;
     private LocalDate birthYear;
     private int id; //map user to chats
-    private int password;
+    private String password;
 
-
+<<<<<<< HEAD
+    public User(String userName, String email, LocalDate birthYear, int id, String password){
+=======
     public User(String userName, String email, LocalDate birthYear, int id, int password){
+>>>>>>> 182fe71692be1eb695b0887188d78341ce16d635
         this.userName = userName;
         this.email = email;
         this.birthYear = birthYear;
@@ -39,7 +42,7 @@ public class User implements IUser {
     }
 
     @Override
-    public int getPassword(){
+    public String getPassword(){
         return password;
     }
 }

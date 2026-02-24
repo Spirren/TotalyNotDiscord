@@ -5,7 +5,7 @@ CREATE TABLE Chats(
 
 CREATE TABLE Users(
     userId INTEGER PRIMARY KEY,
-    username TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL,
     birthYear DATE NOT NULL,
     password INTEGER NOT NULL
