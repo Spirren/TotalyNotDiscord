@@ -1,9 +1,10 @@
 package resources.model.ServerServices;
 
+import resources.model.Image;
 import resources.model.LoginRequest;
+import resources.model.Message;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
-import resources.model.interfaces.IMessage;
 import resources.model.interfaces.IUser;
 import resources.model.types.OperationType;
 import resources.sockets.ClientHandler;
@@ -32,9 +33,13 @@ public class DispatchContext {
         
         MessageService messageService = new MessageService(handler);
 
-        dispatcher.register(IMessage.class, OperationType.ADD, messageService::add);
-        dispatcher.register(IMessage.class, OperationType.DELETE, messageService::delete);
-        dispatcher.register(IMessage.class, OperationType.MODIFY, messageService::modify);
+        dispatcher.register(Message.class, OperationType.ADD, messageService::addMessage);
+        dispatcher.register(Message.class, OperationType.DELETE, messageService::deleteMessage);
+        dispatcher.register(Message.class, OperationType.MODIFY, messageService::modifyMessage);
+        //
+        dispatcher.register(Image.class, OperationType.ADD, messageService::addImage);
+        dispatcher.register(Image.class, OperationType.DELETE, messageService::deleteImage);
+        dispatcher.register(Image.class, OperationType.MODIFY, messageService::modifyImage);
     
         ChatService chatService = new ChatService();
 

@@ -4,4 +4,5 @@ public enum ObjectType {
     MESSAGE,
     USER,
     CHAT,
+    IMAGE,
 }

@@ -27,6 +27,7 @@ public class ChatServer {
     }
 
     public static void main(String[] args) {
+        // java -cp ".;server/database/pgjdbc-ng-all-0.8.9.jar" .\resources\sockets\ChatServer.java
         try {
             ChatServer server = new ChatServer(5000);
             server.start();
