@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 import resources.model.LoginRequest;
 import resources.model.Message;
+import resources.model.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.User;
@@ -26,6 +27,7 @@ public class ChatClient extends Thread {
     private ObjectSender sender;
     private ObjectReceiver receiver;
     private IUser user;
+    private MessageHandler msgHandler;
 
     public ChatClient(String host, int port, IUser user) throws IOException {
         try {
@@ -34,7 +36,8 @@ public class ChatClient extends Thread {
             System.out.println("Connection to server could not be made.");
         }
 
-        CDispatchContext context = new CDispatchContext(this);
+        MessageHandler msgHandler = new MessageHandler();
+        CDispatchContext context = new CDispatchContext(this, msgHandler);
         ObjectHandler handler = new DispatchObjectHandler(context.getDispatcher());
 
         this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));

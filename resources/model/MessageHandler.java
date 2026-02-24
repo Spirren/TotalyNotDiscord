@@ -1,6 +1,8 @@
+package resources.model;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import interfaces.*;
+import resources.model.interfaces.*;
 
 public class MessageHandler {
     private HashMap<Integer, Subscriber> subscribers = new HashMap<>();
