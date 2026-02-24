@@ -1,9 +1,11 @@
 package resources.model;
 
 import resources.model.interfaces.IChat;
+import resources.model.interfaces.IMessage;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class Chat implements IChat{
     private LinkedList<IMessage> messages; 
@@ -11,7 +13,13 @@ public class Chat implements IChat{
     private int id;
 
     public Chat(int id, LocalDateTime timeCreated){
-        messages = new LinkedList<>();
+        this.messages = new LinkedList<>();
+        this.timeCreated = timeCreated;
+        this.id = id;
+    }
+
+    public Chat(int id, LocalDateTime timeCreated, LinkedList<IMessage> messages){
+        this.messages = new LinkedList<>(messages);
         this.timeCreated = timeCreated;
         this.id = id;
     }
@@ -19,13 +27,6 @@ public class Chat implements IChat{
     @Override
     public void addMessage(IMessage msg){
         messages.add(msg);
-    }
-
-    @Override
-    public void addMessages(ArrayList<IMessage> msgs){
-        for(IMessage m : msgs){
-            this.addMessage(m);
-        }
     }
 
     @Override
@@ -43,6 +44,10 @@ public class Chat implements IChat{
     @Override
     public Iterator<IMessage> iterator(int index){
         return messages.listIterator(index);
+    }
+
+    public Iterator<IMessage> iterator(){
+        return messages.listIterator();
     }
 
     @Override
