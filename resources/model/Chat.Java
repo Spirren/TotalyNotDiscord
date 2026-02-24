@@ -1,13 +1,11 @@
 package resources.model;
 
 import resources.model.interfaces.IChat;
-import resources.model.interfaces.IMessage;
-
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Chat implements IChat {
+public class Chat implements IChat{
     private LinkedList<IMessage> messages; 
     private LocalDateTime timeCreated;
     private int id;
@@ -39,18 +37,9 @@ public class Chat implements IChat {
     public Iterator<IMessage> iterator(int index){
         return messages.listIterator(index);
     }
-<<<<<<< HEAD
 
     @Override
-<<<<<<< HEAD
     public int getChatId(){
         return this.id;
-=======
-    public Iterator iterator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iterator'");
->>>>>>> refs/remotes/origin/main
     }
-=======
->>>>>>> refs/remotes/origin/main
 }
