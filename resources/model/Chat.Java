@@ -22,6 +22,13 @@ public class Chat implements IChat{
     }
 
     @Override
+    public void addMessages(ArrayList<IMessage> msgs){
+        for(IMessage m : msgs){
+            this.addMessage(m);
+        }
+    }
+
+    @Override
     public void removeMessage(IMessage msg){
         messages.remove(msg);
     }

@@ -11,4 +11,6 @@ public interface IUser extends Serializable {
     public LocalDate getBirthYear();
 
     public int getID();
+
+    public void addChat();
 }

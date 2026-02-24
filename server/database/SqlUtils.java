@@ -65,6 +65,10 @@ public class SqlUtils implements IDatabaseListener {
         return chatIdList;
     }
 
+    public static ArrayList<IChat> getUserChats(Connection conn, int userId) throws SQLException{
+        System.out.println("Nils please add this :)");
+    }
+
     // public static ArrayList<String> getUserNamesInChat(Connection conn, int
     // chatId) throws SQLException {
     // // pass
