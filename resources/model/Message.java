@@ -20,6 +20,7 @@ public class Message implements IMessage {
         this.index = index;
     }
 
+
     public Message(LocalDateTime timeSent, String content, IUser sender, int index) {
         this.timeSent = timeSent;
         this.content = content;

@@ -1,20 +1,18 @@
 package server.database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-
 import resources.model.Message;
 import resources.model.User;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IUser;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import server.database.interfaces.IDatabaseListener;
 
 public class SqlUtils implements IDatabaseListener {

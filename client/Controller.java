@@ -6,17 +6,32 @@ import client.appinterface.Interface;
 import client.appinterface.view.ChatWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import resources.model.LoginRequest;
 import resources.model.interfaces.IChat;
+import resources.sockets.ChatClient;
+import resources.model.dispatcher.DispatchRequest;
+import resources.model.types.OperationType;
+import java.time.LocalDateTime;
+import resources.model.Message;
 
 public class Controller{ //implements "MessageListener"
     private final Interface ui;
     private final ChatWindow chatWindow;
+    private ChatClient client;
 
     public Controller(){
         ui = new Interface();
         chatWindow = ui.getChatWindow();
+        try{
+            client = new ChatClient("localhost", 5000);
+            client.start();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
 
         //loadChats
         loadChats();
@@ -25,19 +40,39 @@ public class Controller{ //implements "MessageListener"
         ui.getChatList().addListSelectionListener(new ChatSelectionListener());
 
         //button listener
-        chatWindow.getSendButton().addActionListener(new SendListener());
+        chatWindow.getSendButton().addActionListener(new SendListener(chatWindow.getIndex(), client));
+        chatWindow.getSendButton().addActionListener(new LoginListener());
     }
 
     private void loadChats(){
         //show chats for a user in sidebar
     }
 
-    class SendListener implements ActionListener{
+    class LoginListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
+            String uname = chatWindow.getLogin();
+            LoginRequest login = new LoginRequest(uname, "password");//string, string
+            client.send(new DispatchRequest(login, OperationType.LOGIN));
+        }
+    }
 
-                //send to database - hampus&emily metod?/alfred metod?
-                chatWindow.updateView(chatWindow.getChat());
+    class SendListener implements ActionListener{
+        private int index;
+        //private ChatClient client;
+        public SendListener(int index, ChatClient client){
+            this.index=index;
+            //this.client=client;
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent e){
+                String input = chatWindow.getMsg();
+                Message msg = new Message(LocalDateTime.now(), input, client.getUser(), ++index);
+                client.send(new DispatchRequest(msg, OperationType.ADD));
+
+                //hampus fix this prob
+                //chatWindow.updateView(chatWindow.getChat());
         }
     }
 

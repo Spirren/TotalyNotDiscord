@@ -2,8 +2,10 @@ package client.appinterface;
 
 import client.appinterface.view.ChatWindow;
 import java.awt.*;
+import java.util.Iterator;
 import javax.swing.*;
 import resources.model.interfaces.IChat;
+import resources.model.interfaces.IUser;
 
 public class Interface extends JFrame{
     private final ChatWindow chatWindow;
@@ -40,6 +42,18 @@ public class Interface extends JFrame{
 
     public DefaultListModel<IChat> getListModel() { 
         return listModel; 
+    }
+
+    public void updateSideBar(IUser user){
+        listModel.removeAllElements();
+
+        Iterator<IChat> it = user.iterator(0);
+        IChat chat;
+        
+        while(it.hasNext()){
+            chat = it.next();
+            listModel.addElement(chat);
+        }
     }
 
 }

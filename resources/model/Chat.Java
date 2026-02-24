@@ -49,4 +49,9 @@ public class Chat implements IChat{
     public int getChatId(){
         return this.id;
     }
+
+    @Override
+    public String toString(){
+        return "Chat #" + this.id; 
+    }
 }

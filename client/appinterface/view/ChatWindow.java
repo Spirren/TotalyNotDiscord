@@ -18,10 +18,25 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
     private final JTextArea chatArea; 
     private final JTextField msgField;
     private final JButton sendButton;
-    private IChat chat;
+    private IChat CurrentChat;
+
+    private final JPanel loginPanel;
+    private final JButton loginButton;
+    private final JTextField loginField;
+
+    private int index;
 
     //init ChatWindow
     public ChatWindow(){
+        //LoginPanel
+        loginPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        loginButton = new JButton("Login");
+        loginField = new JTextField(10);
+        loginPanel.add(loginButton);
+        loginPanel.add(loginField);
+
+        index=0;
+        //Main Area
         setLayout(new BorderLayout());
 
         chatArea = new JTextArea();
@@ -37,8 +52,21 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
         bottomPanel.add(msgField, BorderLayout.CENTER);
         bottomPanel.add(sendButton, BorderLayout.EAST);
 
+        add(loginPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
+    }
+
+    public int getIndex(){
+        return index;
+    }
+
+    public JButton getLoginButton(){
+        return loginButton; 
+    }
+
+    public String getLogin(){
+        return loginField.getText();
     }
 
     //getsendb
@@ -52,12 +80,12 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
     }
 
     public void setChat(IChat chat){
-        this.chat = chat;
+        this.CurrentChat = chat;
         updateView(chat);
     }
 
     public IChat getChat(){
-        return chat;
+        return CurrentChat;
     }
 
     public void updateView(IChat chat){
@@ -66,11 +94,12 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
         //clear msgField
         msgField.setText("");
 
-        Iterator<IMessage> it = chat.iterator();
+        Iterator<IMessage> it = chat.iterator(0);
         IMessage msg;
 
         while(it.hasNext()){
             msg = it.next();
+            index++;
 
             chatArea.append(msg.getSender() + ": " + msg.getContent() + "\n");
         }
