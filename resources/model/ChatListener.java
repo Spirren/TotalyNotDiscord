@@ -1,4 +1,4 @@
-package model.interfaces;
+import interfaces.*;
 
 public class ChatListener implements Subscriber{
     private IChat chat;
