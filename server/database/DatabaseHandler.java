@@ -1,16 +1,16 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import interfaces.*;
+import resources.model.interfaces.*;
 
 public class DatabaseHandler {
     private HashMap<Integer, ArrayList<Subscriber>> subscribers = new HashMap<>();
-    private static MessageObserver instance;
+    private static DatabaseHandler instance;
 
-    private MessageObserver(){
+    private DatabaseHandler(){
 
     }
     
-    private MessageObserver(ArrayList<Subscriber> subs){
+    private DatabaseHandler(ArrayList<Subscriber> subs){
         for(Subscriber s : subs){
             if(!subscribers.containsKey(s.getSubKey())){
             subscribers.put(s.getSubKey(), new ArrayList<Subscriber>());
@@ -19,9 +19,9 @@ public class DatabaseHandler {
         }
     }
 
-    public static MessageObserver getInstance(){
+    public static DatabaseHandler getInstance(){
         if(instance == null){
-            instance = new MessageObserver();
+            instance = new DatabaseHandler();
         }
         return instance;
     }
