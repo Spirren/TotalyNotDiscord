@@ -12,5 +12,5 @@ public interface IUser extends Serializable {
 
     public int getID();
 
-    public void addChat();
+    public void addChat(IChat chat);
 }
