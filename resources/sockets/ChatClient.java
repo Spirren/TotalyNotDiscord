@@ -33,6 +33,10 @@ public class ChatClient extends Thread {
         this.user = user;
     }
 
+    public void getUser(IUser user) {
+        this.user = user;
+    }
+
     public ChatClient(String host, int port) throws IOException {
         try {
             socket = new Socket(host, port);
