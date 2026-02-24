@@ -59,13 +59,13 @@ public class ChatClient extends Thread {
 
     // For testing purposes
     public static void main(String[] args) throws IOException{
-        ChatClient client = new ChatClient("localhost", 5000, new User("Nils", "nils", null, 1, "12345"));
+        ChatClient client = new ChatClient("localhost", 5000, new User("Nils", "nils", null, 1));
         client.start();
 
         
         Scanner scanner = new Scanner(System.in);
 
-        User test = new User("John", "mail@mail.com", null, 1, "1234");
+        User test = new User("John", "mail@mail.com", null, 1);
         int messageIndex = 0;
 
         while (true) {

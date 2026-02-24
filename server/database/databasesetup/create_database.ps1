@@ -1,5 +1,5 @@
 $PG_PATH = "c:\Program Files\PostgreSQL\18\bin\psql.exe"
-$PASSWORD = "postgres"
+$PASSWORD = "7410"
 $USER = "postgres"
 $DATABASE = "postgres"
 

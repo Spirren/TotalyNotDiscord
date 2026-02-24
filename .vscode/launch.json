@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "ChatClient",
+      "request": "launch",
+      "mainClass": "resources.sockets.ChatClient",
+      "projectName": "TotalyNotDiscord_1a521605"
+    },
+    {
+      "type": "java",
+      "name": "ChatServer",
+      "request": "launch",
+      "mainClass": "resources.sockets.ChatServer",
+      "projectName": "TotalyNotDiscord_1a521605"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "c:/Users/alfre/Documents/Skola/OOA/new/TotalyNotDiscord/resources",
+      "program": "c:/Users/alfre/Documents/Skola/OOA/new/TotalyNotDiscord/resources/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    }
+  ]
+}
