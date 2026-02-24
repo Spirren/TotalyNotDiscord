@@ -27,7 +27,7 @@ public class CDispatchContext {
     }
 
     private void registerHandlers() {
-        CUserService userService = new CUserService();
+        CUserService userService = new CUserService(client);
 
         dispatcher.register(IUser.class, OperationType.ADD, userService::add);
         dispatcher.register(IUser.class, OperationType.DELETE, userService::delete);

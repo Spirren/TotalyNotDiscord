@@ -29,7 +29,11 @@ public class ChatClient extends Thread {
     private IUser user;
     private MessageHandler msgHandler;
 
-    public ChatClient(String host, int port, IUser user) throws IOException {
+    public void setUser(IUser user) {
+        this.user = user;
+    }
+
+    public ChatClient(String host, int port) throws IOException {
         try {
             socket = new Socket(host, port);
         } catch (IOException e) {
@@ -45,10 +49,6 @@ public class ChatClient extends Thread {
         this.user = user;
         
         System.out.println("Connected to server");
-    }
-    // FOR TESTING
-     public ChatClient(String host, int port) throws IOException {
-        this(host, port, null);
     }
 
     @Override
