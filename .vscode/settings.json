@@ -1,9 +1,10 @@
 {
   "java.project.sourcePaths": [
-    "src",
     "."
   ],
-  "java.project.referencedLibraries": [],
+  "java.project.referencedLibraries": [
+    "server\\database\\pgjdbc-ng-all-0.8.9.jar"
+  ],
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",
   "C_Cpp_Runner.debuggerPath": "gdb",

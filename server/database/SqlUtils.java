@@ -1,20 +1,22 @@
 package server.database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
+import resources.model.Chat;
 import resources.model.Message;
 import resources.model.User;
 import resources.model.interfaces.IChat;
+import resources.model.interfaces.IMessage;
 import resources.model.interfaces.IUser;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import server.database.interfaces.IDatabaseListener;
 
 public class SqlUtils implements IDatabaseListener {
@@ -31,8 +33,6 @@ public class SqlUtils implements IDatabaseListener {
                 System.out.println(content + ", " + timeSent + ", " + lastEdited +
                         ", " + username);
             }
-        } catch (SQLException e) {
-            throw e;
         }
     }
 
@@ -45,8 +45,6 @@ public class SqlUtils implements IDatabaseListener {
             while (rs.next()) {
                 usersIdList.add(rs.getInt("userId"));
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return usersIdList;
     }
@@ -60,16 +58,41 @@ public class SqlUtils implements IDatabaseListener {
             while (rs.next()) {
                 chatIdList.add(rs.getInt("chatId"));
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return chatIdList;
     }
 
-    public static ArrayList<IChat> getUserChats(Connection conn, int userId) throws SQLException{
-        System.out.println("Nils please add this :)");
-        return null;
+    public static Chat getChat(Connection conn, int chatId, int messageStartIndex,
+            int messageStopIndex) throws SQLException {
+        String query = "select * FROM Chats WHERE chatId = ?";
+        Chat chat = null;
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, chatId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                int Id = rs.getInt("chatId");
+                LocalDateTime timeCreated = rs.getObject("timeCreated", LocalDateTime.class);
+                chat = new Chat(Id, timeCreated, getMessages(conn, chatId, messageStartIndex, messageStopIndex));
+            }
+        }
+        return chat;
     }
+
+    public static ArrayList<IChat> getUserChats(Connection conn, int userId) throws SQLException {
+        ArrayList<IChat> chats = new ArrayList<>();
+        for (Integer chatId : getChatIds(conn, userId)) {
+            chats.add(getChat(conn, chatId, 0, 50));
+        }
+        if (chats.isEmpty()) {
+            return null;
+        }
+        return chats;
+    }
+
+    // addMessage(ItextMessage message){
+    // addMessage(ImageMessage message){
+
+    // };
 
     // public static ArrayList<String> getUserNamesInChat(Connection conn, int
     // chatId) throws SQLException {
@@ -77,17 +100,17 @@ public class SqlUtils implements IDatabaseListener {
     // }
 
     public static Message getMessage(Connection conn, int chatId, int messageIndex) throws SQLException {
-        ArrayList<Message> messages = getMessages(conn, chatId, messageIndex, messageIndex + 1);
+        LinkedList<Message> messages = getMessages(conn, chatId, messageIndex, messageIndex + 1);
         if (messages.isEmpty()) {
             return null;
         }
         return messages.get(0);
     }
 
-    public static ArrayList<Message> getMessages(Connection conn, int chatId, int messageStartIndex,
+    public static LinkedList<Message> getMessages(Connection conn, int chatId, int messageStartIndex,
             int messageStopIndex) throws SQLException {
         String query = "select * FROM messageswithnames  WHERE chatId = ? AND (messageIndex >= ? AND messageIndex < ?);";
-        ArrayList<Message> messageList = new ArrayList<>();
+        LinkedList<Message> messageList = new LinkedList<>();
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, chatId);
             pstmt.setInt(2, messageStartIndex);
@@ -101,8 +124,6 @@ public class SqlUtils implements IDatabaseListener {
                 int messageIndex = rs.getInt("messageIndex");
                 messageList.add(new Message(timeSent, lastEdited, content, sender, messageIndex));
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return messageList;
     }
@@ -121,13 +142,29 @@ public class SqlUtils implements IDatabaseListener {
 
                 user = new User(username, email, birthYear, userId);
             }
-        } catch (SQLException e) {
-            throw e;
         }
         return user;
     }
 
-    public static void addMessage(Connection conn, Message message, int chatId) throws SQLException {
+    public static User getUser(Connection conn, int userid) throws SQLException {
+        String query = "select * FROM Users WHERE userid = ?;";
+        User user = null;
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, userid);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                LocalDate birthYear = rs.getObject("birthYear", LocalDate.class);
+                int userId = rs.getInt("userId");
+
+                user = new User(username, email, birthYear, userId);
+            }
+        }
+        return user;
+    }
+
+    public static void addMessage(Connection conn, IMessage message, int chatId) throws SQLException {
         String query = "INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?);";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, chatId);
@@ -137,16 +174,12 @@ public class SqlUtils implements IDatabaseListener {
             pstmt.setObject(5, message.getTime());
             pstmt.setObject(6, message.getLastEdited());
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw e;
         }
     }
 
     public void addListener(Connection conn, String channel) throws SQLException {
         try (Statement stmt = conn.createStatement()) {
             stmt.execute("LISTEN " + channel);
-        } catch (SQLException e) {
-            throw e;
         }
     }
 }

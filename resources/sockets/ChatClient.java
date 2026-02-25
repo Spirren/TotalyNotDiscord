@@ -4,20 +4,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Scanner;
-
+import resources.model.ClientServices.CDispatchContext;
 import resources.model.LoginRequest;
-import resources.model.Message;
 import resources.model.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
-import resources.model.User;
-import resources.model.ClientServices.CDispatchContext;
 import resources.model.dispatcher.DispatchObjectHandler;
 import resources.model.dispatcher.DispatchRequest;
-import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IUser;
 import resources.model.interfaces.ObjectHandler;
 import resources.model.types.OperationType;
@@ -33,8 +27,8 @@ public class ChatClient extends Thread {
         this.user = user;
     }
 
-    public void getUser(IUser user) {
-        this.user = user;
+    public IUser getUser() {
+        return user;
     }
 
     public ChatClient(String host, int port) throws IOException {

@@ -1,9 +1,8 @@
 package resources.model;
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.LinkedList;
-
 import resources.model.interfaces.*;
-import resources.model.interfaces.IUser;
 
 public class User implements IUser {
     private String userName;
@@ -42,5 +41,10 @@ public class User implements IUser {
     @Override
     public void addChat(IChat c){
         chats.add(c);
+    }
+
+    @Override
+    public Iterator<IChat> iterator(int index){
+        return chats.listIterator(index);
     }
 }
