@@ -146,6 +146,24 @@ public class SqlUtils implements IDatabaseListener {
         return user;
     }
 
+    public static User getUser(Connection conn, int userid) throws SQLException {
+        String query = "select * FROM Users WHERE userid = ?;";
+        User user = null;
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, userid);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                LocalDate birthYear = rs.getObject("birthYear", LocalDate.class);
+                int userId = rs.getInt("userId");
+
+                user = new User(username, email, birthYear, userId);
+            }
+        }
+        return user;
+    }
+
     public static void addMessage(Connection conn, IMessage message, int chatId) throws SQLException {
         String query = "INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?);";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
