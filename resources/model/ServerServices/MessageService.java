@@ -48,7 +48,7 @@ public class MessageService {
     public void addImage(Image im) {
         System.out.println("Add Message " + im.getIndex()); 
         try {
-            SqlUtils.addMessage(new PostgresConnectionProvider().getConnection(), m, m.getChatID());
+            SqlUtils.addMessage(new PostgresConnectionProvider().getConnection(), im, im.getChatID());
         } catch (SQLException e) {
             System.out.println("Error communicating with database");
             e.printStackTrace();

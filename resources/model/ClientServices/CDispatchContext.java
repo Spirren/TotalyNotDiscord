@@ -32,6 +32,7 @@ public class CDispatchContext {
         dispatcher.register(IUser.class, OperationType.ADD, userService::add);
         dispatcher.register(IUser.class, OperationType.DELETE, userService::delete);
         dispatcher.register(IUser.class, OperationType.MODIFY, userService::modify);
+        dispatcher.register(IUser.class, OperationType.LOGIN, userService::login);
         
         CMessageService messageService = new CMessageService(msgHandler);
 

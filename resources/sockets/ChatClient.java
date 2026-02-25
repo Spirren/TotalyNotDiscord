@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 import resources.model.ClientServices.CDispatchContext;
 import resources.model.LoginRequest;
+import resources.model.Message;
 import resources.model.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.dispatcher.DispatchObjectHandler;
 import resources.model.dispatcher.DispatchRequest;
+import resources.model.interfaces.IMessage;
 import resources.model.interfaces.IUser;
 import resources.model.interfaces.ObjectHandler;
 import resources.model.types.OperationType;
@@ -44,7 +47,6 @@ public class ChatClient extends Thread {
 
         this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
         this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
-        this.user = user;
         
         System.out.println("Connected to server");
     }
@@ -65,7 +67,15 @@ public class ChatClient extends Thread {
 
         
         Scanner scanner = new Scanner(System.in);
-        int messageIndex = 0;
+
+        while (client.getUser() == null) {
+            System.out.print("Login: ");
+            String input = scanner.nextLine();
+
+            LoginRequest login = new LoginRequest(input, "12345");
+
+            if (input != "") client.send(new DispatchRequest(login, OperationType.LOGIN));
+        }
 
         while (true) {
             System.out.print("Enter message: ");
@@ -73,10 +83,9 @@ public class ChatClient extends Thread {
 
             // Message msg = new Message(LocalDateTime.now(), input, test, messageIndex);
 
-            LoginRequest login = new LoginRequest(input, "12345");
+            IMessage<String> msg = new Message(LocalDateTime.now() , input, client.getUser(), 0);
 
-            messageIndex++;
-            client.send(new DispatchRequest(login, OperationType.LOGIN));
+            client.send(new DispatchRequest(msg, OperationType.ADD));
         }
         // For testing purposes
     }

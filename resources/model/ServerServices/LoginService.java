@@ -26,6 +26,7 @@ public class LoginService {
                 }
                 handler.send(new DispatchRequest(user, OperationType.LOGIN));
             } else {
+                System.out.println("User not found");
                 handler.send(new DispatchRequest(lr, OperationType.ERROR));
             }
         } catch (SQLException e) {
