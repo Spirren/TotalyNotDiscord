@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "client.Main",
+      "projectName": "TotalyNotDiscord_3ef3c7a4"
+    },
+    {
+      "type": "java",
       "name": "ChatClient",
       "request": "launch",
       "mainClass": "resources.sockets.ChatClient",

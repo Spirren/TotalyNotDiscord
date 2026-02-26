@@ -47,4 +47,8 @@ public class User implements IUser {
     public Iterator<IChat> iterator(int index){
         return chats.listIterator(index);
     }
+
+    public Iterator<IChat> iterator(){
+        return chats.listIterator();
+    }
 }
