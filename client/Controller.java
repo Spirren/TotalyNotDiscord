@@ -22,8 +22,8 @@ public class Controller{ //implements "MessageListener"
     private final ChatWindow chatWindow;
     private ChatClient client;
 
-    public Controller(ChatClient client){
-        ui = new Interface();
+    public Controller(Interface ui){
+        this.ui = ui;
         chatWindow = ui.getChatWindow();
         this.client = client;
         try{
