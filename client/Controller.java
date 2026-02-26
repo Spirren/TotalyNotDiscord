@@ -7,15 +7,15 @@ import client.appinterface.view.ChatWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import resources.model.LoginRequest;
-import resources.model.interfaces.IChat;
-import resources.sockets.ChatClient;
-import resources.model.dispatcher.DispatchRequest;
-import resources.model.types.OperationType;
-import java.time.LocalDateTime;
 import resources.model.Message;
+import resources.model.dispatcher.DispatchRequest;
+import resources.model.interfaces.IChat;
+import resources.model.types.OperationType;
+import resources.sockets.ChatClient;
 
 public class Controller{ //implements "MessageListener"
     private final Interface ui;
@@ -34,7 +34,7 @@ public class Controller{ //implements "MessageListener"
         }
 
         //loadChats
-        loadChats();
+        // loadChats();
 
         //sidebar listener
         ui.getChatList().addListSelectionListener(new ChatSelectionListener());
@@ -44,9 +44,9 @@ public class Controller{ //implements "MessageListener"
         chatWindow.getSendButton().addActionListener(new LoginListener());
     }
 
-    private void loadChats(){
-        //show chats for a user in sidebar
-    }
+    // private void loadChats(){
+    //     //show chats for a user in sidebar
+    // }
 
     class LoginListener implements ActionListener{
         @Override

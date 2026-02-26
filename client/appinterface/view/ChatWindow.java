@@ -15,7 +15,7 @@ import resources.model.interfaces.IChat;
 import resources.model.interfaces.IMessage;
 
 public class ChatWindow extends JPanel { //implements Chat/messageObserver?
-    private final JTextArea chatArea; 
+    private final JTextArea chatArea; //JTextPane
     private final JTextField msgField;
     private final JButton sendButton;
     private IChat CurrentChat;
@@ -81,20 +81,25 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
 
     public void setChat(IChat chat){
         this.CurrentChat = chat;
-        updateView(chat);
+        updateView();
     }
 
     public IChat getChat(){
         return CurrentChat;
     }
 
-    public void updateView(IChat chat){
+    public void updateView(){
+        if (CurrentChat == null) {
+        chatArea.setText("Select a chat to start messaging");
+        return;
+        }
+
         //clear chatArea of prev msgs
         chatArea.setText("");
         //clear msgField
         msgField.setText("");
 
-        Iterator<IMessage> it = chat.iterator(0);
+        Iterator<IMessage> it = CurrentChat.iterator();
         IMessage msg;
 
         while(it.hasNext()){
