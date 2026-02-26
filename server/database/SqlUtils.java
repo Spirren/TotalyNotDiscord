@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import resources.model.Chat;
+import resources.model.Image;
 import resources.model.Message;
 import resources.model.User;
 import resources.model.interfaces.IChat;
@@ -89,28 +90,26 @@ public class SqlUtils implements IDatabaseListener {
         return chats;
     }
 
-    // addMessage(ItextMessage message){
-    // addMessage(ImageMessage message){
-
-    // };
+    public static void addMessage(Connection conn, Message message, int index) {System.out.println("Add test message");}
+    public static void addMessage(Connection conn, Image message, int index) {System.out.println("Add image message");}
 
     // public static ArrayList<String> getUserNamesInChat(Connection conn, int
     // chatId) throws SQLException {
     // // pass
     // }
 
-    public static Message getMessage(Connection conn, int chatId, int messageIndex) throws SQLException {
-        LinkedList<Message> messages = getMessages(conn, chatId, messageIndex, messageIndex + 1);
+    public static IMessage getMessage(Connection conn, int chatId, int messageIndex) throws SQLException {
+        LinkedList<IMessage> messages = getMessages(conn, chatId, messageIndex, messageIndex + 1);
         if (messages.isEmpty()) {
             return null;
         }
         return messages.get(0);
     }
 
-    public static LinkedList<Message> getMessages(Connection conn, int chatId, int messageStartIndex,
+    public static LinkedList<IMessage> getMessages(Connection conn, int chatId, int messageStartIndex,
             int messageStopIndex) throws SQLException {
         String query = "select * FROM messageswithnames  WHERE chatId = ? AND (messageIndex >= ? AND messageIndex < ?);";
-        LinkedList<Message> messageList = new LinkedList<>();
+        LinkedList<IMessage> messageList = new LinkedList<>();
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, chatId);
             pstmt.setInt(2, messageStartIndex);
@@ -164,18 +163,18 @@ public class SqlUtils implements IDatabaseListener {
         return user;
     }
 
-    public static void addMessage(Connection conn, IMessage message, int chatId) throws SQLException {
-        String query = "INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?);";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, chatId);
-            pstmt.setInt(2, ((IUser) message.getSender()).getID());
-            pstmt.setInt(3, message.getIndex());
-            pstmt.setString(4, message.getContent());
-            pstmt.setObject(5, message.getTime());
-            pstmt.setObject(6, message.getLastEdited());
-            pstmt.executeUpdate();
-        }
-    }
+    // public static void addMessage(Connection conn, IMessage message, int chatId) throws SQLException {
+    //     String query = "INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?);";
+    //     try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+    //         pstmt.setInt(1, chatId);
+    //         pstmt.setInt(2, ((IUser) message.getSender()).getID());
+    //         pstmt.setInt(3, message.getIndex());
+    //         pstmt.setString(4, message.getContent());
+    //         pstmt.setObject(5, message.getTime());
+    //         pstmt.setObject(6, message.getLastEdited());
+    //         pstmt.executeUpdate();
+    //     }
+    // }
 
     public void addListener(Connection conn, String channel) throws SQLException {
         try (Statement stmt = conn.createStatement()) {
