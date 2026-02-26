@@ -5,7 +5,6 @@ import resources.model.interfaces.IMessage;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.ArrayList;
 
 public class Chat implements IChat{
     private LinkedList<IMessage> messages; 
