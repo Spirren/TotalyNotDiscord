@@ -1,5 +1,7 @@
 package server.database;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,30 +13,37 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import resources.model.Chat;
+import resources.model.Image;
 import resources.model.Message;
+import resources.model.TextMessage;
 import resources.model.User;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IMessage;
 import resources.model.interfaces.IUser;
+import resources.model.interfaces.IImageMessage;
+import resources.model.interfaces.ITextMessage;
 import server.database.interfaces.IDatabaseListener;
 
 public class SqlUtils implements IDatabaseListener {
-    public static void viewTable(Connection conn, int chatId) throws SQLException {
-        String query = "select * FROM fullchat WHERE chatId = ?;";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setInt(1, chatId);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                String content = rs.getString("content");
-                Timestamp timeSent = rs.getTimestamp("timeSent");
-                Timestamp lastEdited = rs.getTimestamp("lastEdited");
-                String username = rs.getString("username");
-                System.out.println(content + ", " + timeSent + ", " + lastEdited +
-                        ", " + username);
-            }
-        }
-    }
+    // public static void viewTable(Connection conn, int chatId) throws SQLException
+    // {
+    // String query = "select * FROM fullchat WHERE chatId = ?;";
+    // try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+    // pstmt.setInt(1, chatId);
+    // ResultSet rs = pstmt.executeQuery();
+    // while (rs.next()) {
+    // String content = rs.getString("content");
+    // Timestamp timeSent = rs.getTimestamp("timeSent");
+    // Timestamp lastEdited = rs.getTimestamp("lastEdited");
+    // String username = rs.getString("username");
+    // System.out.println(content + ", " + timeSent + ", " + lastEdited +
+    // ", " + username);
+    // }
+    // }
+    // }
 
     public static ArrayList<Integer> getUserIds(Connection conn, int chatId) throws SQLException {
         String query = "select * FROM ChatMembers WHERE chatId = ?;";
@@ -89,48 +98,38 @@ public class SqlUtils implements IDatabaseListener {
         return chats;
     }
 
-    // addMessage(ItextMessage message){
-    // addMessage(ImageMessage message){
-
-    // };
-
-    // public static ArrayList<String> getUserNamesInChat(Connection conn, int
-    // chatId) throws SQLException {
-    // // pass
-    // }
-
-    public static Message getMessage(Connection conn, int chatId, int messageIndex) throws SQLException {
-        LinkedList<Message> messages = getMessages(conn, chatId, messageIndex, messageIndex + 1);
+    public static IMessage getMessage(Connection conn, int chatId, int messageIndex) throws SQLException {
+        LinkedList<IMessage> messages = getMessages(conn, chatId, messageIndex, messageIndex + 1);
         if (messages.isEmpty()) {
             return null;
         }
         return messages.get(0);
     }
 
-    public static LinkedList<Message> getMessages(Connection conn, int chatId, int messageStartIndex,
+    public static LinkedList<IMessage> getMessages(Connection conn, int chatId, int messageStartIndex,
             int messageStopIndex) throws SQLException {
         String query = "select * FROM messageswithnames  WHERE chatId = ? AND (messageIndex >= ? AND messageIndex < ?);";
-        LinkedList<Message> messageList = new LinkedList<>();
+        LinkedList<IMessage> messageList = new LinkedList<>();
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, chatId);
             pstmt.setInt(2, messageStartIndex);
             pstmt.setInt(3, messageStopIndex);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                String content = rs.getString("content");
+                String content = rs.getString("textcontent");
                 LocalDateTime timeSent = rs.getObject("timeSent", LocalDateTime.class);
                 LocalDateTime lastEdited = rs.getObject("lastEdited", LocalDateTime.class);
-                User sender = getUser(conn, rs.getString("username"));
+                IUser sender = getUser(conn, rs.getString("username"));
                 int messageIndex = rs.getInt("messageIndex");
-                messageList.add(new Message(timeSent, lastEdited, content, sender, messageIndex));
+                messageList.add(new TextMessage(timeSent, lastEdited, content, sender, messageIndex));
             }
         }
         return messageList;
     }
 
-    public static User getUser(Connection conn, String userName) throws SQLException {
+    public static IUser getUser(Connection conn, String userName) throws SQLException {
         String query = "select * FROM Users WHERE username = ?;";
-        User user = null;
+        IUser user = null;
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, userName);
             ResultSet rs = pstmt.executeQuery();
@@ -146,9 +145,9 @@ public class SqlUtils implements IDatabaseListener {
         return user;
     }
 
-    public static User getUser(Connection conn, int userid) throws SQLException {
+    public static IUser getUser(Connection conn, int userid) throws SQLException {
         String query = "select * FROM Users WHERE userid = ?;";
-        User user = null;
+        IUser user = null;
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, userid);
             ResultSet rs = pstmt.executeQuery();
@@ -164,15 +163,54 @@ public class SqlUtils implements IDatabaseListener {
         return user;
     }
 
+    // public static ArrayList<String> getUserNamesInChat(Connection conn, int
+    // chatId) throws SQLException {
+    // // pass
+    // }
+
+    public static void addMessageContent(Connection conn, IImageMessage message, int chatId)
+            throws SQLException, IOException {
+        String query = "INSERT INTO TextMessages VALUES (?, ?, ?);";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            conn.setAutoCommit(false);
+            addMessage(conn, message, chatId);
+            pstmt.setInt(1, chatId);
+            pstmt.setInt(2, message.getIndex());
+            pstmt.setBytes(3, toByteArray(message.getContent(), "png"));
+            pstmt.executeUpdate();
+            conn.commit();
+        }
+    }
+
+    // should be moved to some utils function maybe
+    public static byte[] toByteArray(BufferedImage bi, String format) throws IOException {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            ImageIO.write(bi, format, baos);
+            return baos.toByteArray();
+        }
+    }
+
+    public static void addMessageContent(Connection conn, ITextMessage message, int chatId) throws SQLException {
+        String query = "INSERT INTO TextMessages VALUES (?, ?, ?);";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            conn.setAutoCommit(false);
+            addMessage(conn, message, chatId);
+            pstmt.setInt(1, chatId);
+            pstmt.setInt(2, message.getIndex());
+            pstmt.setString(3, message.getContent());
+            pstmt.executeUpdate();
+            conn.commit();
+        }
+    }
+
     public static void addMessage(Connection conn, IMessage message, int chatId) throws SQLException {
-        String query = "INSERT INTO Messages VALUES (?, ?, ?, ?, ?, ?);";
+        String query = "INSERT INTO Messages VALUES (?, ?, ?, ?, ?);";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setInt(1, chatId);
             pstmt.setInt(2, ((IUser) message.getSender()).getID());
             pstmt.setInt(3, message.getIndex());
-            pstmt.setString(4, message.getContent());
-            pstmt.setObject(5, message.getTime());
-            pstmt.setObject(6, message.getLastEdited());
+            pstmt.setObject(4, message.getTime());
+            pstmt.setObject(5, message.getLastEdited());
             pstmt.executeUpdate();
         }
     }
