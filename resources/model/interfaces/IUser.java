@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Iterator;
 
-public interface IUser extends Serializable {
+public interface IUser extends Serializable, Iterable<IChat>{
     public String getName();
 
     public String getEmail();
@@ -16,4 +16,6 @@ public interface IUser extends Serializable {
     public void addChat(IChat chat);
 
     public Iterator<IChat> iterator(int index);
+
+    public Iterator<IChat> iterator();
 }
