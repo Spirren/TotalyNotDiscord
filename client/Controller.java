@@ -22,9 +22,10 @@ public class Controller{ //implements "MessageListener"
     private final ChatWindow chatWindow;
     private ChatClient client;
 
-    public Controller(){
+    public Controller(ChatClient client){
         ui = new Interface();
         chatWindow = ui.getChatWindow();
+        this.client = client;
         try{
             client = new ChatClient("localhost", 5000);
             client.start();

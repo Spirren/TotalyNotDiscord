@@ -41,7 +41,7 @@ public class ChatClient extends Thread {
             System.out.println("Connection to server could not be made.");
         }
 
-        MessageHandler msgHandler = new MessageHandler();
+        MessageHandler msgHandler = new MessageHandler(null);
         CDispatchContext context = new CDispatchContext(this, msgHandler);
         ObjectHandler handler = new DispatchObjectHandler(context.getDispatcher());
 
