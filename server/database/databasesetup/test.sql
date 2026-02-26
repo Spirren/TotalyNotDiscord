@@ -1,1 +1,4 @@
-INSERT INTO Messages VALUES (2, 5, 2, 'dummy text 2, 2', '2026-02-14 19:45:00.523');
+-- INSERT INTO Messages VALUES (2, 5, 2, 'dummy text 2, 2', '2026-02-14 19:45:00.523');
+
+
+select * FROM messageswithnames;

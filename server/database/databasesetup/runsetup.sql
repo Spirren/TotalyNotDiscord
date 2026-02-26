@@ -17,4 +17,6 @@ SET client_min_messages TO NOTICE; -- More talk
 \ir functions.sql
 \ir triggers.sql
 
--- select * FROM fullchat;
+
+
+select * FROM messageswithnames;

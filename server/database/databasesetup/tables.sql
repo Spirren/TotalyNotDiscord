@@ -21,9 +21,24 @@ CREATE TABLE Messages(
     chatId INTEGER NOT NULL,
     userId INTEGER NOT NULL,
     messageIndex INTEGER NOT NULL,
-    content TEXT NOT NULL,
     timeSent TIMESTAMP NOT NULL,
     lastEdited TIMESTAMP,
     FOREIGN KEY (chatId, userId) REFERENCES ChatMembers(chatId, userId) ON UPDATE CASCADE,
     PRIMARY KEY (chatId, messageIndex)
+);
+
+CREATE TABLE ImageMessages(
+    chatId INTEGER NOT NULL,
+    messageIndex INTEGER NOT NULL,
+    content BYTEA NOT NULL,
+    PRIMARY KEY (chatId, messageIndex),
+    FOREIGN KEY (chatId, messageIndex) REFERENCES Messages(chatId, messageIndex) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE TextMessages(
+    chatId INTEGER NOT NULL,
+    messageIndex INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    PRIMARY KEY (chatId, messageIndex),
+    FOREIGN KEY (chatId, messageIndex) REFERENCES Messages(chatId, messageIndex) ON UPDATE CASCADE ON DELETE CASCADE
 );
