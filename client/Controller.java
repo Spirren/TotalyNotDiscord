@@ -16,23 +16,17 @@ import resources.model.dispatcher.DispatchRequest;
 import resources.model.interfaces.IChat;
 import resources.model.types.OperationType;
 import resources.sockets.ChatClient;
+import resources.model.TextMessage;
 
 public class Controller{ //implements "MessageListener"
     private final Interface ui;
     private final ChatWindow chatWindow;
     private ChatClient client;
 
-    public Controller(Interface ui){
+    public Controller(Interface ui, ChatClient client){
         this.ui = ui;
         chatWindow = ui.getChatWindow();
         this.client = client;
-        try{
-            client = new ChatClient("localhost", 5000);
-            client.start();
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
 
         //loadChats
         // loadChats();
@@ -42,7 +36,7 @@ public class Controller{ //implements "MessageListener"
 
         //button listener
         chatWindow.getSendButton().addActionListener(new SendListener(chatWindow.getIndex(), client));
-        chatWindow.getSendButton().addActionListener(new LoginListener());
+        chatWindow.getLoginButton().addActionListener(new LoginListener());
     }
 
     // private void loadChats(){
@@ -69,7 +63,7 @@ public class Controller{ //implements "MessageListener"
         @Override
         public void actionPerformed(ActionEvent e){
                 String input = chatWindow.getMsg();
-                Message msg = new Message(LocalDateTime.now(), input, client.getUser(), ++index);
+                TextMessage msg = new TextMessage(LocalDateTime.now(), input, client.getUser(), ++index+8, chatWindow.getChat().getChatId());
                 client.send(new DispatchRequest(msg, OperationType.ADD));
 
                 //hampus fix this prob

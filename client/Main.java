@@ -1,9 +1,14 @@
 package client;
 
+import java.io.IOException;
+
 import javax.swing.SwingUtilities;
 
 import client.appinterface.Interface;
 import resources.model.MessageHandler;
+import resources.model.ClientServices.CDispatchContext;
+import resources.model.dispatcher.Dispatcher;
+import resources.sockets.ChatClient;
 
 public class Main {
 
@@ -11,13 +16,21 @@ public class Main {
 
         Interface ui = new Interface();
 
-        // Always start Swing UI on Event Dispatch Thread
-        SwingUtilities.invokeLater(() -> {
-
-            new Controller(ui);
-
-        });
-
         MessageHandler messageHandler = new MessageHandler(ui);
+        try {
+            Dispatcher dispatcher = new Dispatcher();
+            ChatClient client = new ChatClient("localhost", 5000, messageHandler, dispatcher);
+            CDispatchContext context = new CDispatchContext(client, messageHandler, ui, dispatcher);
+            client.start();
+
+            // Always start Swing UI on Event Dispatch Thread
+            SwingUtilities.invokeLater(() -> {
+
+                new Controller(ui, client);
+
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

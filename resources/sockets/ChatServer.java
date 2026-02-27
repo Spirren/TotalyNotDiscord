@@ -3,6 +3,12 @@ package resources.sockets;
 import java.io.*;
 import java.net.*;
 
+import server.database.DatabaseHandler;
+import server.database.MessageDataReciver;
+import server.database.PostGressStreamSubscriber;
+import server.database.PostgresConnectionProvider;
+import server.database.StreamListener;
+
 public class ChatServer {
     public ServerSocket serverSocket;
 
@@ -14,21 +20,31 @@ public class ChatServer {
     /** Starts listening on {@CODE port} set by contructor
     */
     public void start() {
-        try {
-            Socket clientSocket = serverSocket.accept();
-            System.out.println("Client connected on: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
-
-            ClientHandler handler = new ClientHandler(clientSocket);
-            handler.start();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        while (true) {
+            try {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Client connected on: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
+            
+                new ClientHandler(clientSocket).start();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // DatabaseHandler.getInstance().unsubscribe(handler);
+            
+            }
         }
     }
 
     public static void main(String[] args) {
         // java -cp ".;server/database/pgjdbc-ng-all-0.8.9.jar" .\resources\sockets\ChatServer.java
         try {
+            StreamListener listener = new StreamListener(
+                new MessageDataReciver(),
+                new PostGressStreamSubscriber(new PostgresConnectionProvider()),
+                "new_message"
+            );
+
+            Thread thread = new Thread(listener); // Runnable passed to thread
+            thread.start(); // runs asynchronously
             ChatServer server = new ChatServer(5000);
             server.start();
         } catch (IOException e) {

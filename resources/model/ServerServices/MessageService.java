@@ -16,7 +16,7 @@ public class MessageService {
     }
 
     public void addMessage(ITextMessage m) {
-        System.out.println("Add Message " + m.getIndex()); 
+        System.out.println("Add Message " + m.getIndex() + " with payload " + m.getContent()); 
         try {
             SqlUtils.addMessageContent(new PostgresConnectionProvider().getConnection(), m, m.getChatID());
         } catch (SQLException e) {

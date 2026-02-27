@@ -121,7 +121,8 @@ public class SqlUtils implements IDatabaseListener {
                 LocalDateTime lastEdited = rs.getObject("lastEdited", LocalDateTime.class);
                 IUser sender = getUser(conn, rs.getString("username"));
                 int messageIndex = rs.getInt("messageIndex");
-                messageList.add(new TextMessage(timeSent, lastEdited, content, sender, messageIndex));
+                int chatID = rs.getInt("chatID");
+                messageList.add(new TextMessage(timeSent, lastEdited, content, sender, messageIndex, chatID));
             }
         }
         return messageList;

@@ -10,16 +10,19 @@ import resources.model.interfaces.IChat;
 import resources.model.interfaces.IUser;
 import resources.model.types.OperationType;
 import resources.sockets.ClientHandler;
+import server.database.DatabaseHandler;
 import server.database.PostgresConnectionProvider;
 import server.database.SqlUtils;
 
 public class LoginService {
     public void login(LoginRequest lr, ClientHandler handler) {
-        System.out.println("Login user " + lr.getUsername() + " with password " + lr.getPassword());
+        System.out.println("Logging in user " + lr.getUsername() + " with password " + lr.getPassword());
         try {
             IUser user = SqlUtils.getUser(new PostgresConnectionProvider().getConnection(), lr.getUsername());
             if (user != null) {
                 handler.setUser(user);
+                DatabaseHandler.getInstance().subscribe(handler);
+                System.out.println("For subscriber login " + DatabaseHandler.getInstance().subscribers.get(3));
                 ArrayList<IChat> chats = SqlUtils.getUserChats(new PostgresConnectionProvider().getConnection(), user.getID());
                 for (IChat chat : chats) {
                     user.addChat(chat);

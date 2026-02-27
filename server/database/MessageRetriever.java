@@ -20,6 +20,7 @@ public class MessageRetriever{
     public void retrieveMessage()throws SQLException{
         IMessage newMessage = SqlUtils.getMessage(conn, chatId, msgIndex);
         ArrayList<Integer> chatMembers = SqlUtils.getUserIds(conn, chatId);
+        System.out.println("For subscriber retriever " + DatabaseHandler.getInstance().subscribers.get(3));
         DatabaseHandler.getInstance().notifySubscribers(chatMembers, newMessage);
     } 
 

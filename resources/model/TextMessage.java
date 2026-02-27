@@ -14,19 +14,21 @@ public class TextMessage implements ITextMessage {
     private int index;
     private int chatID;
 
-    public TextMessage(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index) {
+    public TextMessage(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index, int chatID) {
         this.timeSent = timeSent;
         this.lastEdited = lastEdited;
         this.content = content;
         this.sender = sender;
         this.index = index;
+        this.chatID = chatID;
     }
 
-    public TextMessage(LocalDateTime timeSent, String content, IUser sender, int index) {
+    public TextMessage(LocalDateTime timeSent, String content, IUser sender, int index, int chatID) {
         this.timeSent = timeSent;
         this.content = content;
         this.sender = sender;
         this.index = index;
+        this.chatID = chatID;
     }
 
     @Override

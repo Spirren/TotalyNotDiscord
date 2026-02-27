@@ -55,4 +55,9 @@ public class ClientHandler extends Thread implements Subscriber{
     public Integer getSubKey() {
         return getUser().getID();
     }
+
+    @Override
+    public String toString() {
+        return "Billy o " + user.getID();
+    }
 }

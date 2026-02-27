@@ -1,5 +1,6 @@
 package resources.model.ClientServices;
 
+import client.appinterface.Interface;
 import resources.model.LoginRequest;
 import resources.model.MessageHandler;
 import resources.model.dispatcher.Dispatcher;
@@ -14,11 +15,13 @@ public class CDispatchContext {
     private final Dispatcher dispatcher;
     private final ChatClient client;
     private MessageHandler msgHandler;
+    private Interface ui;
 
-    public CDispatchContext(ChatClient client, MessageHandler msgHandler) {
-        dispatcher = new Dispatcher();
+    public CDispatchContext(ChatClient client, MessageHandler msgHandler, Interface ui, Dispatcher dispatcher) {
+        this.dispatcher = dispatcher;
         this.client = client;
         this.msgHandler = msgHandler;
+        this.ui = ui;
         registerHandlers();
     }
 
@@ -27,7 +30,7 @@ public class CDispatchContext {
     }
 
     private void registerHandlers() {
-        CUserService userService = new CUserService(client, msgHandler);
+        CUserService userService = new CUserService(client, msgHandler, ui);
 
         dispatcher.register(IUser.class, OperationType.ADD, userService::add);
         dispatcher.register(IUser.class, OperationType.DELETE, userService::delete);
