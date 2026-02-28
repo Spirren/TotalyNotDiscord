@@ -2,17 +2,35 @@ package resources.model;
 
 import java.time.LocalDateTime;
 
-import resources.model.interfaces.IMessage;
+import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.IUser;
 import java.awt.image.BufferedImage;
 
-public class Image implements IMessage<BufferedImage> {
+public class ImageMessage implements IImageMessage {
     private LocalDateTime timeSent;
     private LocalDateTime lastEdited;
     private BufferedImage content;
     private IUser sender;
     private int index;
     private int chatID;
+
+    public ImageMessage(LocalDateTime timeSent, LocalDateTime lastEdited, BufferedImage content, IUser sender,
+            int index, int chatID) {
+        this.timeSent = timeSent;
+        this.lastEdited = lastEdited;
+        this.content = content;
+        this.sender = sender;
+        this.index = index;
+        this.chatID = chatID;
+    }
+
+    public ImageMessage(LocalDateTime timeSent, BufferedImage content, IUser sender, int index, int chatID) {
+        this.timeSent = timeSent;
+        this.content = content;
+        this.sender = sender;
+        this.index = index;
+        this.chatID = chatID;
+    }
 
     @Override
     public LocalDateTime getTime() {
@@ -43,5 +61,4 @@ public class Image implements IMessage<BufferedImage> {
     public int getChatID() {
         return chatID;
     }
-    
 }

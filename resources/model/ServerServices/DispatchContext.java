@@ -1,6 +1,5 @@
 package resources.model.ServerServices;
 
-import resources.model.Image;
 import resources.model.LoginRequest;
 import resources.model.Message;
 import resources.model.dispatcher.Dispatcher;
