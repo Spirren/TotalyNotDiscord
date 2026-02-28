@@ -25,7 +25,7 @@ public class PostGressStreamSubscriber implements IEventStreamSubscriber {
                     receiver.reciveData(processId, channelName, payload);
                 }
             });
-            new SqlUtils().addListener(connection, "new_message");
+            DatabaseOperator.getInstance().addListener("new_message");;
             System.out.println(String.format("Listening on posgress channel: %s", channel));
             Thread.sleep(Long.MAX_VALUE);
         } catch (Exception e) {
