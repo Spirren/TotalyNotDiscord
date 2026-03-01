@@ -7,7 +7,6 @@ import resources.model.TextMessage;
 import resources.model.interfaces.IMessage;
 import resources.model.interfaces.IUser;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class MessageBuilder {

@@ -3,7 +3,6 @@ package resources.sockets;
 import java.io.*;
 import java.net.*;
 
-import server.database.DatabaseHandler;
 import server.database.MessageDataReciver;
 import server.database.PostGressStreamSubscriber;
 import server.database.PostgresConnectionProvider;

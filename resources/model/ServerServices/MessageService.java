@@ -4,17 +4,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.ITextMessage;
-import resources.sockets.ClientHandler;
 import server.database.DatabaseOperator;
-import server.database.PostgresConnectionProvider;
-import server.database.SqlUtils;
 
 public class MessageService {
-    private final ClientHandler handler;
-
-    public MessageService(ClientHandler handler) {
-        this.handler = handler;
-    }
 
     public void addMessage(ITextMessage m) {
         System.out.println("Add Message " + m.getIndex() + " with payload " + m.getContent());
