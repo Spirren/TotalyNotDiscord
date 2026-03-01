@@ -123,6 +123,31 @@ public class SqlUtils implements IDatabaseListener, IDatabaseOperator {
         return messageList;
     }
 
+    
+    @Override
+    public LinkedList<IMessage> getNewestMessages(int chatId, int messageStartIndex,
+            int messageStopIndex) throws SQLException {
+        String query = "SELECT * FROM allMessagesView WHERE chatId = ? ORDER BY messageIndex DESC LIMIT ? OFFSET ?;";
+        LinkedList<IMessage> messageList = new LinkedList<>();
+        try (PreparedStatement pstmt = this.conn.prepareStatement(query)) {
+            pstmt.setInt(1, chatId);
+            pstmt.setInt(2, messageStopIndex - messageStartIndex);
+            pstmt.setInt(3, messageStartIndex);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String type = rs.getString("type");
+                LocalDateTime timeSent = rs.getObject("timeSent", LocalDateTime.class);
+                LocalDateTime lastEdited = rs.getObject("lastEdited", LocalDateTime.class);
+                IUser sender = getUser(rs.getString("username"));
+                int messageIndex = rs.getInt("messageIndex");
+                int chatID = rs.getInt("chatID");
+                messageList.add(new MessageBuilder().buildMessage(timeSent, lastEdited, sender,
+                        messageIndex, chatID, type));
+            }
+        }
+        return messageList;
+    }
+
     @Override
     public BufferedImage getImageContent(int chatId, int messageIndex) throws SQLException {
         String query = "select * FROM ImageMessages WHERE chatId = ? AND messageIndex = ?;";
@@ -135,7 +160,6 @@ public class SqlUtils implements IDatabaseListener, IDatabaseOperator {
                 byte[] imgBytes = rs.getBytes("content");
                 try (ByteArrayInputStream bais = new ByteArrayInputStream(imgBytes)) {
                     content = javax.imageio.ImageIO.read(bais);
-                    System.out.println(content);
                 } catch (IOException e) {
                     content = null;
                     e.printStackTrace();

@@ -48,4 +48,7 @@ public interface IDatabaseOperator extends IDatabaseListener {
         String getTextContent(int chatId, int messageIndex) throws SQLException;
 
         int getLatestIndex(int chatId) throws SQLException;
+
+        public LinkedList<IMessage> getNewestMessages(int chatId, int messageStartIndex,
+                        int messageStopIndex) throws SQLException;
 }

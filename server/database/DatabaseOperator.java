@@ -94,4 +94,10 @@ public class DatabaseOperator implements IDatabaseOperator {
     public int getLatestIndex(int chatID) throws SQLException {
         return databaseOperator.getLatestIndex(chatID);
     }
+
+    @Override
+    public LinkedList<IMessage> getNewestMessages(int chatId, int messageStartIndex,
+            int messageStopIndex) throws SQLException {
+        return databaseOperator.getNewestMessages(chatId, messageStartIndex, messageStopIndex);
+    }
 }
