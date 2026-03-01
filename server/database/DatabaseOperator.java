@@ -89,4 +89,9 @@ public class DatabaseOperator implements IDatabaseOperator {
     public void addListener(String channel) throws SQLException {
         databaseOperator.addListener(channel);
     }
+
+    @Override
+    public int getLatestIndex(int chatID) throws SQLException {
+        return databaseOperator.getLatestIndex(chatID);
+    }
 }

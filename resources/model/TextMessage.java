@@ -14,7 +14,8 @@ public class TextMessage implements ITextMessage {
     private int index;
     private int chatID;
 
-    public TextMessage(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index, int chatID) {
+    public TextMessage(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index,
+            int chatID) {
         this.timeSent = timeSent;
         this.lastEdited = lastEdited;
         this.content = content;
@@ -59,5 +60,10 @@ public class TextMessage implements ITextMessage {
     @Override
     public int getChatID() {
         return chatID;
+    }
+
+    @Override
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

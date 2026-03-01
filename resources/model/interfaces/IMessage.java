@@ -10,4 +10,5 @@ public interface IMessage<T> extends Serializable{
     public T getContent();
     public int getIndex();
     public int getChatID();
+    public void setIndex(int index);
 }

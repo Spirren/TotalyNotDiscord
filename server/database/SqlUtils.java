@@ -199,6 +199,21 @@ public class SqlUtils implements IDatabaseListener, IDatabaseOperator {
         return user;
     }
 
+    @Override
+    public int getLatestIndex(int chatId)
+            throws SQLException {
+        String query = "SELECT MAX(messageIndex) as messageIndex FROM Messages WHERE chatId = ?;";
+        int messageIndex = 0;
+        try (PreparedStatement pstmt = this.conn.prepareStatement(query)) {
+            pstmt.setInt(1, chatId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                messageIndex = rs.getInt("messageIndex");
+            }
+            return messageIndex;
+        }
+    }
+
     // public static ArrayList<String> getUserNamesInChat( int
     // chatId) throws SQLException {
     // // pass
@@ -209,6 +224,9 @@ public class SqlUtils implements IDatabaseListener, IDatabaseOperator {
         String query = "INSERT INTO ImageMessages VALUES (?, ?, ?);";
         try (PreparedStatement pstmt = this.conn.prepareStatement(query)) {
             this.conn.setAutoCommit(false);
+            if (message.getIndex() == -1) {
+                message.setIndex(DatabaseOperator.getInstance().getLatestIndex(message.getChatID()) + 1);
+            }
             addMessage(message, chatId);
             pstmt.setInt(1, chatId);
             pstmt.setInt(2, message.getIndex());
@@ -231,6 +249,9 @@ public class SqlUtils implements IDatabaseListener, IDatabaseOperator {
         String query = "INSERT INTO TextMessages VALUES (?, ?, ?);";
         try (PreparedStatement pstmt = this.conn.prepareStatement(query)) {
             this.conn.setAutoCommit(false);
+            if (message.getIndex() == -1) {
+                message.setIndex(DatabaseOperator.getInstance().getLatestIndex(message.getChatID()) + 1);
+            }
             addMessage(message, chatId);
             pstmt.setInt(1, chatId);
             pstmt.setInt(2, message.getIndex());

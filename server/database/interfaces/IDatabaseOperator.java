@@ -46,4 +46,6 @@ public interface IDatabaseOperator extends IDatabaseListener {
         BufferedImage getImageContent(int chatId, int messageIndex) throws SQLException;
 
         String getTextContent(int chatId, int messageIndex) throws SQLException;
+
+        int getLatestIndex(int chatId) throws SQLException;
 }

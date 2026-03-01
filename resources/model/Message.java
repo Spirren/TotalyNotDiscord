@@ -57,4 +57,8 @@ public class Message implements IMessage<String> {
     public int getChatID() {
         return chatID;
     }
+    @Override
+    public void setIndex(int index){
+        this.index = index;
+    }
 }
