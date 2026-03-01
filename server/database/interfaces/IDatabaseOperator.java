@@ -1,5 +1,6 @@
 package server.database.interfaces;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -15,31 +16,34 @@ import resources.model.interfaces.ITextMessage;
 
 public interface IDatabaseOperator extends IDatabaseListener {
 
-    public ArrayList<Integer> getUserIds(int chatId) throws SQLException;
+        public ArrayList<Integer> getUserIds(int chatId) throws SQLException;
 
-    public ArrayList<Integer> getChatIds(int userId) throws SQLException;
+        public ArrayList<Integer> getChatIds(int userId) throws SQLException;
 
-    public Chat getChat(int chatId, int messageStartIndex,
-            int messageStopIndex) throws SQLException;
+        public Chat getChat(int chatId, int messageStartIndex,
+                        int messageStopIndex) throws SQLException;
 
-    public ArrayList<IChat> getUserChats(int userId) throws SQLException;
+        public ArrayList<IChat> getUserChats(int userId) throws SQLException;
 
-    public IMessage getMessage(int chatId, int messageIndex) throws SQLException;
+        public IMessage getMessage(int chatId, int messageIndex) throws SQLException;
 
-    public LinkedList<IMessage> getMessages(int chatId, int messageStartIndex,
-            int messageStopIndex) throws SQLException;
+        public LinkedList<IMessage> getMessages(int chatId, int messageStartIndex,
+                        int messageStopIndex) throws SQLException;
 
-    public IUser getUser(String userName) throws SQLException;
+        public IUser getUser(String userName) throws SQLException;
 
-    public IUser getUser(int userid) throws SQLException;
+        public IUser getUser(int userid) throws SQLException;
 
+        public void addMessageContent(IImageMessage message, int chatId)
+                        throws SQLException, IOException;
 
-    public void addMessageContent(IImageMessage message, int chatId)
-            throws SQLException, IOException;
+        public void addMessageContent(ITextMessage message, int chatId) throws SQLException;
 
-    public void addMessageContent(ITextMessage message, int chatId) throws SQLException ;
+        public void addMessage(IMessage message, int chatId) throws SQLException;
 
-    public void addMessage(IMessage message, int chatId) throws SQLException;
+        public void addListener(String channel) throws SQLException;
 
-    public void addListener(String channel) throws SQLException;
+        BufferedImage getImageContent(int chatId, int messageIndex) throws SQLException;
+
+        String getTextContent(int chatId, int messageIndex) throws SQLException;
 }

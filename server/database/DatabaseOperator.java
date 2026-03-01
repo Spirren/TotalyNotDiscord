@@ -7,6 +7,7 @@ import resources.model.interfaces.IMessage;
 import resources.model.interfaces.IUser;
 import server.database.interfaces.IDatabaseOperator;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,71 +16,77 @@ import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.ITextMessage;
 
 public class DatabaseOperator implements IDatabaseOperator {
-    private IDatabaseOperator DatabaseOperator;
+    private IDatabaseOperator databaseOperator;
     private Connection conn;
     private static DatabaseOperator instance;
 
-    private DatabaseOperator() throws SQLException{
+    private DatabaseOperator() throws SQLException {
         this.conn = new PostgresConnectionProvider().getConnection();
-        this.DatabaseOperator = new SqlUtils(this.conn);
+        this.databaseOperator = new SqlUtils(this.conn);
     }
 
-    public static DatabaseOperator getInstance() throws SQLException{
+    public static DatabaseOperator getInstance() throws SQLException {
         if (instance == null) {
             instance = new DatabaseOperator();
         }
         return instance;
     }
 
-
-
     public ArrayList<Integer> getUserIds(int chatId) throws SQLException {
-        return DatabaseOperator.getUserIds(chatId);
+        return databaseOperator.getUserIds(chatId);
     }
 
     public ArrayList<Integer> getChatIds(int userId) throws SQLException {
-        return DatabaseOperator.getChatIds(userId);
+        return databaseOperator.getChatIds(userId);
     }
 
     public Chat getChat(int chatId, int messageStartIndex, int messageStopIndex) throws SQLException {
-        return DatabaseOperator.getChat(chatId, messageStartIndex, messageStopIndex);
+        return databaseOperator.getChat(chatId, messageStartIndex, messageStopIndex);
     }
 
     public ArrayList<IChat> getUserChats(int userId) throws SQLException {
-        return DatabaseOperator.getUserChats(userId);
+        return databaseOperator.getUserChats(userId);
     }
 
     public IMessage getMessage(int chatId, int messageIndex) throws SQLException {
-        return DatabaseOperator.getMessage(chatId, messageIndex);
+        return databaseOperator.getMessage(chatId, messageIndex);
     }
 
     public LinkedList<IMessage> getMessages(int chatId, int messageStartIndex, int messageStopIndex)
             throws SQLException {
-        return DatabaseOperator.getMessages(chatId, messageStartIndex, messageStopIndex);
+        return databaseOperator.getMessages(chatId, messageStartIndex, messageStopIndex);
+    }
+
+    public BufferedImage getImageContent(int chatId, int messageIndex) throws SQLException {
+        return databaseOperator.getImageContent(chatId, messageIndex);
+    }
+
+    public String getTextContent(int chatId, int messageIndex) throws SQLException {
+        return databaseOperator.getTextContent(chatId, messageIndex);
     }
 
     public IUser getUser(String userName) throws SQLException {
-        return DatabaseOperator.getUser(userName);
+        return databaseOperator.getUser(userName);
     }
 
     public IUser getUser(int userid) throws SQLException {
-        return DatabaseOperator.getUser(userid);
+        return databaseOperator.getUser(userid);
     }
 
     public void addMessageContent(IImageMessage message, int chatId)
             throws SQLException, IOException {
-        DatabaseOperator.addMessageContent(message, chatId);
+        databaseOperator.addMessageContent(message, chatId);
     }
 
     public void addMessageContent(ITextMessage message, int chatId) throws SQLException {
-        DatabaseOperator.addMessageContent(message, chatId);
+        databaseOperator.addMessageContent(message, chatId);
     }
 
     public void addMessage(IMessage message, int chatId) throws SQLException {
-        DatabaseOperator.addMessage(message, chatId);
+        databaseOperator.addMessage(message, chatId);
     }
 
     public void addListener(String channel) throws SQLException {
-        DatabaseOperator.addListener(channel);
+        databaseOperator.addListener(channel);
     }
 }
