@@ -32,5 +32,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // powershell -ExecutionPolicy ByPass -File "c:\Users\alfre\Documents\Skola\OOA\new\TotalyNotDiscord\server\database\databasesetup\setupdatabase.ps1"
+        // java -cp ".;server/database/pgjdbc-ng-all-0.8.9.jar" .\resources\sockets\ChatServer.java
     }
 }

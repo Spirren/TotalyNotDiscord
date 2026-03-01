@@ -6,6 +6,13 @@
       "name": "Main",
       "request": "launch",
       "mainClass": "client.Main",
+      "projectName": "TotalyNotDiscord_1a521605"
+    },
+    {
+      "type": "java",
+      "name": "Main",
+      "request": "launch",
+      "mainClass": "client.Main",
       "projectName": "TotalyNotDiscord_3ef3c7a4"
     },
     {
