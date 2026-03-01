@@ -1,7 +1,6 @@
 package resources.model.interfaces;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public interface IChat extends Iterable, Serializable {

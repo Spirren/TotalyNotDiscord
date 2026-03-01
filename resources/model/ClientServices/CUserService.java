@@ -1,9 +1,5 @@
 package resources.model.ClientServices;
 
-
-
-import java.util.Iterator;
-
 import client.appinterface.Interface;
 import resources.model.ChatListener;
 import resources.model.MessageHandler;

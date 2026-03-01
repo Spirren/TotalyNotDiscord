@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import resources.model.LoginRequest;
-import resources.model.Message;
 import resources.model.dispatcher.DispatchRequest;
 import resources.model.interfaces.IChat;
 import resources.model.types.OperationType;

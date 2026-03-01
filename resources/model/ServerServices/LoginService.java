@@ -2,7 +2,6 @@ package resources.model.ServerServices;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import resources.model.LoginRequest;
 import resources.model.dispatcher.DispatchRequest;
@@ -11,8 +10,6 @@ import resources.model.interfaces.IUser;
 import resources.model.types.OperationType;
 import resources.sockets.ClientHandler;
 import server.database.DatabaseHandler;
-import server.database.PostgresConnectionProvider;
-import server.database.SqlUtils;
 import server.database.DatabaseOperator;
 
 public class LoginService {

@@ -15,7 +15,6 @@ import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import resources.model.TextMessage;
 import resources.model.Chat;
 import resources.model.User;
 import resources.model.interfaces.IChat;
@@ -23,10 +22,9 @@ import resources.model.interfaces.IMessage;
 import resources.model.interfaces.IUser;
 import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.ITextMessage;
-import server.database.interfaces.IDatabaseListener;
 import server.database.interfaces.IDatabaseOperator;
 
-public class SqlUtils implements IDatabaseListener, IDatabaseOperator {
+public class SqlUtils implements IDatabaseOperator {
     Connection conn;
 
     public SqlUtils(Connection conn) {
@@ -123,7 +121,6 @@ public class SqlUtils implements IDatabaseListener, IDatabaseOperator {
         return messageList;
     }
 
-    
     @Override
     public LinkedList<IMessage> getNewestMessages(int chatId, int messageStartIndex,
             int messageStopIndex) throws SQLException {
