@@ -10,7 +10,6 @@ import java.util.Scanner;
 import client.appinterface.Interface;
 import resources.model.ClientServices.CDispatchContext;
 import resources.model.LoginRequest;
-import resources.model.Message;
 import resources.model.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;

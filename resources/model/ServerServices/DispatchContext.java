@@ -1,7 +1,6 @@
 package resources.model.ServerServices;
 
 import resources.model.LoginRequest;
-import resources.model.Message;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IImageMessage;
