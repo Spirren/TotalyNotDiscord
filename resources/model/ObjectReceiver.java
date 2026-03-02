@@ -11,7 +11,7 @@ public class ObjectReceiver {
     private final ObjectInputStream in;
     private final ObjectHandler handler;
 
-    public ObjectReceiver(ObjectInputStream in, ObjectHandler handler) throws SocketException {
+    public ObjectReceiver(ObjectInputStream in, ObjectHandler handler) {
         this.in = in;
         this.handler = handler;
     }
@@ -22,7 +22,9 @@ public class ObjectReceiver {
                 Object obj = in.readObject();
                 handler.handle(obj);
             }
-        } catch (ClassNotFoundException | IOException e) {
+        } catch (SocketException e) {
+            System.out.println("Connection lost");
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

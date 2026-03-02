@@ -11,6 +11,8 @@ package client.appinterface.view;
 import java.awt.*;
 import java.util.Iterator;
 import javax.swing.*;
+
+import resources.model.TextMessage;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IMessage;
 
@@ -105,8 +107,8 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
         while(it.hasNext()){
             msg = it.next();
             index++;
-
-            chatArea.append(msg.getSender() + ": " + /*msg.getContent()*/ "Testing..." + "\n");
+            TextMessage msgNew = (TextMessage) msg;
+            chatArea.append(msgNew.getSender() + ": " + /*msg.getContent()*/ msgNew.getContent() + "\n");
         }
     }
 }
