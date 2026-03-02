@@ -37,11 +37,11 @@ public class DatabaseOperator implements IDatabaseOperator {
         return instance;
     }
 
-    public static DatabaseOperator setInstance(Connection conn) {
-        if (instance == null) {
-            instance = new DatabaseOperator(conn);
+    public static void setInstance(Connection conn) {
+        if (instance != null) {
+            throw new IllegalStateException("DatabaseOperator already instantiated");
         }
-        throw new IllegalStateException("DatabaseOperator already instantiated");
+        instance = new DatabaseOperator(conn);
     }
 
     public ArrayList<Integer> getUserIds(int chatId) throws SQLException {
