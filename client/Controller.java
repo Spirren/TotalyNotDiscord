@@ -59,6 +59,14 @@ public class Controller{ //implements "MessageListener"
                 try {
                     //File file = fileChooser.getSelectedFile();
                     BufferedImage img = ImageIO.read(selectedFile);
+
+                    if (img == null) {
+                    // Show a popup to the user so they know why it failed
+                        javax.swing.JOptionPane.showMessageDialog(ui.getChatWindow(), 
+                        "The selected file is not a valid image or is unsupported.", 
+                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        return; 
+                    }
     
                     // Create our new serializable Image object
                     ImageMessage imgMessage = new ImageMessage(LocalDateTime.now(), img, client.getUser(), -1, chatWindow.getChat().getChatId());
