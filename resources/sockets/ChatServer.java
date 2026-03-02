@@ -24,7 +24,8 @@ public class ChatServer {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Client connected on: " + clientSocket.getInetAddress() + ":" + clientSocket.getPort());
             
-                new ClientHandler(clientSocket).start();
+                ClientHandler handler = new ClientHandler(clientSocket);
+                handler.start();
             } catch (IOException e) {
                 e.printStackTrace();
                 // DatabaseHandler.getInstance().unsubscribe(handler);

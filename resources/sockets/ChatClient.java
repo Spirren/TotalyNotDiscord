@@ -4,19 +4,23 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.LinkedList;
+
 import resources.model.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.dispatcher.DispatchObjectHandler;
 import resources.model.dispatcher.Dispatcher;
+import resources.model.interfaces.IChat;
 import resources.model.interfaces.IUser;
 import resources.model.interfaces.ObjectHandler;
 
-public class ChatClient extends Thread {
+public class ChatClient extends Thread { // INTERFACE
     private Socket socket;
     private ObjectSender sender;
     private ObjectReceiver receiver;
     private IUser user;
+    private LinkedList<IChat> chats;
     private final Dispatcher dispatcher;
 
     public void setUser(IUser user) {
@@ -25,6 +29,14 @@ public class ChatClient extends Thread {
 
     public IUser getUser() {
         return user;
+    }
+
+    public void setChats(LinkedList<IChat> chats) {
+        this.chats = chats;
+    }
+
+    public LinkedList<IChat> getChats() {
+        return chats;
     }
 
     public ChatClient(String host, int port, MessageHandler msgHandler, Dispatcher dispatcher) throws IOException {

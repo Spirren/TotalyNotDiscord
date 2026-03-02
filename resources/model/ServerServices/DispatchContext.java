@@ -4,6 +4,7 @@ import resources.model.LoginRequest;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IImageMessage;
+import resources.model.interfaces.ILoginRequest;
 import resources.model.interfaces.ITextMessage;
 import resources.model.interfaces.IUser;
 import resources.model.types.OperationType;
@@ -47,11 +48,9 @@ public class DispatchContext {
         dispatcher.register(IChat.class, OperationType.DELETE, chatService::delete);
         dispatcher.register(IChat.class, OperationType.MODIFY, chatService::modify);
 
-        LoginService loginService = new LoginService();
+        LoginService loginService = new LoginService(handler);
 
-        dispatcher.register(LoginRequest.class, OperationType.LOGIN, payload -> {
-            LoginRequest lr = (LoginRequest) payload;
-            loginService.login(lr, handler);
-        });
+        dispatcher.register(ILoginRequest.class, OperationType.LOGIN, loginService::login);
+        dispatcher.register(ILoginRequest.class, OperationType.ERROR, loginService::loginFail);
     }
 }

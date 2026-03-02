@@ -106,7 +106,7 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
             msg = it.next();
             index++;
 
-            chatArea.append(msg.getSender() + ": " + msg.getContent() + "\n");
+            chatArea.append(msg.getSender() + ": " + /*msg.getContent()*/ "Testing..." + "\n");
         }
     }
 }

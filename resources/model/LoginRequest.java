@@ -1,8 +1,8 @@
 package resources.model;
 
-import java.io.Serializable;
+import resources.model.interfaces.ILoginRequest;
 
-public class LoginRequest implements Serializable {
+public class LoginRequest implements ILoginRequest {
     private final String username;
     private final String password;
 
@@ -11,6 +11,7 @@ public class LoginRequest implements Serializable {
         this.password = password;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }

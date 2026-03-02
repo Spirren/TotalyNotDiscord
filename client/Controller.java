@@ -62,7 +62,7 @@ public class Controller{ //implements "MessageListener"
         @Override
         public void actionPerformed(ActionEvent e){
                 String input = chatWindow.getMsg();
-                TextMessage msg = new TextMessage(LocalDateTime.now(), input, client.getUser(), ++index+8, chatWindow.getChat().getChatId());
+                TextMessage msg = new TextMessage(LocalDateTime.now(), input, client.getUser(), -1, chatWindow.getChat().getChatId());
                 client.send(new DispatchRequest(msg, OperationType.ADD));
 
                 //hampus fix this prob
