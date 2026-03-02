@@ -133,32 +133,6 @@ public class ChatWindow extends JPanel implements IChatUpdateListener{
         });
     }
 
-    //public void TextRender(StyledDocument doc, ITextMessage txtMsg){
-    //    try {
-    //        doc.insertString(doc.getLength(), txtMsg.getSender() + ": ", null);
-    //            //ITextMessage txtMsg = (ITextMessage) txtMsg;
-    //            doc.insertString(doc.getLength(), txtMsg.getContent() + "\n", null);
-    //        }
-    //    catch (BadLocationException e) {
-    //        e.printStackTrace();
-    //    }
-    //}
-//
-    //public void ImageRender(StyledDocument doc, IImageMessage imgMsg){
-    //    try {
-    //        chatArea.setCaretPosition(doc.getLength()); // move cursor below image
-//
-    //            ImageIcon icon = new ImageIcon(imgMsg.getContent()); //need a getImagePath from IImageMessage
-    //            chatArea.insertIcon(scaleImage(icon, 200));
-//
-    //            doc.insertString(doc.getLength(), "\n", null);
-    //        }
-    //    catch (BadLocationException e) {
-    //        e.printStackTrace();
-    //    }
-//
-    //}
-
     public void renderMessage(StyledDocument doc, IMessage msg){
         msg.accept(new IMessageVisitor() {
             @Override
