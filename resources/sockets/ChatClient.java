@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.LinkedList;
 
 import resources.model.MessageHandler;
@@ -17,6 +18,8 @@ import resources.model.interfaces.ObjectHandler;
 
 public class ChatClient extends Thread { // INTERFACE
     private Socket socket;
+    private String host;
+    private int port;
     private ObjectSender sender;
     private ObjectReceiver receiver;
     private IUser user;
@@ -39,24 +42,27 @@ public class ChatClient extends Thread { // INTERFACE
         return chats;
     }
 
-    public ChatClient(String host, int port, MessageHandler msgHandler, Dispatcher dispatcher) throws IOException {
-        try {
-            socket = new Socket(host, port);
-        } catch (IOException e) {
-            System.out.println("Connection to server could not be made.");
-        }
-
+    public ChatClient(String host, int port, MessageHandler msgHandler, Dispatcher dispatcher) throws IOException{
         this.dispatcher = dispatcher;
-        ObjectHandler handler = new DispatchObjectHandler(this.dispatcher);
-
-        this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
-        this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
+        this.host = host;
+        this.port = port;
+        
         System.out.println("Connected to server");
     }
 
     @Override
     public void run() {
-        receiver.listen();
+        while (true) {
+            try {
+                ObjectHandler handler = new DispatchObjectHandler(this.dispatcher);
+                socket = new Socket(host, port);
+                this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
+                this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);   
+                receiver.listen();
+            } catch (IOException e) {
+                System.out.println("Connection to server could not be made.");
+            }
+        }
     }
 
     public void send(Object command) {
