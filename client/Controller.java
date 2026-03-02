@@ -48,21 +48,20 @@ public class Controller{ //implements "MessageListener"
         @Override
         public void actionPerformed(ActionEvent e){
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("png"));
+            fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image Files", "png"));
 
             int result = fileChooser.showOpenDialog(ui.getChatWindow());
 
             if(result == JFileChooser.APPROVE_OPTION){
-                String path = fileChooser.getSelectedFile().getAbsolutePath();
+                //String path = fileChooser.getSelectedFile().getAbsolutePath();
                 File selectedFile = fileChooser.getSelectedFile();
-                //double check ts
+                
                 try {
-                    File file = fileChooser.getSelectedFile();
-                    BufferedImage bi = ImageIO.read(file);
+                    //File file = fileChooser.getSelectedFile();
+                    BufferedImage img = ImageIO.read(selectedFile);
     
                     // Create our new serializable Image object
-                    ImageMessage imgMessage = new ImageMessage(LocalDateTime.now(), bi, client.getUser(), -1, chatWindow.getChat().getChatId()
-                    );
+                    ImageMessage imgMessage = new ImageMessage(LocalDateTime.now(), img, client.getUser(), -1, chatWindow.getChat().getChatId());
     
                     client.send(new DispatchRequest(imgMessage, OperationType.ADD));
                 } catch (IOException ex) {
