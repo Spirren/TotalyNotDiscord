@@ -13,7 +13,7 @@ import resources.model.ServerServices.DispatchContext;
 import resources.model.dispatcher.DispatchObjectHandler;
 import resources.model.dispatcher.DispatchRequest;
 
-public class ClientHandler extends Thread implements Subscriber{
+public class ClientHandler extends Thread implements Subscriber {
     private final Socket socket;
     private final ObjectSender sender;
     private final ObjectReceiver receiver;
@@ -25,8 +25,8 @@ public class ClientHandler extends Thread implements Subscriber{
         DispatchContext context = new DispatchContext(this);
         ObjectHandler handler = new DispatchObjectHandler(context.getDispatcher());
 
-        this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
-        this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
+        this.sender = new ObjectSender(new ObjectOutputStream(this.socket.getOutputStream()));
+        this.receiver = new ObjectReceiver(new ObjectInputStream(this.socket.getInputStream()), handler);
     }
 
     public void setUser(IUser user) {
@@ -48,6 +48,7 @@ public class ClientHandler extends Thread implements Subscriber{
 
     @Override
     public void update(IMessage m) {
+        System.out.println("Updating " + user.getName());
         this.send(new DispatchRequest(m, OperationType.ADD));
     }
 

@@ -4,29 +4,23 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.time.LocalDateTime;
-import java.util.Scanner;
+import java.util.LinkedList;
 
-import client.appinterface.Interface;
-import resources.model.ClientServices.CDispatchContext;
-import resources.model.LoginRequest;
-import resources.model.Message;
 import resources.model.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.dispatcher.DispatchObjectHandler;
-import resources.model.dispatcher.DispatchRequest;
 import resources.model.dispatcher.Dispatcher;
-import resources.model.interfaces.IMessage;
+import resources.model.interfaces.IChat;
 import resources.model.interfaces.IUser;
 import resources.model.interfaces.ObjectHandler;
-import resources.model.types.OperationType;
 
-public class ChatClient extends Thread {
+public class ChatClient extends Thread { // INTERFACE
     private Socket socket;
     private ObjectSender sender;
     private ObjectReceiver receiver;
     private IUser user;
+    private LinkedList<IChat> chats;
     private final Dispatcher dispatcher;
 
     public void setUser(IUser user) {
@@ -37,6 +31,14 @@ public class ChatClient extends Thread {
         return user;
     }
 
+    public void setChats(LinkedList<IChat> chats) {
+        this.chats = chats;
+    }
+
+    public LinkedList<IChat> getChats() {
+        return chats;
+    }
+
     public ChatClient(String host, int port, MessageHandler msgHandler, Dispatcher dispatcher) throws IOException {
         try {
             socket = new Socket(host, port);
@@ -45,7 +47,7 @@ public class ChatClient extends Thread {
         }
 
         this.dispatcher = dispatcher;
-        ObjectHandler handler = new DispatchObjectHandler(dispatcher);
+        ObjectHandler handler = new DispatchObjectHandler(this.dispatcher);
 
         this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
         this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
@@ -63,31 +65,32 @@ public class ChatClient extends Thread {
 
     // For testing purposes
     // public static void main(String[] args) throws IOException{
-    //     ChatClient client = new ChatClient("localhost", 5000, null);
-    //     client.start();
+    // ChatClient client = new ChatClient("localhost", 5000, null);
+    // client.start();
 
-        
-    //     Scanner scanner = new Scanner(System.in);
+    // Scanner scanner = new Scanner(System.in);
 
-    //     while (client.getUser() == null) {
-    //         System.out.print("Login: ");
-    //         String input = scanner.nextLine();
+    // while (client.getUser() == null) {
+    // System.out.print("Login: ");
+    // String input = scanner.nextLine();
 
-    //         LoginRequest login = new LoginRequest(input, "12345");
+    // LoginRequest login = new LoginRequest(input, "12345");
 
-    //         if (input != "") client.send(new DispatchRequest(login, OperationType.LOGIN));
-    //     }
+    // if (input != "") client.send(new DispatchRequest(login,
+    // OperationType.LOGIN));
+    // }
 
-    //     while (true) {
-    //         System.out.print("Enter message: ");
-    //         String input = scanner.nextLine();
+    // while (true) {
+    // System.out.print("Enter message: ");
+    // String input = scanner.nextLine();
 
-    //         // Message msg = new Message(LocalDateTime.now(), input, test, messageIndex);
+    // // Message msg = new Message(LocalDateTime.now(), input, test, messageIndex);
 
-    //         IMessage<String> msg = new Message(LocalDateTime.now() , input, client.getUser(), 0);
+    // IMessage<String> msg = new Message(LocalDateTime.now() , input,
+    // client.getUser(), 0);
 
-    //         client.send(new DispatchRequest(msg, OperationType.ADD));
-    //     }
-    //     // For testing purposes
+    // client.send(new DispatchRequest(msg, OperationType.ADD));
+    // }
+    // // For testing purposes
     // }
 }

@@ -4,30 +4,34 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import resources.model.LoginRequest;
+import resources.model.LoginRequestGranted;
 import resources.model.dispatcher.DispatchRequest;
 import resources.model.interfaces.IChat;
+import resources.model.interfaces.ILoginRequest;
 import resources.model.interfaces.IUser;
 import resources.model.types.OperationType;
 import resources.sockets.ClientHandler;
 import server.database.DatabaseHandler;
-import server.database.PostgresConnectionProvider;
-import server.database.SqlUtils;
+import server.database.DatabaseOperator;
 
 public class LoginService {
-    public void login(LoginRequest lr, ClientHandler handler) {
+    private ClientHandler handler;
+
+    public LoginService(ClientHandler handler) {
+        this.handler = handler;
+    }
+
+    public void login(ILoginRequest lr) {
         System.out.println("Logging in user " + lr.getUsername() + " with password " + lr.getPassword());
         try {
-            IUser user = SqlUtils.getUser(new PostgresConnectionProvider().getConnection(), lr.getUsername());
+            DatabaseOperator DBoperator = DatabaseOperator.getInstance();
+            IUser user = DBoperator.getUser(lr.getUsername());
             if (user != null) {
                 handler.setUser(user);
                 DatabaseHandler.getInstance().subscribe(handler);
                 System.out.println("For subscriber login " + DatabaseHandler.getInstance().subscribers.get(3));
-                ArrayList<IChat> chats = SqlUtils.getUserChats(new PostgresConnectionProvider().getConnection(), user.getID());
-                for (IChat chat : chats) {
-                    user.addChat(chat);
-                }
-                handler.send(new DispatchRequest(user, OperationType.LOGIN));
+                ArrayList<IChat> chats = DBoperator.getUserChats(user.getID());
+                handler.send(new DispatchRequest(new LoginRequestGranted(user, chats), OperationType.LOGIN));
             } else {
                 System.out.println("User not found");
                 handler.send(new DispatchRequest(lr, OperationType.ERROR));
@@ -37,4 +41,5 @@ public class LoginService {
             e.printStackTrace();
         }
     }
+    public void loginFail(ILoginRequest lr) { System.out.println("Logging in user " + lr.getUsername()); }
 }

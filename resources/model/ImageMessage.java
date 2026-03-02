@@ -1,32 +1,35 @@
 package resources.model;
 
+import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
-import resources.model.interfaces.IMessage;
+import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.IMessageVisitor;
 import resources.model.interfaces.IUser;
 
-public class Message implements IMessage<String> {
+public class ImageMessage implements IImageMessage {
     private LocalDateTime timeSent;
     private LocalDateTime lastEdited;
-    private String content;
+    private BufferedImage content;
     private IUser sender;
     private int index;
     private int chatID;
 
-    public Message(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index) {
+    public ImageMessage(LocalDateTime timeSent, LocalDateTime lastEdited, BufferedImage content, IUser sender,
+            int index, int chatID) {
         this.timeSent = timeSent;
         this.lastEdited = lastEdited;
         this.content = content;
         this.sender = sender;
         this.index = index;
+        this.chatID = chatID;
     }
 
-
-    public Message(LocalDateTime timeSent, String content, IUser sender, int index) {
+    public ImageMessage(LocalDateTime timeSent, BufferedImage content, IUser sender, int index, int chatID) {
         this.timeSent = timeSent;
         this.content = content;
         this.sender = sender;
         this.index = index;
+        this.chatID = chatID;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class Message implements IMessage<String> {
     }
 
     @Override
-    public String getContent() {
+    public BufferedImage getContent() {
         return content;
     }
 
@@ -60,9 +63,14 @@ public class Message implements IMessage<String> {
     }
 
     @Override
-    public void accept(IMessageVisitor visitor){}
+    public void accept(IMessageVisitor visitor){
+        visitor.visit(this);
+    }
 
     //public void render(ChatWindow chatArea){
     //    chatArea.TextRender();
     //}
+    public void setIndex(int index){
+        this.index = index;
+    }
 }

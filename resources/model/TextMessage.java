@@ -1,11 +1,9 @@
 package resources.model;
 
 import java.time.LocalDateTime;
-
+import resources.model.interfaces.IMessageVisitor;
 import resources.model.interfaces.ITextMessage;
 import resources.model.interfaces.IUser;
-import client.appinterface.view.ChatWindow;
-import resources.model.interfaces.IMessageVisitor;
 
 public class TextMessage implements ITextMessage {
 
@@ -15,8 +13,9 @@ public class TextMessage implements ITextMessage {
     private IUser sender;
     private int index;
     private int chatID;
-    
-    public TextMessage(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index, int chatID) {
+
+    public TextMessage(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index,
+            int chatID) {
         this.timeSent = timeSent;
         this.lastEdited = lastEdited;
         this.content = content;
@@ -71,4 +70,8 @@ public class TextMessage implements ITextMessage {
     //public void render(ChatWindow chatArea){
     //    chatArea.TextRender();
     //}
+    @Override
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }

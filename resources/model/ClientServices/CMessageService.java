@@ -1,7 +1,13 @@
 package resources.model.ClientServices;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 import resources.model.MessageHandler;
+import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.IMessage;
+import resources.model.interfaces.ITextMessage;
+import server.database.DatabaseOperator;
 
 public class CMessageService {
     private MessageHandler msgHandler;
@@ -10,10 +16,34 @@ public class CMessageService {
         this.msgHandler = msgHandler;
     }
 
-    public void add(IMessage m) {
+    public void addMessage(IMessage m) {
         System.out.println("Add Message " + m.getIndex());
         msgHandler.notifySubscribers(m.getChatID(), m);
     }
-    public void delete(IMessage m) { System.out.println("Delete Message " + m.getIndex()); }
-    public void modify(IMessage m) { System.out.println("Modify Message " + m.getIndex()); }
+
+    public void deleteMessage(IMessage m) {
+        System.out.println("Delete Message " + m.getIndex());
+        /*
+         * try {
+         * SqlUtils.deleteMessage(new PostgresConnectionProvider().getConnection(), ,
+         * m.getChatID());
+         * } catch (SQLException e) {
+         * System.out.println("Error communicating with database");
+         * e.printStackTrace();
+         * }
+         */
+    }
+
+    public void modifyMessage(IMessage m) {
+        System.out.println("Modify Message " + m.getIndex());
+        /*
+         * try {
+         * SqlUtils.modifyMessage(new PostgresConnectionProvider().getConnection(), ,
+         * m.getChatID());
+         * } catch (SQLException e) {
+         * System.out.println("Error communicating with database");
+         * e.printStackTrace();
+         * }
+         */
+    }
 }

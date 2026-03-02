@@ -164,7 +164,8 @@ public class ChatWindow extends JPanel implements IChatUpdateListener{
             @Override
             public void visit(ITextMessage msg){
                 try {
-                    doc.insertString(doc.getLength(), msg.getContent() + "\n", null);
+                    //doc.insertString(doc.getLength(), msg.getSender() + ": ", null);
+                    doc.insertString(doc.getLength(), msg.getSender() + ": " + msg.getContent() + "\n", null);
                 } catch (BadLocationException e) {
                     e.printStackTrace();
                 }
@@ -173,9 +174,10 @@ public class ChatWindow extends JPanel implements IChatUpdateListener{
             @Override
             public void visit(IImageMessage msg){
                 try {
+                    doc.insertString(doc.getLength(), msg.getSender() + ": ", null);
                     chatArea.setCaretPosition(doc.getLength()); // move cursor below image
 
-                    ImageIcon icon = new ImageIcon(msg.getContent()); //need a getImagePath from IImageMessage
+                    ImageIcon icon = new ImageIcon(msg.getContent());
                     chatArea.insertIcon(scaleImage(icon, 200));
 
                     doc.insertString(doc.getLength(), "\n", null);
@@ -185,26 +187,6 @@ public class ChatWindow extends JPanel implements IChatUpdateListener{
             }
             
         });
-
-        try {
-            doc.insertString(doc.getLength(), msg.getSender() + ": ", null); //print sender
-
-            if(msg instanceof IImageMessage imgMsg){
-                //IImageMessage imgMsg = (IImageMessage) msg; //make sure msg is an image
-                chatArea.setCaretPosition(doc.getLength()); // move cursor below image
-
-                ImageIcon icon = new ImageIcon(imgMsg.getContent()); //need a getImagePath from IImageMessage
-                chatArea.insertIcon(scaleImage(icon, 200));
-
-                doc.insertString(doc.getLength(), "\n", null); //new row
-            }
-            else if(msg instanceof ITextMessage txtMsg){
-                //ITextMessage txtMsg = (ITextMessage) txtMsg;
-                doc.insertString(doc.getLength(), txtMsg.getContent() + "\n", null);
-            }
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
     }
 
     //for scaling images appropriately

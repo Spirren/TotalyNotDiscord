@@ -19,4 +19,4 @@ SET client_min_messages TO NOTICE; -- More talk
 
 
 
-select * FROM messageswithnames;
+-- select * FROM messageswithnames;

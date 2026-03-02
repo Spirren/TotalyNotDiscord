@@ -1,12 +1,14 @@
 package resources.model.ClientServices;
 
 import client.appinterface.Interface;
-import resources.model.LoginRequest;
 import resources.model.MessageHandler;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
+import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.IMessage;
+import resources.model.interfaces.ITextMessage;
 import resources.model.interfaces.IUser;
+import resources.model.interfaces.ILoginRequestGranted;
 import resources.model.types.OperationType;
 import resources.sockets.ChatClient;
 
@@ -30,7 +32,7 @@ public class CDispatchContext {
     }
 
     private void registerHandlers() {
-        CUserService userService = new CUserService(client, msgHandler, ui);
+        CUserService userService = new CUserService();
 
         dispatcher.register(IUser.class, OperationType.ADD, userService::add);
         dispatcher.register(IUser.class, OperationType.DELETE, userService::delete);
@@ -39,9 +41,9 @@ public class CDispatchContext {
         
         CMessageService messageService = new CMessageService(msgHandler);
 
-        dispatcher.register(IMessage.class, OperationType.ADD, messageService::add);
-        dispatcher.register(IMessage.class, OperationType.DELETE, messageService::delete);
-        dispatcher.register(IMessage.class, OperationType.MODIFY, messageService::modify);
+        dispatcher.register(IMessage.class, OperationType.ADD, messageService::addMessage);
+        dispatcher.register(IMessage.class, OperationType.DELETE, messageService::deleteMessage);
+        dispatcher.register(IMessage.class, OperationType.MODIFY, messageService::modifyMessage);
     
         CChatSevice chatService = new CChatSevice();
 
@@ -49,9 +51,9 @@ public class CDispatchContext {
         dispatcher.register(IChat.class, OperationType.DELETE, chatService::delete);
         dispatcher.register(IChat.class, OperationType.MODIFY, chatService::modify);
 
-        CLoginService loginService = new CLoginService();
+        CLoginService loginService = new CLoginService(client, msgHandler, ui);
 
-        dispatcher.register(LoginRequest.class, OperationType.LOGIN, loginService::login);
-        dispatcher.register(LoginRequest.class, OperationType.ERROR, loginService::loginFail);
+        dispatcher.register(ILoginRequestGranted.class, OperationType.LOGIN, loginService::login);
+        dispatcher.register(ILoginRequestGranted.class, OperationType.ERROR, loginService::loginFail);
     }
 }

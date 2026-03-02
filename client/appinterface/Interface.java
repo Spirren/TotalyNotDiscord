@@ -2,11 +2,10 @@ package client.appinterface;
 
 import client.appinterface.view.ChatWindow;
 import java.awt.*;
-import java.util.Iterator;
+import java.util.ArrayList;
 import javax.swing.*;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.ISidebarUpdateListener;
-import resources.model.interfaces.IUser;
 
 public class Interface extends JFrame implements ISidebarUpdateListener{
     private final ChatWindow chatWindow;
@@ -46,14 +45,10 @@ public class Interface extends JFrame implements ISidebarUpdateListener{
     }
 
     @Override
-    public void updateSideBar(IUser user){//get an array of chats instead
+    public void updateSideBar(ArrayList<IChat> chats){
         listModel.removeAllElements();
 
-        Iterator<IChat> it = user.iterator();
-        IChat chat;
-        
-        while(it.hasNext()){
-            chat = it.next();
+        for (IChat chat : chats) {
             listModel.addElement(chat);
         }
     }

@@ -11,21 +11,15 @@ public class Dispatcher {
 
     private final Map<Class<?>, Map<OperationType, ObjectHandler<?>>> handlers = new HashMap<>();
 
-    public <T> void register(Class<T> type,
-                             OperationType operation,
-                             ObjectHandler<? super T> handler) {
+    public <T> void register(Class<T> type, OperationType operation, ObjectHandler<? super T> handler) {
 
-        handlers
-            .computeIfAbsent(type, k -> new EnumMap<>(OperationType.class))
-            .put(operation, handler);
+        handlers.computeIfAbsent(type, k -> new EnumMap<>(OperationType.class)).put(operation, handler);
     }
 
     public <T> void dispatch(T obj, OperationType operation) {
 
         Class<?> payloadClass = obj.getClass();
-
         ObjectHandler<T> handler = findHandler(payloadClass, operation);
-
         if (handler == null) {
             throw new IllegalStateException("No handler for " + payloadClass.getSimpleName() + " " + operation);
         }
@@ -34,16 +28,13 @@ public class Dispatcher {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> ObjectHandler<T> findHandler(Class<?> payloadClass,
-                                       OperationType operation) {
+    private <T> ObjectHandler<T> findHandler(Class<?> payloadClass, OperationType operation) {
 
-        // 1️⃣ Exact match first
         Map<OperationType, ObjectHandler<?>> exact = handlers.get(payloadClass);
         if (exact != null && exact.containsKey(operation)) {
             return (ObjectHandler<T>) exact.get(operation);
         }
 
-        // 2️⃣ Then interface/superclass match
         for (Map.Entry<Class<?>, Map<OperationType, ObjectHandler<?>>> entry : handlers.entrySet()) {
 
             if (entry.getKey().isAssignableFrom(payloadClass)) {

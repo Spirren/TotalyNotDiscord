@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import resources.model.Image;
+import resources.model.ImageMessage;
 import resources.model.LoginRequest;
 import resources.model.TextMessage;
 import resources.model.dispatcher.DispatchRequest;
@@ -54,14 +54,14 @@ public class Controller{ //implements "MessageListener"
 
             if(result == JFileChooser.APPROVE_OPTION){
                 String path = fileChooser.getSelectedFile().getAbsolutePath();
-
+                File selectedFile = fileChooser.getSelectedFile();
                 //double check ts
                 try {
                     File file = fileChooser.getSelectedFile();
                     BufferedImage bi = ImageIO.read(file);
     
                     // Create our new serializable Image object
-                    Image imgMessage = new Image(LocalDateTime.now(), bi, client.getUser(), -1, chatWindow.getChat().getChatId()
+                    ImageMessage imgMessage = new ImageMessage(LocalDateTime.now(), bi, client.getUser(), -1, chatWindow.getChat().getChatId()
                     );
     
                     client.send(new DispatchRequest(imgMessage, OperationType.ADD));
