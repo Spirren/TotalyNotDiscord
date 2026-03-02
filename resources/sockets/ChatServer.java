@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import server.database.MessageDataReciver;
 import server.database.PostGressStreamSubscriber;
 import server.database.PostgresConnectionProvider;
+import server.database.SqlUtils;
 import server.database.StreamListener;
 import server.database.DatabaseOperator;
 
@@ -42,9 +43,9 @@ public class ChatServer {
         // java -cp ".;server/database/pgjdbc-ng-all-0.8.9.jar"
         // .\resources\sockets\ChatServer.java
         try {
-            
+
             Connection conn = new PostgresConnectionProvider().getListenerConnection();
-            DatabaseOperator.setInstance(conn);
+            DatabaseOperator.setInstance(new SqlUtils(conn));
 
             StreamListener listener = new StreamListener(
                     new MessageDataReciver(),

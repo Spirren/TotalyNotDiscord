@@ -18,16 +18,11 @@ import resources.model.interfaces.ITextMessage;
 
 public class DatabaseOperator implements IDatabaseOperator {
     private IDatabaseOperator databaseOperator;
-    private Connection conn;
     private static DatabaseOperator instance;
 
-    private DatabaseOperator() throws SQLException {
-        this.conn = new PostgresConnectionProvider().getConnection();
-        this.databaseOperator = new SqlUtils(this.conn);
-    }
 
-    private DatabaseOperator(Connection ds) {
-        this.conn = ds;
+    private DatabaseOperator(IDatabaseOperator databaseOperator ) {
+        this.databaseOperator = databaseOperator;
     }
 
     public static DatabaseOperator getInstance() {
@@ -37,11 +32,11 @@ public class DatabaseOperator implements IDatabaseOperator {
         return instance;
     }
 
-    public static void setInstance(Connection conn) {
+    public static void setInstance( IDatabaseOperator databaseOperator) {
         if (instance != null) {
             throw new IllegalStateException("DatabaseOperator already instantiated");
         }
-        instance = new DatabaseOperator(conn);
+        instance = new DatabaseOperator(databaseOperator);
     }
 
     public ArrayList<Integer> getUserIds(int chatId) throws SQLException {
