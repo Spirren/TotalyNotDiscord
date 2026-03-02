@@ -8,6 +8,8 @@ import server.database.interfaces.IDataReceiver;
 import server.database.interfaces.IEventStreamSubscriber;
 import server.database.interfaces.IListenerConnectionProvider;
 
+import server.database.DatabaseListener;
+
 public class PostGressStreamSubscriber implements IEventStreamSubscriber {
     private IListenerConnectionProvider provider;
 
@@ -25,7 +27,7 @@ public class PostGressStreamSubscriber implements IEventStreamSubscriber {
                     receiver.reciveData(processId, channelName, payload);
                 }
             });
-            DatabaseOperator.getInstance().addListener("new_message");;
+            new DatabaseListener(connection).addListener("new_message");
             System.out.println(String.format("Listening on posgress channel: %s", channel));
             Thread.sleep(Long.MAX_VALUE);
         } catch (Exception e) {

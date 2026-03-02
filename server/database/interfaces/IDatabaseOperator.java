@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.sql.Connection;
 import java.sql.SQLException;
 import resources.model.Chat;
 import resources.model.interfaces.IChat;
@@ -14,7 +13,7 @@ import resources.model.interfaces.IUser;
 import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.ITextMessage;
 
-public interface IDatabaseOperator extends IDatabaseListener {
+public interface IDatabaseOperator {
 
         public ArrayList<Integer> getUserIds(int chatId) throws SQLException;
 
@@ -40,8 +39,6 @@ public interface IDatabaseOperator extends IDatabaseListener {
         public void addMessageContent(ITextMessage message, int chatId) throws SQLException;
 
         public void addMessage(IMessage message, int chatId) throws SQLException;
-
-        public void addListener(String channel) throws SQLException;
 
         BufferedImage getImageContent(int chatId, int messageIndex) throws SQLException;
 

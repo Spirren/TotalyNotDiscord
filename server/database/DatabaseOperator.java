@@ -2,6 +2,7 @@ package server.database;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IMessage;
 import resources.model.interfaces.IUser;
@@ -25,11 +26,22 @@ public class DatabaseOperator implements IDatabaseOperator {
         this.databaseOperator = new SqlUtils(this.conn);
     }
 
-    public static DatabaseOperator getInstance() throws SQLException {
+    private DatabaseOperator(Connection ds) {
+        this.conn = ds;
+    }
+
+    public static DatabaseOperator getInstance() {
         if (instance == null) {
-            instance = new DatabaseOperator();
+            throw new IllegalStateException("DatabaseOperator must be initialized first!");
         }
         return instance;
+    }
+
+    public static DatabaseOperator setInstance(Connection conn) {
+        if (instance == null) {
+            instance = new DatabaseOperator(conn);
+        }
+        throw new IllegalStateException("DatabaseOperator already instantiated");
     }
 
     public ArrayList<Integer> getUserIds(int chatId) throws SQLException {
@@ -84,10 +96,6 @@ public class DatabaseOperator implements IDatabaseOperator {
 
     public void addMessage(IMessage message, int chatId) throws SQLException {
         databaseOperator.addMessage(message, chatId);
-    }
-
-    public void addListener(String channel) throws SQLException {
-        databaseOperator.addListener(channel);
     }
 
     @Override

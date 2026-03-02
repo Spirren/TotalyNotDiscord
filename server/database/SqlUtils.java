@@ -294,11 +294,4 @@ public class SqlUtils implements IDatabaseOperator {
             pstmt.executeUpdate();
         }
     }
-
-    @Override
-    public void addListener(String channel) throws SQLException {
-        try (Statement stmt = this.conn.createStatement()) {
-            stmt.execute("LISTEN " + channel);
-        }
-    }
 }
