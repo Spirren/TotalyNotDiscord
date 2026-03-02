@@ -21,11 +21,13 @@ public class CLoginService {
 
     public void login(ILoginRequestGranted lr) {
         System.out.println("Login user " + lr.getUser().getName());
-        client.setUser(lr.getUser());
+        if (!client.isLoggedIn()) {
+            client.setUser(lr.getUser());
         for(IChat chat : lr.getChats()){
             msgHandler.subscribe(new ChatListener(chat));
         }
         ui.updateSideBar(lr.getChats());
+        }
     }
     public void loginFail(ILoginRequestGranted lr) { System.out.println("Could not login user " + lr.getUser().getName()); }
 }

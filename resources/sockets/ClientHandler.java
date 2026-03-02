@@ -48,7 +48,7 @@ public class ClientHandler extends Thread implements Subscriber {
 
     @Override
     public void update(IMessage m) {
-        System.out.println("Updating " + user.getName());
+        System.out.println("Updating " + user);
         this.send(new DispatchRequest(m, OperationType.ADD));
     }
 

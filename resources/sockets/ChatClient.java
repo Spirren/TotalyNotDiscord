@@ -5,26 +5,32 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.LinkedList;
-
+import resources.model.LoginRequest;
 import resources.model.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.dispatcher.DispatchObjectHandler;
+import resources.model.dispatcher.DispatchRequest;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IUser;
 import resources.model.interfaces.ObjectHandler;
+import resources.model.types.OperationType;
 
 public class ChatClient extends Thread { // INTERFACE
     private Socket socket;
+    private String host;
+    private int port;
     private ObjectSender sender;
     private ObjectReceiver receiver;
     private IUser user;
     private LinkedList<IChat> chats;
     private final Dispatcher dispatcher;
+    private Boolean loggedIn = false;
 
     public void setUser(IUser user) {
         this.user = user;
+        this.loggedIn = true;
     }
 
     public IUser getUser() {
@@ -39,58 +45,41 @@ public class ChatClient extends Thread { // INTERFACE
         return chats;
     }
 
-    public ChatClient(String host, int port, MessageHandler msgHandler, Dispatcher dispatcher) throws IOException {
-        try {
-            socket = new Socket(host, port);
-        } catch (IOException e) {
-            System.out.println("Connection to server could not be made.");
-        }
+    public Boolean isLoggedIn() {
+        return loggedIn;
+    }
 
+    public ChatClient(String host, int port, MessageHandler msgHandler, Dispatcher dispatcher) throws IOException{
         this.dispatcher = dispatcher;
-        ObjectHandler handler = new DispatchObjectHandler(this.dispatcher);
-
-        this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
-        this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
-        System.out.println("Connected to server");
+        this.host = host;
+        this.port = port;
     }
 
     @Override
     public void run() {
-        receiver.listen();
+        while (true) {
+            try {
+                ObjectHandler handler = new DispatchObjectHandler(this.dispatcher);
+                socket = new Socket(host, port);
+                this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
+                this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
+                System.out.println("Connected to server");
+                if (loggedIn) {
+                    send(new DispatchRequest(new LoginRequest(user.getName(), "password"), OperationType.LOGIN));
+                }
+                receiver.listen();
+            } catch (IOException e) {
+                System.out.println("Connection to server could not be made.");
+                try {
+                    sleep(5000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
     }
 
     public void send(Object command) {
         sender.send(command);
     }
-
-    // For testing purposes
-    // public static void main(String[] args) throws IOException{
-    // ChatClient client = new ChatClient("localhost", 5000, null);
-    // client.start();
-
-    // Scanner scanner = new Scanner(System.in);
-
-    // while (client.getUser() == null) {
-    // System.out.print("Login: ");
-    // String input = scanner.nextLine();
-
-    // LoginRequest login = new LoginRequest(input, "12345");
-
-    // if (input != "") client.send(new DispatchRequest(login,
-    // OperationType.LOGIN));
-    // }
-
-    // while (true) {
-    // System.out.print("Enter message: ");
-    // String input = scanner.nextLine();
-
-    // // Message msg = new Message(LocalDateTime.now(), input, test, messageIndex);
-
-    // IMessage<String> msg = new Message(LocalDateTime.now() , input,
-    // client.getUser(), 0);
-
-    // client.send(new DispatchRequest(msg, OperationType.ADD));
-    // }
-    // // For testing purposes
-    // }
 }

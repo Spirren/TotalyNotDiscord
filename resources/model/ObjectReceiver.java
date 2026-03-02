@@ -22,8 +22,8 @@ public class ObjectReceiver {
                 Object obj = in.readObject();
                 handler.handle(obj);
             }
-        } catch (EOFException | SocketException e) {
-            System.out.println("Connection closed");
+        } catch (SocketException e) {
+            System.out.println("Connection lost");
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

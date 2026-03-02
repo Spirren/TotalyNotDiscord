@@ -44,7 +44,7 @@ public class ChatServer {
         // .\resources\sockets\ChatServer.java
         try {
 
-            Connection conn = new PostgresConnectionProvider().getListenerConnection();
+            Connection conn = new PostgresConnectionProvider().getConnection();
             DatabaseOperator.setInstance(new SqlUtils(conn));
 
             StreamListener listener = new StreamListener(
