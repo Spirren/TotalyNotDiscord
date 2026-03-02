@@ -2,6 +2,7 @@ package resources.model;
 
 import java.time.LocalDateTime;
 import resources.model.interfaces.IMessage;
+import resources.model.interfaces.IMessageVisitor;
 import resources.model.interfaces.IUser;
 
 public class Message implements IMessage<String> {
@@ -57,4 +58,11 @@ public class Message implements IMessage<String> {
     public int getChatID() {
         return chatID;
     }
+
+    @Override
+    public void accept(IMessageVisitor visitor){}
+
+    //public void render(ChatWindow chatArea){
+    //    chatArea.TextRender();
+    //}
 }

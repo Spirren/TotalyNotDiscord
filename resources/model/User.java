@@ -48,6 +48,7 @@ public class User implements IUser {
         return chats.listIterator(index);
     }
 
+    @Override
     public Iterator<IChat> iterator(){
         return chats.listIterator();
     }

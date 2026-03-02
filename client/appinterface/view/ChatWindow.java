@@ -11,20 +11,33 @@ package client.appinterface.view;
 import java.awt.*;
 import java.util.Iterator;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 import resources.model.interfaces.IChat;
+import resources.model.interfaces.IChatUpdateListener;
+import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.IMessage;
+import resources.model.interfaces.IMessageVisitor;
+import resources.model.interfaces.ITextMessage;
 
-public class ChatWindow extends JPanel { //implements Chat/messageObserver?
-    private final JTextArea chatArea; //JTextPane
+//JTextPane
+//StyledDocument - insertString(msgs), 
+//updateview - renderMsg(doc, msg)
+//renderMsg - print sender, if(image or text, instanceof?)
+
+public class ChatWindow extends JPanel implements IChatUpdateListener{
+    //private final JTextArea chatArea; //JTextPane
+    private final JTextPane chatArea;
     private final JTextField msgField;
     private final JButton sendButton;
+    private final JButton AttachButton; //filec
     private IChat CurrentChat;
 
     private final JPanel loginPanel;
     private final JButton loginButton;
     private final JTextField loginField;
 
-    private int index;
+    //private int index;
 
     //init ChatWindow
     public ChatWindow(){
@@ -35,11 +48,11 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
         loginPanel.add(loginButton);
         loginPanel.add(loginField);
 
-        index=0;
+        //index=0;
         //Main Area
         setLayout(new BorderLayout());
 
-        chatArea = new JTextArea();
+        chatArea = new JTextPane();
         chatArea.setEditable(false);
         
         JScrollPane scrollPane = new JScrollPane(chatArea); 
@@ -48,18 +61,24 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
 
         msgField = new JTextField();
         sendButton = new JButton("Send");
+        AttachButton = new JButton("Upload pic");//filec
 
         bottomPanel.add(msgField, BorderLayout.CENTER);
         bottomPanel.add(sendButton, BorderLayout.EAST);
+        bottomPanel.add(AttachButton, BorderLayout.WEST);
 
         add(loginPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    public int getIndex(){
-        return index;
+    public JButton getFileChooser(){//filec
+        return AttachButton;
     }
+
+    //public int getIndex(){
+    //    return index;
+    //}
 
     public JButton getLoginButton(){
         return loginButton; 
@@ -88,25 +107,114 @@ public class ChatWindow extends JPanel { //implements Chat/messageObserver?
         return CurrentChat;
     }
 
+    @Override
     public void updateView(){
-        if (CurrentChat == null) {
-        chatArea.setText("Select a chat to start messaging");
-        return;
-        }
+        SwingUtilities.invokeLater(() -> { //makes sure swing objs arent changed whilst we update the view
+            if (CurrentChat == null) {
+                chatArea.setText("Select a chat to start messaging");
+                return;
+            }
 
-        //clear chatArea of prev msgs
-        chatArea.setText("");
-        //clear msgField
-        msgField.setText("");
+            //clear chatArea of prev msgs
+            chatArea.setText("");
+            //clear msgField
+            msgField.setText("");
 
-        Iterator<IMessage> it = CurrentChat.iterator();
-        IMessage msg;
+            StyledDocument doc = chatArea.getStyledDocument();
+            Iterator<IMessage> it = CurrentChat.iterator();
+            IMessage msg;
 
-        while(it.hasNext()){
+            while(it.hasNext()){
             msg = it.next();
-            index++;
+            //msg.render(doc, msg);
+            renderMessage(doc, msg);
+            }
 
-            chatArea.append(msg.getSender() + ": " + msg.getContent() + "\n");
+        });
+    }
+
+    //public void TextRender(StyledDocument doc, ITextMessage txtMsg){
+    //    try {
+    //        doc.insertString(doc.getLength(), txtMsg.getSender() + ": ", null);
+    //            //ITextMessage txtMsg = (ITextMessage) txtMsg;
+    //            doc.insertString(doc.getLength(), txtMsg.getContent() + "\n", null);
+    //        }
+    //    catch (BadLocationException e) {
+    //        e.printStackTrace();
+    //    }
+    //}
+//
+    //public void ImageRender(StyledDocument doc, IImageMessage imgMsg){
+    //    try {
+    //        chatArea.setCaretPosition(doc.getLength()); // move cursor below image
+//
+    //            ImageIcon icon = new ImageIcon(imgMsg.getContent()); //need a getImagePath from IImageMessage
+    //            chatArea.insertIcon(scaleImage(icon, 200));
+//
+    //            doc.insertString(doc.getLength(), "\n", null);
+    //        }
+    //    catch (BadLocationException e) {
+    //        e.printStackTrace();
+    //    }
+//
+    //}
+
+    public void renderMessage(StyledDocument doc, IMessage msg){
+        msg.accept(new IMessageVisitor() {
+            @Override
+            public void visit(ITextMessage msg){
+                try {
+                    doc.insertString(doc.getLength(), msg.getContent() + "\n", null);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void visit(IImageMessage msg){
+                try {
+                    chatArea.setCaretPosition(doc.getLength()); // move cursor below image
+
+                    ImageIcon icon = new ImageIcon(msg.getContent()); //need a getImagePath from IImageMessage
+                    chatArea.insertIcon(scaleImage(icon, 200));
+
+                    doc.insertString(doc.getLength(), "\n", null);
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+            }
+            
+        });
+
+        try {
+            doc.insertString(doc.getLength(), msg.getSender() + ": ", null); //print sender
+
+            if(msg instanceof IImageMessage imgMsg){
+                //IImageMessage imgMsg = (IImageMessage) msg; //make sure msg is an image
+                chatArea.setCaretPosition(doc.getLength()); // move cursor below image
+
+                ImageIcon icon = new ImageIcon(imgMsg.getContent()); //need a getImagePath from IImageMessage
+                chatArea.insertIcon(scaleImage(icon, 200));
+
+                doc.insertString(doc.getLength(), "\n", null); //new row
+            }
+            else if(msg instanceof ITextMessage txtMsg){
+                //ITextMessage txtMsg = (ITextMessage) txtMsg;
+                doc.insertString(doc.getLength(), txtMsg.getContent() + "\n", null);
+            }
+        } catch (BadLocationException e) {
+            e.printStackTrace();
         }
+    }
+
+    //for scaling images appropriately
+    public ImageIcon scaleImage(ImageIcon icon, int maxWidth){
+        Image img = icon.getImage();
+        if (icon.getIconWidth() > maxWidth) {
+            double ratio = (double) maxWidth / icon.getIconWidth();
+            int newHeight = (int) (icon.getIconHeight() * ratio);
+            img = img.getScaledInstance(maxWidth, newHeight, Image.SCALE_SMOOTH);
+        }
+        return new ImageIcon(img);
     }
 }

@@ -6,22 +6,26 @@ import client.appinterface.Interface;
 import client.appinterface.view.ChatWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import resources.model.Image;
 import resources.model.LoginRequest;
-import resources.model.Message;
+import resources.model.TextMessage;
 import resources.model.dispatcher.DispatchRequest;
 import resources.model.interfaces.IChat;
 import resources.model.types.OperationType;
 import resources.sockets.ChatClient;
-import resources.model.TextMessage;
 
 public class Controller{ //implements "MessageListener"
     private final Interface ui;
     private final ChatWindow chatWindow;
-    private ChatClient client;
+    private final ChatClient client;
 
     public Controller(Interface ui, ChatClient client){
         this.ui = ui;
@@ -35,13 +39,39 @@ public class Controller{ //implements "MessageListener"
         ui.getChatList().addListSelectionListener(new ChatSelectionListener());
 
         //button listener
-        chatWindow.getSendButton().addActionListener(new SendListener(chatWindow.getIndex(), client));
+        chatWindow.getSendButton().addActionListener(new SendListener()); //(new SendListener(chatWindow.getIndex(), client))
         chatWindow.getLoginButton().addActionListener(new LoginListener());
+        chatWindow.getFileChooser().addActionListener(new AttachListener());
     }
 
-    // private void loadChats(){
-    //     //show chats for a user in sidebar
-    // }
+    class AttachListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("png"));
+
+            int result = fileChooser.showOpenDialog(ui.getChatWindow());
+
+            if(result == JFileChooser.APPROVE_OPTION){
+                String path = fileChooser.getSelectedFile().getAbsolutePath();
+
+                //double check ts
+                try {
+                    File file = fileChooser.getSelectedFile();
+                    BufferedImage bi = ImageIO.read(file);
+    
+                    // Create our new serializable Image object
+                    Image imgMessage = new Image(LocalDateTime.now(), bi, client.getUser(), -1, chatWindow.getChat().getChatId()
+                    );
+    
+                    client.send(new DispatchRequest(imgMessage, OperationType.ADD));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                //client.send(new DispatchRequest(imgMsg, OperationType.ADD));
+            }
+        }
+    }
 
     class LoginListener implements ActionListener{
         @Override
@@ -53,17 +83,17 @@ public class Controller{ //implements "MessageListener"
     }
 
     class SendListener implements ActionListener{
-        private int index;
-        //private ChatClient client;
-        public SendListener(int index, ChatClient client){
-            this.index=index;
-            //this.client=client;
-        }
+        //private int index;
+        ////private ChatClient client;
+        //public SendListener(int index, ChatClient client){
+        //    this.index=index;
+        //    //this.client=client;
+        //}
         
         @Override
         public void actionPerformed(ActionEvent e){
                 String input = chatWindow.getMsg();
-                TextMessage msg = new TextMessage(LocalDateTime.now(), input, client.getUser(), ++index+8, chatWindow.getChat().getChatId());
+                TextMessage msg = new TextMessage(LocalDateTime.now(), input, client.getUser(), -1, chatWindow.getChat().getChatId());//-1 instead of ++index+8
                 client.send(new DispatchRequest(msg, OperationType.ADD));
 
                 //hampus fix this prob

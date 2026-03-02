@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 import resources.model.interfaces.ITextMessage;
 import resources.model.interfaces.IUser;
+import client.appinterface.view.ChatWindow;
+import resources.model.interfaces.IMessageVisitor;
 
 public class TextMessage implements ITextMessage {
 
@@ -13,7 +15,7 @@ public class TextMessage implements ITextMessage {
     private IUser sender;
     private int index;
     private int chatID;
-
+    
     public TextMessage(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index, int chatID) {
         this.timeSent = timeSent;
         this.lastEdited = lastEdited;
@@ -60,4 +62,13 @@ public class TextMessage implements ITextMessage {
     public int getChatID() {
         return chatID;
     }
+
+    @Override
+    public void accept(IMessageVisitor visitor){
+        visitor.visit(this);
+    }
+
+    //public void render(ChatWindow chatArea){
+    //    chatArea.TextRender();
+    //}
 }

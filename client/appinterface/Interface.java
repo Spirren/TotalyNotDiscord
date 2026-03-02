@@ -5,9 +5,10 @@ import java.awt.*;
 import java.util.Iterator;
 import javax.swing.*;
 import resources.model.interfaces.IChat;
+import resources.model.interfaces.ISidebarUpdateListener;
 import resources.model.interfaces.IUser;
 
-public class Interface extends JFrame{
+public class Interface extends JFrame implements ISidebarUpdateListener{
     private final ChatWindow chatWindow;
     private final JList<IChat> chatList;
     private final DefaultListModel<IChat> listModel;
@@ -44,10 +45,11 @@ public class Interface extends JFrame{
         return listModel; 
     }
 
-    public void updateSideBar(IUser user){
+    @Override
+    public void updateSideBar(IUser user){//get an array of chats instead
         listModel.removeAllElements();
 
-        Iterator<IChat> it = user.iterator(0);
+        Iterator<IChat> it = user.iterator();
         IChat chat;
         
         while(it.hasNext()){
