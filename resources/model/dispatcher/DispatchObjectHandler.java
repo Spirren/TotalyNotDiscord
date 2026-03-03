@@ -2,7 +2,7 @@ package resources.model.dispatcher;
 
 import resources.model.interfaces.ObjectHandler;
 
-public class DispatchObjectHandler implements ObjectHandler {
+public class DispatchObjectHandler implements ObjectHandler<DispatchRequest> {
 
     private final Dispatcher dispatcher;
 
@@ -11,13 +11,7 @@ public class DispatchObjectHandler implements ObjectHandler {
     }
 
     @Override
-    public void handle(Object obj) {
-        if (!(obj instanceof DispatchRequest request)) {
-            throw new IllegalArgumentException(
-                "Unsupported object received: " + obj.getClass()
-            );
-        }
-
+    public void handle(DispatchRequest request) {
         dispatcher.dispatch(
             request.getPayload(),
             request.getOperation()

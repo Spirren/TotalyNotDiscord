@@ -21,7 +21,6 @@ public class ImageMessage implements IImageMessage {
     private int chatID;
 
     public ImageMessage(LocalDateTime timeSent, LocalDateTime lastEdited, BufferedImage content, IUser sender, int index, int chatID) {
-        if (content == null) throw new IllegalArgumentException();
         this.timeSent = timeSent;
         this.lastEdited = lastEdited;
         this.content = imageToBytes(content, "png");
@@ -31,7 +30,6 @@ public class ImageMessage implements IImageMessage {
     }
 
     public ImageMessage(LocalDateTime timeSent, BufferedImage content, IUser sender, int index, int chatID) {
-        if (content == null) throw new IllegalArgumentException();
         this.timeSent = timeSent;
         this.content = imageToBytes(content, "png");
         this.sender = sender;

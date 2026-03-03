@@ -2,7 +2,6 @@ package resources.model.ClientServices;
 
 import client.appinterface.Interface;
 import resources.model.ChatListener;
-import resources.model.LoginRequestGranted;
 import resources.model.MessageHandler;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.ILoginRequestGranted;
