@@ -79,7 +79,7 @@ public class ChatClient extends Thread { // INTERFACE
         }
     }
 
-    public void send(Object command) {
-        sender.send(command);
+    public void send(Object msg) {
+        sender.send(msg);
     }
 }

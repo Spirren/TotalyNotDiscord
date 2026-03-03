@@ -3,7 +3,7 @@ package resources.model.interfaces;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public interface IChat extends Iterable, Serializable {
+public interface IChat extends Iterable<IMessage>, Serializable {
     public void addMessage(IMessage msg);
     public void removeMessage(IMessage msg);
     public void editMessage(IMessage oldMsg, IMessage newMsg);

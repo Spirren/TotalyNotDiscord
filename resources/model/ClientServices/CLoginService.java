@@ -5,14 +5,15 @@ import resources.model.ChatListener;
 import resources.model.MessageHandler;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.ILoginRequestGranted;
+import resources.model.interfaces.ISidebarUpdateListener;
 import resources.sockets.ChatClient;
 
 public class CLoginService {
     private final ChatClient client;
     private MessageHandler msgHandler;
-    private Interface ui;
+    private ISidebarUpdateListener ui;
 
-    public CLoginService(ChatClient client, MessageHandler msgHandler, Interface ui) {
+    public CLoginService(ChatClient client, MessageHandler msgHandler, ISidebarUpdateListener ui) {
         this.client = client;
         this.msgHandler = msgHandler;
         this.ui = ui;
