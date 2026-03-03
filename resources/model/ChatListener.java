@@ -3,7 +3,7 @@ package resources.model;
 import resources.model.interfaces.*;
 
 public class ChatListener implements Subscriber{
-    private IChat chat;
+    private final IChat chat;
 
     public ChatListener(IChat c){
         chat = c;
@@ -17,6 +17,12 @@ public class ChatListener implements Subscriber{
     @Override
     public Integer getSubKey(){
         return this.chat.getChatId();
+    }
+
+    @Override
+    public String toString(){
+        return "ChatListener{" +
+                "Chat=" + this.chat + "}";
     }
 
 }

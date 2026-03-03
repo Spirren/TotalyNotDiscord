@@ -7,12 +7,12 @@ import resources.model.interfaces.IMessageVisitor;
 import resources.model.interfaces.IUser;
 
 public class ImageMessage implements IImageMessage {
-    private LocalDateTime timeSent;
-    private LocalDateTime lastEdited;
-    private BufferedImage content;
-    private IUser sender;
+    private final LocalDateTime timeSent;
+    private final LocalDateTime lastEdited;
+    private final BufferedImage content;
+    private final IUser sender;
     private int index;
-    private int chatID;
+    private final int chatID;
 
     public ImageMessage(LocalDateTime timeSent, LocalDateTime lastEdited, BufferedImage content, IUser sender,
             int index, int chatID) {
@@ -72,5 +72,30 @@ public class ImageMessage implements IImageMessage {
     //}
     public void setIndex(int index){
         this.index = index;
+    }
+
+    @Override
+    public String toString(){
+        return "ImageMessage{" +
+                "chatID=" + this.chatID + ", " +
+                "index=" + this.index + ", " +
+                "sender=" + this.sender + ", " +
+                "content=" + this.content + ", " +
+                "lastEdited=" + this.lastEdited + ", " +
+                "timeSent=" + this.timeSent + ", " +
+                "}";
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o){return true;}
+        if(o == null){return false;}
+        if(this.getClass() != o.getClass()){return false;}
+        return this.timeSent.equals(((ImageMessage)o).getTime()) &&
+               this.lastEdited.equals(((ImageMessage)o).getLastEdited()) &&
+               this.content.equals(((ImageMessage)o).getContent()) &&
+               this.sender.equals(((ImageMessage)o).getSender()) &&
+               this.index == ((ImageMessage)o).getIndex() &&
+               this.chatID == ((ImageMessage)o).getChatID();
     }
 }

@@ -7,12 +7,12 @@ import resources.model.interfaces.IUser;
 
 public class TextMessage implements ITextMessage {
 
-    private LocalDateTime timeSent;
-    private LocalDateTime lastEdited;
-    private String content;
-    private IUser sender;
+    private final LocalDateTime timeSent;
+    private final LocalDateTime lastEdited;
+    private final String content;
+    private final IUser sender;
     private int index;
-    private int chatID;
+    private final int chatID;
 
     public TextMessage(LocalDateTime timeSent, LocalDateTime lastEdited, String content, IUser sender, int index,
             int chatID) {
@@ -73,5 +73,17 @@ public class TextMessage implements ITextMessage {
     @Override
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    @Override
+    public String toString(){
+        return "TextMessage{" +
+                "chatID=" + this.chatID + ", " +
+                "index=" + this.index + ", " +
+                "sender=" + this.sender + ", " +
+                "content=" + this.content + ", " +
+                "lastEdited=" + this.lastEdited + ", " +
+                "timeSent=" + this.timeSent + ", " +
+                "}";
     }
 }

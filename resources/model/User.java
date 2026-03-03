@@ -5,8 +5,8 @@ import resources.model.interfaces.*;
 public class User implements IUser {
     private String userName;
     private String email;
-    private LocalDate birthYear;
-    private int id; //map user to chats
+    private final LocalDate birthYear;
+    private final int id; //map user to chats
 
     public User(String userName, String email, LocalDate birthYear, int id){
         this.userName = userName;
@@ -33,5 +33,15 @@ public class User implements IUser {
     @Override
     public int getID(){
         return id;
+    }
+
+    @Override
+    public String toString(){
+        return "User{" +
+                "id=" + this.id + ", " +
+                "birthYear=" + this.birthYear + ", " +
+                "email=" + this.email + ", " +
+                "userName=" + this.userName + ", " +
+                "}";
     }
 }

@@ -56,6 +56,9 @@ public class Chat implements IChat{
 
     @Override
     public String toString(){
-        return "Chat #" + this.id; 
+        return "Chat{" +
+                "id=" + this.id + ", " +
+                "timeCreated=" + this.timeCreated + ", " +
+                "messages=" + this.messages + "}";
     }
 }

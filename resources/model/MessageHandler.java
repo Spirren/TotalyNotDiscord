@@ -3,19 +3,18 @@ package resources.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import client.appinterface.Interface;
 import resources.model.interfaces.*;
 
 public class MessageHandler {
     private HashMap<Integer, Subscriber> subscribers = new HashMap<>();
-    private Interface view;
+    private IChatUpdateListener rerenderable;
 
-    public MessageHandler(Interface view){
-        this.view = view;
+    public MessageHandler(IChatUpdateListener rerenderable){
+        this.rerenderable = rerenderable;
     }
     
-    public MessageHandler(Interface view, ArrayList<Subscriber> subs){
-        this.view = view;
+    public MessageHandler(IChatUpdateListener rerenderable, ArrayList<Subscriber> subs){
+        this.rerenderable = rerenderable;
         for(Subscriber s : subs){
             subscribers.put(s.getSubKey(), s);
         }
@@ -31,6 +30,6 @@ public class MessageHandler {
 
     public void notifySubscribers(int key, IMessage m){
         subscribers.get(key).update(m);
-        view.getChatWindow().updateView();
+        rerenderable.updateView();
     }
 }
