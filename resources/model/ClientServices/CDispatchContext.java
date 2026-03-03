@@ -1,6 +1,5 @@
 package resources.model.ClientServices;
 
-import client.appinterface.Interface;
 import resources.model.MessageHandler;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
