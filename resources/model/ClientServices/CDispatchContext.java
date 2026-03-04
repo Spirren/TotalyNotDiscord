@@ -1,12 +1,10 @@
 package resources.model.ClientServices;
 
-import client.appinterface.Interface;
 import resources.model.MessageHandler;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
-import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.IMessage;
-import resources.model.interfaces.ITextMessage;
+import resources.model.interfaces.ISidebarUpdateListener;
 import resources.model.interfaces.IUser;
 import resources.model.interfaces.ILoginRequestGranted;
 import resources.model.types.OperationType;
@@ -17,9 +15,9 @@ public class CDispatchContext {
     private final Dispatcher dispatcher;
     private final ChatClient client;
     private MessageHandler msgHandler;
-    private Interface ui;
+    private ISidebarUpdateListener ui;
 
-    public CDispatchContext(ChatClient client, MessageHandler msgHandler, Interface ui, Dispatcher dispatcher) {
+    public CDispatchContext(ChatClient client, MessageHandler msgHandler, ISidebarUpdateListener ui, Dispatcher dispatcher) {
         this.dispatcher = dispatcher;
         this.client = client;
         this.msgHandler = msgHandler;

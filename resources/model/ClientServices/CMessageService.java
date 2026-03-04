@@ -1,13 +1,7 @@
 package resources.model.ClientServices;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import resources.model.MessageHandler;
-import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.IMessage;
-import resources.model.interfaces.ITextMessage;
-import server.database.DatabaseOperator;
 
 public class CMessageService {
     private MessageHandler msgHandler;

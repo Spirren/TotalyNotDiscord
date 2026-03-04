@@ -2,7 +2,6 @@ package resources.model.ServerServices;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import resources.model.LoginRequestGranted;
 import resources.model.dispatcher.DispatchRequest;

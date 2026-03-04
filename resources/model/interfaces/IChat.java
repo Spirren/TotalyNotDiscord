@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public interface IChat extends Iterable, Serializable {
+public interface IChat extends Iterable<IMessage>, Serializable {
     public void addMessage(IMessage msg);
     public void removeMessage(IMessage msg);
     public void editMessage(IMessage oldMsg, IMessage newMsg);

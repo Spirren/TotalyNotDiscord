@@ -21,7 +21,7 @@ INSERT INTO ChatMembers VALUES (2, 5);
 INSERT INTO Messages VALUES (0, 3, 0, '2026-02-14 19:45:00.523', '2026-02-14 19:45:00.523');
 INSERT INTO Messages VALUES (0, 3, 1, '2026-02-14 19:45:00.523');
 INSERT INTO Messages VALUES (0, 4, 2, '2026-02-14 19:45:00.523');
-INSERT INTO Messages VALUES (0, 5, 3, '2026-02-14 19:45:00.523');
+-- INSERT INTO Messages VALUES (0, 5, 3, '2026-02-14 19:45:00.523');
 INSERT INTO Messages VALUES (1, 3, 0, '2026-02-14 19:45:00.523');
 INSERT INTO Messages VALUES (1, 3, 1, '2026-02-14 19:45:00.523');
 INSERT INTO Messages VALUES (2, 4, 0, '2026-02-14 19:45:00.523');
@@ -38,4 +38,4 @@ INSERT INTO TextMessages VALUES (2, 1, 'dummy text 2, 2');
 
 
 
-INSERT INTO ImageMessages VALUES (0, 3, decode(repeat('0123456789abcdef', 1), 'hex'));
+-- INSERT INTO ImageMessages VALUES (0, 3, decode(repeat('0123456789abcdef', 1), 'hex'));
