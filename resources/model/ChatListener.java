@@ -22,7 +22,7 @@ public class ChatListener implements Subscriber{
     @Override
     public String toString(){
         return "ChatListener{" +
-                "Chat=" + this.chat + "}";
+                "Chat=" + this.chat.toString() + "}";
     }
 
 }

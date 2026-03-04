@@ -1,5 +1,7 @@
 package resources.model;
 import java.time.LocalDate;
+import java.util.Objects;
+
 import resources.model.interfaces.*;
 
 public class User implements IUser {
@@ -43,5 +45,21 @@ public class User implements IUser {
                 "email=" + this.email + ", " +
                 "userName=" + this.userName + ", " +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o){return true;}
+        if(o == null){return false;}
+        if(this.getClass() != o.getClass()){return false;}
+        return this.userName.equals(((User)o).getName()) &&
+               this.email.equals(((User)o).getEmail()) &&
+               this.birthYear.equals(((User)o).getBirthYear()) &&
+               this.id == ((User)o).getID();
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(userName, email, birthYear, id);
     }
 }

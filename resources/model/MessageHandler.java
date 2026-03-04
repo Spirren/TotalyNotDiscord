@@ -32,4 +32,11 @@ public class MessageHandler {
         subscribers.get(key).update(m);
         rerenderable.updateView();
     }
+
+    @Override
+    public String toString(){
+        return "MessageHandler{" + 
+                "subscribers=" + subscribers.toString() +
+                "}";
+    }
 }

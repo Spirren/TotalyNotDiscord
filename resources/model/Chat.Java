@@ -5,6 +5,7 @@ import resources.model.interfaces.IMessage;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Chat implements IChat{
     private LinkedList<IMessage> messages; 
@@ -55,10 +56,35 @@ public class Chat implements IChat{
     }
 
     @Override
+    public LinkedList<IMessage> getMessages(){
+        return this.messages;
+    }
+
+    @Override
+    public LocalDateTime getTimeCreated(){
+        return this.timeCreated;
+    }
+
+    @Override
     public String toString(){
         return "Chat{" +
                 "id=" + this.id + ", " +
                 "timeCreated=" + this.timeCreated + ", " +
                 "messages=" + this.messages + "}";
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o){return true;}
+        if(o == null){return false;}
+        if(this.getClass() != o.getClass()){return false;}
+        return this.messages.equals(((Chat)o).getMessages()) &&
+               this.timeCreated.equals(((Chat)o).getTimeCreated()) &&
+               this.id == ((Chat)o).getChatId();
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(messages, timeCreated, id);
     }
 }

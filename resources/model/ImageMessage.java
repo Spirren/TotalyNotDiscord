@@ -2,6 +2,8 @@ package resources.model;
 
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 import resources.model.interfaces.IImageMessage;
 import resources.model.interfaces.IMessageVisitor;
 import resources.model.interfaces.IUser;
@@ -97,5 +99,10 @@ public class ImageMessage implements IImageMessage {
                this.sender.equals(((ImageMessage)o).getSender()) &&
                this.index == ((ImageMessage)o).getIndex() &&
                this.chatID == ((ImageMessage)o).getChatID();
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(timeSent, lastEdited, content, sender, index, chatID);
     }
 }

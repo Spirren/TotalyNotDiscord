@@ -1,6 +1,8 @@
 package resources.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+
 import resources.model.interfaces.IMessageVisitor;
 import resources.model.interfaces.ITextMessage;
 import resources.model.interfaces.IUser;
@@ -85,5 +87,23 @@ public class TextMessage implements ITextMessage {
                 "lastEdited=" + this.lastEdited + ", " +
                 "timeSent=" + this.timeSent + ", " +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(this == o){return true;}
+        if(o == null){return false;}
+        if(this.getClass() != o.getClass()){return false;}
+        return this.timeSent.equals(((TextMessage)o).getTime()) &&
+               this.lastEdited.equals(((TextMessage)o).getLastEdited()) &&
+               this.content.equals(((TextMessage)o).getContent()) &&
+               this.sender.equals(((TextMessage)o).getSender()) &&
+               this.index == ((TextMessage)o).getIndex() &&
+               this.chatID == ((TextMessage)o).getChatID();
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(timeSent, lastEdited, content, sender, index, chatID);
     }
 }
