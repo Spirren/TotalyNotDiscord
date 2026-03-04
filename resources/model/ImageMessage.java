@@ -15,13 +15,9 @@ import resources.model.interfaces.IMessageVisitor;
 import resources.model.interfaces.IUser;
 
 public class ImageMessage implements IImageMessage {
-    private LocalDateTime timeSent;
-    private LocalDateTime lastEdited;
-    private byte[] content;
-    private IUser sender;
+    private final byte[] content;    
     private final LocalDateTime timeSent;
     private final LocalDateTime lastEdited;
-    private final BufferedImage content;
     private final IUser sender;
     private int index;
     private final int chatID;
