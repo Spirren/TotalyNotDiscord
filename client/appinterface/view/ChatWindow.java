@@ -139,7 +139,7 @@ public class ChatWindow extends JPanel implements IChatUpdateListener{
             public void visit(ITextMessage msg){
                 try {
                     //doc.insertString(doc.getLength(), msg.getSender() + ": ", null);
-                    doc.insertString(doc.getLength(), msg.getSender() + ": " + msg.getContent() + "\n", null);
+                    doc.insertString(doc.getLength(), msg.getSender().getName() + ": " + msg.getContent() + "\n", null);
                 } catch (BadLocationException e) {
                     e.printStackTrace();
                 }
@@ -148,7 +148,7 @@ public class ChatWindow extends JPanel implements IChatUpdateListener{
             @Override
             public void visit(IImageMessage msg){
                 try {
-                    doc.insertString(doc.getLength(), msg.getSender() + ": ", null);
+                    doc.insertString(doc.getLength(), msg.getSender().getName() + ": ", null);
                     chatArea.setCaretPosition(doc.getLength()); // move cursor below image
 
                     ImageIcon icon = new ImageIcon(msg.getContent());

@@ -1,10 +1,7 @@
 package client;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-
 import javax.swing.SwingUtilities;
-
 import client.appinterface.Interface;
 import resources.model.MessageHandler;
 import resources.model.ClientServices.CDispatchContext;
@@ -17,11 +14,11 @@ public class Main {
 
         Interface ui = new Interface();
 
-        MessageHandler messageHandler = new MessageHandler(ui);
+        MessageHandler messageHandler = new MessageHandler(ui.getChatWindow());
         try {
             Dispatcher dispatcher = new Dispatcher();
             ChatClient client = new ChatClient("localhost", 5000, messageHandler, dispatcher);
-            CDispatchContext context = new CDispatchContext(client, messageHandler, ui, dispatcher);
+            new CDispatchContext(client, messageHandler, ui, dispatcher);
             client.start();
 
             // Always start Swing UI on Event Dispatch Thread
@@ -33,7 +30,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // powershell -ExecutionPolicy ByPass -File "c:\Users\alfre\Documents\Skola\OOA\new\TotalyNotDiscord\server\database\databasesetup\setupdatabase.ps1"
+        // powershell -ExecutionPolicy ByPass -File "c:\path\to\setupdatabase.ps1"
         // java -cp ".;server/database/pgjdbc-ng-all-0.8.9.jar" .\resources\sockets\ChatServer.java
     }
 }

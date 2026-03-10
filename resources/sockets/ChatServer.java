@@ -40,8 +40,7 @@ public class ChatServer {
     }
 
     public static void main(String[] args) {
-        // java -cp ".;server/database/pgjdbc-ng-all-0.8.9.jar"
-        // .\resources\sockets\ChatServer.java
+        // java -cp ".;server/database/pgjdbc-ng-all-0.8.9.jar" .\resources\sockets\ChatServer.java
         try {
 
             Connection conn = new PostgresConnectionProvider().getConnection();
