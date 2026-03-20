@@ -9,8 +9,8 @@ import resources.model.interfaces.IUser;
 
 import java.sql.SQLException;
 
-public class MessageBuilder {
-    public IMessage buildMessage(LocalDateTime timeSent, LocalDateTime lastEdited, IUser sender,
+public class MessageFactory {
+    public IMessage getMessage(LocalDateTime timeSent, LocalDateTime lastEdited, IUser sender,
             int index, int chatID, String type) throws SQLException {
         DatabaseOperator databaseOperator = DatabaseOperator.getInstance();
         switch (type) {
