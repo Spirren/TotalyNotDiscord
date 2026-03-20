@@ -1,4 +1,4 @@
-package resources.model;
+package client.observer;
 
 import resources.model.interfaces.*;
 

@@ -20,7 +20,7 @@ import resources.model.TextMessage;
 import resources.model.dispatcher.DispatchRequest;
 import resources.model.interfaces.IChat;
 import resources.model.types.OperationType;
-import resources.sockets.ChatClient;
+import client.sockets.ChatClient;
 
 public class Controller{ //implements "MessageListener"
     private final Interface ui;

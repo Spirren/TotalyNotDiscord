@@ -1,4 +1,4 @@
-package resources.model;
+package client.observer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

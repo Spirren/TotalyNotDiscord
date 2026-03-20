@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 import javax.swing.SwingUtilities;
 
 import client.appinterface.Interface;
-import resources.model.MessageHandler;
-import resources.model.ClientServices.CDispatchContext;
+import client.observer.MessageHandler;
+import client.ClientServices.CDispatchContext;
 import resources.model.dispatcher.Dispatcher;
-import resources.sockets.ChatClient;
+import client.sockets.ChatClient;
 
 public class Main {
 

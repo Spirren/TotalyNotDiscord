@@ -1,0 +1,13 @@
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - ./databasesetup/runsetup.sql:/docker-entrypoint-initdb.d/runsetup.sql
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: "postgres"
+    ports:
+      - "5432:5432"

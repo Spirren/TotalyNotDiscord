@@ -1,4 +1,4 @@
-package resources.sockets;
+package client.sockets;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.LinkedList;
 import resources.model.LoginRequest;
-import resources.model.MessageHandler;
+import client.observer.MessageHandler;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
 import resources.model.dispatcher.DispatchObjectHandler;
@@ -59,7 +59,7 @@ public class ChatClient extends Thread { // INTERFACE
     public void run() {
         while (true) {
             try {
-                ObjectHandler handler = new DispatchObjectHandler(this.dispatcher);
+                ObjectHandler<DispatchRequest> handler = new DispatchObjectHandler(this.dispatcher);
                 socket = new Socket(host, port);
                 this.sender = new ObjectSender(new ObjectOutputStream(socket.getOutputStream()));
                 this.receiver = new ObjectReceiver(new ObjectInputStream(socket.getInputStream()), handler);
