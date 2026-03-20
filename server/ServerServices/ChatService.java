@@ -1,4 +1,4 @@
-package resources.model.ServerServices;
+package server.ServerServices;
 
 import resources.model.interfaces.IChat;
 

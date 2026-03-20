@@ -37,6 +37,7 @@ public class ImageMessage implements IImageMessage {
         this.sender = sender;
         this.index = index;
         this.chatID = chatID;
+        this.lastEdited = null;
     }
 
     private byte[] imageToBytes(BufferedImage image, String format) {
@@ -119,7 +120,7 @@ public class ImageMessage implements IImageMessage {
         if(this.getClass() != o.getClass()){return false;}
         return this.timeSent.equals(((ImageMessage)o).getTime()) &&
                this.lastEdited.equals(((ImageMessage)o).getLastEdited()) &&
-               this.content.equals(((ImageMessage)o).getContent()) &&
+               this.getContent().equals(((ImageMessage)o).getContent()) &&
                this.sender.equals(((ImageMessage)o).getSender()) &&
                this.index == ((ImageMessage)o).getIndex() &&
                this.chatID == ((ImageMessage)o).getChatID();

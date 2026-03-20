@@ -1,4 +1,4 @@
-package resources.model.ClientServices;
+package client.ClientServices;
 
 import resources.model.interfaces.IChat;
 

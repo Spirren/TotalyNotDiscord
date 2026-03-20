@@ -1,11 +1,11 @@
-package resources.model.ClientServices;
+package client.ClientServices;
 
-import resources.model.ChatListener;
-import resources.model.MessageHandler;
+import client.observer.ChatListener;
+import client.observer.MessageHandler;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.ILoginRequestGranted;
 import resources.model.interfaces.ISidebarUpdateListener;
-import resources.sockets.ChatClient;
+import client.sockets.ChatClient;
 
 public class CLoginService {
     private final ChatClient client;

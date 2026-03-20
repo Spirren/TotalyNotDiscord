@@ -1,6 +1,6 @@
-package resources.model.ClientServices;
+package client.ClientServices;
 
-import resources.model.MessageHandler;
+import client.observer.MessageHandler;
 import resources.model.interfaces.IMessage;
 
 public class CMessageService {

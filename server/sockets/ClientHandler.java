@@ -1,4 +1,4 @@
-package resources.sockets;
+package server.sockets;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,7 +9,7 @@ import resources.model.interfaces.*;
 import resources.model.types.OperationType;
 import resources.model.ObjectReceiver;
 import resources.model.ObjectSender;
-import resources.model.ServerServices.DispatchContext;
+import server.ServerServices.DispatchContext;
 import resources.model.dispatcher.DispatchObjectHandler;
 import resources.model.dispatcher.DispatchRequest;
 
@@ -23,7 +23,7 @@ public class ClientHandler extends Thread implements Subscriber {
         this.socket = socket;
 
         DispatchContext context = new DispatchContext(this);
-        ObjectHandler handler = new DispatchObjectHandler(context.getDispatcher());
+        ObjectHandler<DispatchRequest> handler = new DispatchObjectHandler(context.getDispatcher());
 
         this.sender = new ObjectSender(new ObjectOutputStream(this.socket.getOutputStream()));
         this.receiver = new ObjectReceiver(new ObjectInputStream(this.socket.getInputStream()), handler);

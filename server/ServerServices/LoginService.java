@@ -1,4 +1,4 @@
-package resources.model.ServerServices;
+package server.ServerServices;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import resources.model.interfaces.IChat;
 import resources.model.interfaces.ILoginRequest;
 import resources.model.interfaces.IUser;
 import resources.model.types.OperationType;
-import resources.sockets.ClientHandler;
+import server.sockets.ClientHandler;
 import server.database.DatabaseHandler;
 import server.database.DatabaseOperator;
 

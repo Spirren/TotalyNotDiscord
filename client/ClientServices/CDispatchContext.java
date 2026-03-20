@@ -1,6 +1,6 @@
-package resources.model.ClientServices;
+package client.ClientServices;
 
-import resources.model.MessageHandler;
+import client.observer.MessageHandler;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IMessage;
@@ -8,7 +8,7 @@ import resources.model.interfaces.ISidebarUpdateListener;
 import resources.model.interfaces.IUser;
 import resources.model.interfaces.ILoginRequestGranted;
 import resources.model.types.OperationType;
-import resources.sockets.ChatClient;
+import client.sockets.ChatClient;
 
 public class CDispatchContext {
     

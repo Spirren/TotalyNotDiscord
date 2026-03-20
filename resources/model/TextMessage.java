@@ -32,6 +32,7 @@ public class TextMessage implements ITextMessage {
         this.sender = sender;
         this.index = index;
         this.chatID = chatID;
+        this.lastEdited = null;
     }
 
     @Override

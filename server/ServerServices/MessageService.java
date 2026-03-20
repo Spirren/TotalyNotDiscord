@@ -1,4 +1,4 @@
-package resources.model.ServerServices;
+package server.ServerServices;
 
 import java.io.IOException;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package resources.model.ServerServices;
+package server.ServerServices;
 
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.IChat;
@@ -7,7 +7,7 @@ import resources.model.interfaces.ILoginRequest;
 import resources.model.interfaces.ITextMessage;
 import resources.model.interfaces.IUser;
 import resources.model.types.OperationType;
-import resources.sockets.ClientHandler;
+import server.sockets.ClientHandler;
 
 public class DispatchContext {
 
