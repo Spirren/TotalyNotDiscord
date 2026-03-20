@@ -114,7 +114,7 @@ public class SqlUtils implements IDatabaseOperator {
                 IUser sender = getUser(rs.getString("username"));
                 int messageIndex = rs.getInt("messageIndex");
                 int chatID = rs.getInt("chatID");
-                messageList.add(new MessageBuilder().buildMessage(timeSent, lastEdited, sender,
+                messageList.add(new MessageFactory().getMessage(timeSent, lastEdited, sender,
                         messageIndex, chatID, type));
             }
         }
@@ -138,7 +138,7 @@ public class SqlUtils implements IDatabaseOperator {
                 IUser sender = getUser(rs.getString("username"));
                 int messageIndex = rs.getInt("messageIndex");
                 int chatID = rs.getInt("chatID");
-                messageList.add(new MessageBuilder().buildMessage(timeSent, lastEdited, sender,
+                messageList.add(new MessageFactory().getMessage(timeSent, lastEdited, sender,
                         messageIndex, chatID, type));
             }
         }
