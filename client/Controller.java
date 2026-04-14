@@ -4,6 +4,7 @@ package client;
 
 import client.appinterface.Interface;
 import client.appinterface.view.ChatWindow;
+import client.sockets.ChatClient;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -20,16 +21,15 @@ import resources.model.TextMessage;
 import resources.model.dispatcher.DispatchRequest;
 import resources.model.interfaces.IChat;
 import resources.model.types.OperationType;
-import client.sockets.ChatClient;
 
 public class Controller{ //implements "MessageListener"
     private final Interface ui;
     private final ChatWindow chatWindow;
     private final ChatClient client;
 
-    public Controller(Interface ui, ChatClient client){
+    public Controller(Interface ui, ChatClient client, ChatWindow chatWindow){
         this.ui = ui;
-        chatWindow = ui.getChatWindow();
+        this.chatWindow = chatWindow;
         this.client = client;
 
         //loadChats
@@ -50,7 +50,7 @@ public class Controller{ //implements "MessageListener"
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image Files", "png"));
 
-            int result = fileChooser.showOpenDialog(ui.getChatWindow());
+            int result = fileChooser.showOpenDialog(chatWindow);
 
             if(result == JFileChooser.APPROVE_OPTION){
                 //String path = fileChooser.getSelectedFile().getAbsolutePath();
@@ -62,7 +62,7 @@ public class Controller{ //implements "MessageListener"
 
                     if (img == null) {
                     // Show a popup to the user so they know why it failed
-                        javax.swing.JOptionPane.showMessageDialog(ui.getChatWindow(), 
+                        javax.swing.JOptionPane.showMessageDialog(chatWindow, 
                         "The selected file is not a valid image or is unsupported.", 
                         "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
                         return; 
@@ -116,7 +116,7 @@ public class Controller{ //implements "MessageListener"
                 IChat selectedChat = ui.getChatList().getSelectedValue();
                 if (selectedChat != null) {
                     // Update ChatWindow with new chat
-                    ui.getChatWindow().setChat(selectedChat);
+                    chatWindow.setChat(selectedChat);
                 }
             }
         }

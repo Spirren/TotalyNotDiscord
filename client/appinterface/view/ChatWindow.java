@@ -133,7 +133,7 @@ public class ChatWindow extends JPanel implements IChatUpdateListener{
         });
     }
 
-    public void renderMessage(StyledDocument doc, IMessage msg){
+    private void renderMessage(StyledDocument doc, IMessage msg){
         msg.accept(new IMessageVisitor() {
             @Override
             public void visit(ITextMessage msg){
@@ -164,7 +164,7 @@ public class ChatWindow extends JPanel implements IChatUpdateListener{
     }
 
     //for scaling images appropriately
-    public ImageIcon scaleImage(ImageIcon icon, int maxWidth){
+    private ImageIcon scaleImage(ImageIcon icon, int maxWidth){
         Image img = icon.getImage();
         if (icon.getIconWidth() > maxWidth) {
             double ratio = (double) maxWidth / icon.getIconWidth();

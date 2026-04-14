@@ -8,11 +8,11 @@ import resources.model.interfaces.IChat;
 import resources.model.interfaces.ISidebarUpdateListener;
 
 public class Interface extends JFrame implements ISidebarUpdateListener{
-    private final ChatWindow chatWindow;
+    //private final ChatWindow chatWindow;
     private final JList<IChat> chatList;
     private final DefaultListModel<IChat> listModel;
     
-    public Interface(){
+    public Interface(ChatWindow chatwindow){
         setTitle("TotalyNotDiscord");
         setSize(600,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,16 +25,16 @@ public class Interface extends JFrame implements ISidebarUpdateListener{
         JScrollPane sidebarScroll = new JScrollPane(chatList);
         sidebarScroll.setPreferredSize(new Dimension(150, 0));
 
-        chatWindow = new ChatWindow();
+        //chatWindow = new ChatWindow();
 
         add(sidebarScroll, BorderLayout.WEST);
-        add(chatWindow, BorderLayout.CENTER);
+        add(chatwindow, BorderLayout.CENTER);
         setVisible(true);
     }
     
-    public ChatWindow getChatWindow(){
-        return chatWindow;
-    }
+    //public ChatWindow getChatWindow(){
+    //    return chatWindow;
+    //}
 
     public JList<IChat> getChatList() { 
         return chatList; 
