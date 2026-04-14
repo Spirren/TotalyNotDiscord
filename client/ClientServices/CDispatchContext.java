@@ -4,6 +4,7 @@ import client.observer.MessageHandler;
 import resources.model.dispatcher.Dispatcher;
 import resources.model.interfaces.ISidebarUpdateListener;
 import resources.model.interfaces.ILoginRequestGranted;
+import resources.model.interfaces.IMessage;
 import resources.model.types.OperationType;
 import client.sockets.ChatClient;
 
@@ -31,5 +32,9 @@ public class CDispatchContext {
 
         dispatcher.register(ILoginRequestGranted.class, OperationType.LOGIN, loginService::login);
         dispatcher.register(ILoginRequestGranted.class, OperationType.ERROR, loginService::loginFail);
+
+        CMessageService messageService = new CMessageService(msgHandler);
+
+        dispatcher.register(IMessage.class, OperationType.ADD, messageService::addMessage);
     }
 }
