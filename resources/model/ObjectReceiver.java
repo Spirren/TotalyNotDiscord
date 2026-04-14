@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.SocketException;
 
+import resources.model.dispatcher.DispatchRequest;
 import resources.model.interfaces.ObjectHandler;
 
 public class ObjectReceiver {
     private final ObjectInputStream in;
-    private final ObjectHandler handler;
+    private final ObjectHandler<DispatchRequest> handler;
 
-    public ObjectReceiver(ObjectInputStream in, ObjectHandler handler) {
+    public ObjectReceiver(ObjectInputStream in, ObjectHandler<DispatchRequest> handler) {
         this.in = in;
         this.handler = handler;
     }
@@ -18,8 +19,8 @@ public class ObjectReceiver {
     public void listen() {
         try {
             while (true) {
-                Object obj = in.readObject();
-                handler.handle(obj);
+                DispatchRequest req = (DispatchRequest) in.readObject();
+                handler.handle(req);
             }
         } catch (SocketException e) {
             System.out.println("Connection lost");
