@@ -12,6 +12,7 @@ import resources.model.types.OperationType;
 import server.sockets.ClientHandler;
 import server.database.DatabaseHandler;
 import server.database.DatabaseOperator;
+import server.database.interfaces.IDatabaseOperator;
 
 public class LoginService {
     private ClientHandler handler;
@@ -23,7 +24,7 @@ public class LoginService {
     public void login(ILoginRequest lr) {
         System.out.println("Logging in user " + lr.getUsername() + " with password " + lr.getPassword());
         try {
-            DatabaseOperator DBoperator = DatabaseOperator.getInstance();
+            IDatabaseOperator DBoperator = DatabaseOperator.getInstance();
             IUser user = DBoperator.getUser(lr.getUsername());
             if (user != null) {
                 handler.setUser(user);

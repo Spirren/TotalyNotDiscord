@@ -1,4 +1,5 @@
 package server.database;
+import server.database.interfaces.IDatabaseOperator;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 public class MessageFactory {
     public IMessage getMessage(LocalDateTime timeSent, LocalDateTime lastEdited, IUser sender,
             int index, int chatID, String type) throws SQLException {
-        DatabaseOperator databaseOperator = DatabaseOperator.getInstance();
+        IDatabaseOperator databaseOperator = DatabaseOperator.getInstance();
         switch (type) {
             case "textMessage":
                 return new TextMessage(timeSent, lastEdited, databaseOperator.getTextContent(chatID, index), sender,

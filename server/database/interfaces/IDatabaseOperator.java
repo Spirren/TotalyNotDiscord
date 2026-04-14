@@ -31,7 +31,6 @@ public interface IDatabaseOperator {
 
         public IUser getUser(String userName) throws SQLException;
 
-        public IUser getUser(int userid) throws SQLException;
 
         public void addMessageContent(IImageMessage message, int chatId)
                         throws SQLException, IOException;
@@ -45,7 +44,4 @@ public interface IDatabaseOperator {
         String getTextContent(int chatId, int messageIndex) throws SQLException;
 
         int getLatestIndex(int chatId) throws SQLException;
-
-        public LinkedList<IMessage> getNewestMessages(int chatId, int messageStartIndex,
-                        int messageStopIndex) throws SQLException;
 }

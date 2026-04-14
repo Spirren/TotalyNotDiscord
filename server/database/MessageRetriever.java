@@ -1,4 +1,5 @@
 package server.database;
+import server.database.interfaces.IDatabaseOperator;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class MessageRetriever {
     }
 
     public void retrieveMessage() throws SQLException {
-        DatabaseOperator DBoperator = DatabaseOperator.getInstance();
+        IDatabaseOperator DBoperator = DatabaseOperator.getInstance();
         IMessage newMessage = DBoperator.getMessage(chatId, msgIndex);
         ArrayList<Integer> chatMembers = DBoperator.getUserIds(chatId);
         System.out.println("For subscriber retriever " + DatabaseHandler.getInstance().subscribers.get(3));

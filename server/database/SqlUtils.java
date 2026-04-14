@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -122,30 +121,6 @@ public class SqlUtils implements IDatabaseOperator {
     }
 
     @Override
-    public LinkedList<IMessage> getNewestMessages(int chatId, int messageStartIndex,
-            int messageStopIndex) throws SQLException {
-        String query = "SELECT * FROM allMessagesView WHERE chatId = ? ORDER BY messageIndex DESC LIMIT ? OFFSET ?;";
-        LinkedList<IMessage> messageList = new LinkedList<>();
-        try (PreparedStatement pstmt = this.conn.prepareStatement(query)) {
-            pstmt.setInt(1, chatId);
-            pstmt.setInt(2, messageStopIndex - messageStartIndex);
-            pstmt.setInt(3, messageStartIndex);
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                String type = rs.getString("type");
-                LocalDateTime timeSent = rs.getObject("timeSent", LocalDateTime.class);
-                LocalDateTime lastEdited = rs.getObject("lastEdited", LocalDateTime.class);
-                IUser sender = getUser(rs.getString("username"));
-                int messageIndex = rs.getInt("messageIndex");
-                int chatID = rs.getInt("chatID");
-                messageList.add(new MessageFactory().getMessage(timeSent, lastEdited, sender,
-                        messageIndex, chatID, type));
-            }
-        }
-        return messageList;
-    }
-
-    @Override
     public BufferedImage getImageContent(int chatId, int messageIndex) throws SQLException {
         String query = "select * FROM ImageMessages WHERE chatId = ? AND messageIndex = ?;";
         BufferedImage content = null;
@@ -202,25 +177,6 @@ public class SqlUtils implements IDatabaseOperator {
     }
 
     @Override
-    public IUser getUser(int userid) throws SQLException {
-        String query = "select * FROM Users WHERE userid = ?;";
-        IUser user = null;
-        try (PreparedStatement pstmt = this.conn.prepareStatement(query)) {
-            pstmt.setInt(1, userid);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                String username = rs.getString("username");
-                String email = rs.getString("email");
-                LocalDate birthYear = rs.getObject("birthYear", LocalDate.class);
-                int userId = rs.getInt("userId");
-
-                user = new User(username, email, birthYear, userId);
-            }
-        }
-        return user;
-    }
-
-    @Override
     public int getLatestIndex(int chatId)
             throws SQLException {
         String query = "SELECT MAX(messageIndex) as messageIndex FROM Messages WHERE chatId = ?;";
@@ -235,10 +191,6 @@ public class SqlUtils implements IDatabaseOperator {
         }
     }
 
-    // public static ArrayList<String> getUserNamesInChat( int
-    // chatId) throws SQLException {
-    // // pass
-    // }
     @Override
     public void addMessageContent(IImageMessage message, int chatId)
             throws SQLException, IOException {

@@ -8,8 +8,6 @@ import server.database.interfaces.IDataReceiver;
 import server.database.interfaces.IEventStreamSubscriber;
 import server.database.interfaces.IListenerConnectionProvider;
 
-import server.database.DatabaseListener;
-
 public class PostGressStreamSubscriber implements IEventStreamSubscriber {
     private IListenerConnectionProvider provider;
 
