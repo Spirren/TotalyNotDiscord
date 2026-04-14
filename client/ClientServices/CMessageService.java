@@ -14,30 +14,4 @@ public class CMessageService {
         System.out.println("Add Message " + m.getIndex());
         msgHandler.notifySubscribers(m.getChatID(), m);
     }
-
-    public void deleteMessage(IMessage m) {
-        System.out.println("Delete Message " + m.getIndex());
-        /*
-         * try {
-         * SqlUtils.deleteMessage(new PostgresConnectionProvider().getConnection(), ,
-         * m.getChatID());
-         * } catch (SQLException e) {
-         * System.out.println("Error communicating with database");
-         * e.printStackTrace();
-         * }
-         */
-    }
-
-    public void modifyMessage(IMessage m) {
-        System.out.println("Modify Message " + m.getIndex());
-        /*
-         * try {
-         * SqlUtils.modifyMessage(new PostgresConnectionProvider().getConnection(), ,
-         * m.getChatID());
-         * } catch (SQLException e) {
-         * System.out.println("Error communicating with database");
-         * e.printStackTrace();
-         * }
-         */
-    }
 }

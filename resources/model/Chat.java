@@ -2,12 +2,13 @@ package resources.model;
 
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.IMessage;
+import resources.model.interfaces.Subscriber;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Objects;
 
-public class Chat implements IChat{
+public class Chat implements IChat, Subscriber{
     private LinkedList<IMessage> messages; 
     private LocalDateTime timeCreated;
     private int id;
@@ -86,5 +87,15 @@ public class Chat implements IChat{
     @Override
     public int hashCode(){
         return Objects.hash(messages, timeCreated, id);
+    }
+
+    @Override
+    public void update(IMessage m){
+        this.addMessage(m);
+    }
+
+    @Override
+    public Integer getSubKey(){
+        return this.getChatId();
     }
 }
