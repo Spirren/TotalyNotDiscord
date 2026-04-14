@@ -1,11 +1,12 @@
 package client.ClientServices;
 
-import client.observer.ChatListener;
+
 import client.observer.MessageHandler;
 import resources.model.interfaces.IChat;
 import resources.model.interfaces.ILoginRequestGranted;
 import resources.model.interfaces.ISidebarUpdateListener;
 import client.sockets.ChatClient;
+import resources.model.interfaces.Subscriber;
 
 public class CLoginService {
     private final ChatClient client;
@@ -23,7 +24,7 @@ public class CLoginService {
         if (!client.isLoggedIn()) {
             client.setUser(lr.getUser());
         for(IChat chat : lr.getChats()){
-            msgHandler.subscribe(new ChatListener(chat));
+            msgHandler.subscribe((Subscriber)chat);
         }
         ui.updateSideBar(lr.getChats());
         }
